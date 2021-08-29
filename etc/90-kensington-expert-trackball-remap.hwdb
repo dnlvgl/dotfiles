@@ -1,0 +1,38 @@
+# Button remap for Kensington Expert Trackball
+# both upper buttons (90003 + 90004) act as BTN_RIGHT (273)
+# both lower buttons (90001 + 90002) act as BTN_LEFT (272)
+# save this file under '/etc/udev/hwdb.d/90-kensington-expert-trackball-remap.hwdb'
+# run `sudo systemd-hwdb update` and reboot
+#
+# Check settings:
+# run `sudo evtest`
+#
+# The first line tells us the scancode (e.g 90004), the second line reports the currently mapped keycode (e.g. BTN_RIGHT). Write down the scancodes of all mouse buttons you want to remap.
+#
+# Now run the following command, where eventX is the one you chose when using evtest:
+#
+# grep "" /sys/class/input/eventX/device/id/*
+#
+# This gives the following values
+#
+# /sys/class/input/event20/device/id/bustype:0003
+# /sys/class/input/event20/device/id/product:1020
+# /sys/class/input/event20/device/id/vendor:047d
+# /sys/class/input/event20/device/id/version:0111
+#
+# This creates the `evdev` rule name: evdev:input:b[bustype]v[vendor]p[product]e[version]*
+#
+# - [bustype], [vendor], [product] and [version] are the ones obtained in the previous step with letters converted to uppercase
+# - [scancode] are the ones from the first step with letters converted to lowercase
+# - the evdev:... line has no preceding space
+# - the KEYBOARD_KEY... lines have exactly one preceding space
+#
+# source: https://askubuntu.com/questions/1145057/remapping-mouse-buttons-to-keyboard-keys
+
+evdev:input:b0003v047Dp1020e0111*
+ ID_INPUT_KEY=1
+ KEYBOARD_KEY_90001=272
+ KEYBOARD_KEY_90002=272
+ KEYBOARD_KEY_90003=273
+ KEYBOARD_KEY_90004=273
+~                                 

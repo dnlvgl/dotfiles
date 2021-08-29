@@ -1,0 +1,42 @@
+[user]
+	name = Daniel Vogel
+	email = hello@dnlvgl.com
+[core]
+	excludesfile = ~/.gitignore_global
+	editor = vim
+[pull]
+	rebase = true
+[alias]
+	# list all git alias
+	la 			= "!git config -l | grep alias | cut -c 7-"
+	# show simplified log
+	lg 	= log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --abbrev-commit
+	# show commited files
+	ln = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %Creset%s%Cblue %C(cyan)[%an]%Creset' --decorate --numstat
+	# show last change in file
+	lc = "!f() { git log --follow -p "$1"; }; f"
+	# show only own commits
+	lgo		= log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --abbrev-commit --author=hello@dnlvgl.com
+	# show own commits since yesterday
+	lgy = log --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --since=yesterday --before=0am --author=hello@dnlvgl.com
+	# show short status with branch
+	st 			= status --short --branch
+	# short handles for assume / no-assume
+	assume 		= update-index --assume-unchanged
+	unassume   = update-index --no-assume-unchanged
+	assumed 	  = "!git ls-files -v | grep ^h | cut -c 3-"
+	unassumeall = "!git assume | xargs git update-index --no-assume-unchanged"
+	# show merge conflicts
+	conflicts = diff --name-only --diff-filter=U
+	# changes from head
+	diffh = diff --cached HEAD^
+	# changes between two commits
+	diffc  = "!f() { git diff "$1"^.."$1"; }; f"
+	# show all changed files for a commit
+	diffn = "!f() { git diff-tree --no-commit-id --name-only -r "$1"; }; f"
+	# fancy stash list
+	sl = stash list --pretty=format:\"%C(red)%h%C(reset) - %C(dim yellow)(%C(bold magenta)%gd%C(dim yellow))%C(reset) %<(70,trunc)%s %C(green)(%cr) %C(bold blue)[%an]%C(reset)\"
+	# search for commit with string in commit message
+	find = log -i --pretty=\"format:%Cgreen%H %Cblue%s\" --name-status --grep
+	# list creation date and author for all branches
+	lsb= for-each-ref --format='%(color:cyan)%(authordate:format:%m/%d/%Y %H:%M)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)' --sort=authordate refs/remotes

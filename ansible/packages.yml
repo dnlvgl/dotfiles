@@ -1,0 +1,69 @@
+---
+- name: Install packages
+  hosts: localhost
+  become: True
+  tasks:
+    - name: install the rpmfusion repo packages
+      package: name={{ item }}
+           state=present
+      with_items:
+        - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm
+        - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm 
+    - name: upgrade all packages
+      package:
+        name: "*"
+        state: latest
+
+    - name: install packages
+      package: name={{ item }}
+               state=present
+      with_items:
+        - emacs
+        - vim-enhanced
+        - fish
+        - git
+        - keepassxc
+        - borgbackup
+        - gnome-tweaks
+        - darktable
+        - inkscape
+        - gimp
+        - shotwell
+        - gthumb
+        - fuse-sshfs
+        - lm_sensors
+        - util-linux-user
+        - nautilus-python
+        - nautilus-extensions
+        - python-pip
+        - libreoffice-writer
+        - libreoffice-impress
+        - libreoffice-calc
+        - libreoffice-langpack-de
+        - libreoffice-icon-theme-papirus
+        - texlive-moderntimeline
+        - texlive-collection-fontsrecommended
+        - texlive-pdfpages
+        - texlive-graphicx-psmin
+        - texlive-collection-langgerman
+        - texlive-moderncv
+        - gnome-mpv
+	- gstreamer1-plugins-base
+	- gstreamer1-plugins-good
+	- gstreamer1-plugins-ugly
+	- gstreamer1-plugins-bad-free
+	- gstreamer1-plugins-bad-free
+	- gstreamer1-plugins-bad-freeworld
+	- gstreamer1-plugins-bad-free-extras
+	- ffmpeg
+        - ffmpegthumbnailer
+        - docker
+        - calibre
+    - name: remove packages
+      package: name={{ item }}
+               state=absent
+      with_items:
+        - rhythmbox
+        - gnome-photos
+        - gnome-maps
+        - totem

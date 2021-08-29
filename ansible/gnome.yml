@@ -1,0 +1,47 @@
+- name: Configure available keyboard layouts
+  dconf:
+    key: "/org/gnome/desktop/input-sources/sources"
+    value: "[('xkb', 'us')]"
+    state: present
+
+- name: Configure keyboard settings
+  dconf:
+    key: "/org/gnome/desktop/input-sources/xkb-options"
+    value: "['caps:escape', 'compose:ralt']"
+    state: present
+
+- name: Set locale
+  dconf:
+    key: "system/locale/region"
+    value: "'de_DE.UTF-8'"
+    state: present
+
+- name: Set redshift
+  dconf:
+    key: "org/gnome/settings-daemon/plugins/color/night-light-enabled"
+    value: "true"
+    state: present
+
+- name: Set redshift schedule
+  dconf:
+    key: "org/gnome/settings-daemon/plugins/color/night-light-schedule-automatic"
+    value: "true"
+    state: present
+
+- name: Enable date in gnome shell clock
+  dconf:
+    key: "org/gnome/desktop/interface/clock-show-date"
+    value: "true"
+    state: present
+
+- name: View battery percantage
+  dconf:
+    key: "org/gnome/desktop/interface/show-battery-percentage"
+    value: "true"
+    state: present
+
+- name: Set gtk thme
+  dconf:
+    key: "org/gnome/desktop/interface/gtk-theme"
+    value: "'Adwaita-dark'"
+    state: present
