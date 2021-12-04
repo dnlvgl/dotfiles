@@ -1,7 +1,24 @@
-# Button remap for Kensington Expert Trackball
-# both upper buttons (90003 + 90004) act as BTN_RIGHT (273)
-# both lower buttons (90001 + 90002) act as BTN_LEFT (272)
-# save this file under '/etc/udev/hwdb.d/90-kensington-expert-trackball-remap.hwdb'
+# Button remap for Elecom Huge Trackball
+#
+# Standard mapping:
+# Button 'L'	: 90001=272 (BTN_LEFT)	
+# Button 'R'	: 90002=273 (BTN_RIGHT)
+# Button '>'	: 90004=275 (BTN_SIDE)
+# Button '<'	: 90005=267 (BTN_EXTRA)	
+# Button 'FN1'	: 90006=277 (BTN_FORWARD)
+# Button 'FN2'	: 90007=278 (BTN_BACK)
+# Button 'FN3'	: 90008=279 (BTN_TASK)
+#
+# Keyboard Keycodes: 
+#
+# Event code 125 (KEY_LEFTMETA)
+# Event code 131 (KEY_UNDO)
+# Event code 133 (KEY_COPY)
+# Event code 135 (KEY_PASTE)
+# Event code 182 (KEY_REDO)
+#
+#
+# save this file under '/etc/udev/hwdb.d/90-elecom-huge-trackball-remap.hwdb'
 # run `sudo systemd-hwdb update` and reboot
 #
 # Check settings:
@@ -16,8 +33,8 @@
 # This gives the following values
 #
 # /sys/class/input/event20/device/id/bustype:0003
-# /sys/class/input/event20/device/id/product:1020
-# /sys/class/input/event20/device/id/vendor:047d
+# /sys/class/input/event20/device/id/product:010c
+# /sys/class/input/event20/device/id/vendor:056e
 # /sys/class/input/event20/device/id/version:0111
 #
 # This creates the `evdev` rule name: evdev:input:b[bustype]v[vendor]p[product]e[version]*
@@ -29,10 +46,11 @@
 #
 # source: https://askubuntu.com/questions/1145057/remapping-mouse-buttons-to-keyboard-keys
 
-evdev:input:b0003v047Dp1020e0111*
+evdev:input:b0003v056Ep010Ce0111*
  ID_INPUT_KEY=1
- KEYBOARD_KEY_90001=272
- KEYBOARD_KEY_90002=272
- KEYBOARD_KEY_90003=273
- KEYBOARD_KEY_90004=273
-
+ KEYBOARD_KEY_90005=133
+ KEYBOARD_KEY_90004=135
+ KEYBOARD_KEY_90006=131
+ KEYBOARD_KEY_90007=182
+ KEYBOARD_KEY_90008=125
+ 
