@@ -21,6 +21,8 @@
 	lgy = log --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --since=yesterday --before=0am --author=hello@dnlvgl.com
 	# show short status with branch
 	st 			= status --short --branch
+	# status but show all stashed files
+	sta = status -u
 	# short handles for assume / no-assume
 	assume 		= update-index --assume-unchanged
 	unassume   = update-index --no-assume-unchanged

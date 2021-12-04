@@ -35,12 +35,6 @@ stow -v --target=$HOME insert-folder/
 
 ## Additional config
 
-### Vim
-
-Install [vim-plug](https://github.com/junegunn/vim-plug#)
-
-And run `PlugInstall` in Vim
-
 ### Syncthing
 
 Start syncthing via systemd
