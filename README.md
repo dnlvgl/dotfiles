@@ -19,9 +19,18 @@ cd ansible/
 
 ## Link Dotfiles via Stow
 
+Link all:
+
 ```
 cd stow/
 ./setup.sh
+```
+
+Link a signle folder:
+
+```
+cd stow/
+stow -v --target=$HOME insert-folder/
 ```
 
 ## Additional config

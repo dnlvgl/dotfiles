@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Include only the config files
+!.gitignore
+!init.el
+!emacs.org
