@@ -1,3 +1,4 @@
+(defvar dnl/emacs-conf-path "~/.config/emacs/")
 (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
 (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
 (defvar dnl/default-font "Iosevka")
@@ -100,11 +101,11 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq backup-directory-alist '(("." . "~/.config/emcas/backups/")))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+(setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
 
 (use-package ivy
 :diminish
@@ -142,7 +143,7 @@
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 ;; Autoclose brackets
-(electric-pair-mode 1)
+;; (electric-pair-mode 1)
 
 ;; Highlight brackets
 (setq show-paren-delay 0)
@@ -204,7 +205,7 @@
 :after org
 :hook (org-mode . org-bullets-mode)
 :custom
-(org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+(org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
 
 
 ;; use visual-fill-column to center org mode content
@@ -225,13 +226,22 @@
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
 (add-to-list 'org-structure-template-alist '("json" . "src json"))
+
+(use-package magit)
+
+(use-package diff-hl
+  :ensure t
+  :config
+  (global-diff-hl-mode)
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(visual-fill-column org-bullets evil-nerd-commenter counsel ivy doom-modeline emojify spacemacs-theme which-key use-package)))
+   '(which-key visual-fill-column use-package spacemacs-theme org-bullets magit evil-nerd-commenter emojify doom-modeline diff-hl counsel)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
