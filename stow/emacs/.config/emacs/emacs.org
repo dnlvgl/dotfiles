@@ -1,7 +1,7 @@
 #+TITLE: Emacs Config
 #+STARTUP: overview
 #+PROPERTY: header-args :tangle init.el
-* How to use
+* Preface
 This literate config is set to  dump all source block into into ~init.el~
 
 This means changes from here do not get automatically get loaded on rerunning Emacs!
@@ -33,7 +33,55 @@ Always tangles ~emacs.org~ file on startup. Tangling from ~dnl/reload-init-file~
 ;;  "emacs.org"
 ;;  user-emacs-directory))
 #+end_src
+* Cheatsheet
+   Cheatsheet for basic emacs commands and commands of packages
+** basic commands
+*** navigating text
+     | C-a   | Move to beginning of line                          |
+     | M-m   | Move to first non-whitespace character on the line |
+     | C-e   | Move to end of line                                |
+     | C-f   | Move forward one character                         |
+     | C-b   | Move backward one character                        |
+     | M-f   | Move forward one word (I use this a lot)           |
+     | M-b   | Move backward one word (I use this a lot, too)     |
+     | C-s   | Regex search for text in current buffer            |
+     | C-r   | Same as C-s, but search in reverse                 |
+     | M-<   | Move to beginning of buffer                        |
+     | M->   | Move to end of buffer                              |
+     | M-g g | Go to line                                         |
 
+*** manipulating text
+
+     | C-SPC | select region                         |
+     | C-w   | Kill region                           |
+     | M-w   | Copy region to kill ring              |
+     | C-y   | Yank                                  |
+     | M-y   | Cycle through kill ring after yanking |
+     | M-d   | Kill word                             |
+     | C-k   | Kill line                             |
+
+*** navigate windows,
+    | C-x o | Switch cursor to another window                                        |
+    | C-x 1 | Delete all other windows, leaving only the current window in the frame |
+    | C-x 2 | Split frame above and below                                            |
+    | C-x 3 | Split frame side by side                                               |
+    | C-x 0 | Delete current window                                                  |
+
+** org mode
+
+    [[http://ehneilsen.net/notebook/orgExamples/org-examples.html][comprehensive overview]]
+    [[http://orgmode.org/orgcard.txt][reference card]]
+    
+    | TAB     | toggle subtree |
+    | C-c C-l | enter links    |
+    | C-c C-e | export file    |
+
+** magit basics
+
+| C-x g | open magit status                                                        |
+| S     | stages all files                                                         |
+| c c   | initiates a commit. Write the message and press C-c C-c to create commit |
+| P u   | pushes to the upstream branch                                            |
 
 * Custom Variables
 
