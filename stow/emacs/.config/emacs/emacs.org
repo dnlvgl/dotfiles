@@ -1,6 +1,7 @@
 #+TITLE: Emacs Config
 #+STARTUP: overview
 #+PROPERTY: header-args :tangle init.el
+
 * Preface
 This literate config is set to  dump all source block into into ~init.el~
 
@@ -33,48 +34,51 @@ Always tangles ~emacs.org~ file on startup. Tangling from ~dnl/reload-init-file~
 ;;  "emacs.org"
 ;;  user-emacs-directory))
 #+end_src
+
 * Cheatsheet
-   Cheatsheet for basic emacs commands and commands of packages
+Cheatsheet for basic emacs commands and commands of packages
 ** basic commands
 *** navigating text
-     | C-a   | Move to beginning of line                          |
-     | M-m   | Move to first non-whitespace character on the line |
-     | C-e   | Move to end of line                                |
-     | C-f   | Move forward one character                         |
-     | C-b   | Move backward one character                        |
-     | M-f   | Move forward one word (I use this a lot)           |
-     | M-b   | Move backward one word (I use this a lot, too)     |
-     | C-s   | Regex search for text in current buffer            |
-     | C-r   | Same as C-s, but search in reverse                 |
-     | M-<   | Move to beginning of buffer                        |
-     | M->   | Move to end of buffer                              |
-     | M-g g | Go to line                                         |
+
+| C-a   | Move to beginning of line                          |
+| M-m   | Move to first non-whitespace character on the line |
+| C-e   | Move to end of line                                |
+| C-f   | Move forward one character                         |
+| C-b   | Move backward one character                        |
+| M-f   | Move forward one word (I use this a lot)           |
+| M-b   | Move backward one word (I use this a lot, too)     |
+| C-s   | Regex search for text in current buffer            |
+| C-r   | Same as C-s, but search in reverse                 |
+| M-<   | Move to beginning of buffer                        |
+| M->   | Move to end of buffer                              |
+| M-g g | Go to line                                         |
 
 *** manipulating text
 
-     | C-SPC | select region                         |
-     | C-w   | Kill region                           |
-     | M-w   | Copy region to kill ring              |
-     | C-y   | Yank                                  |
-     | M-y   | Cycle through kill ring after yanking |
-     | M-d   | Kill word                             |
-     | C-k   | Kill line                             |
+| C-SPC | select region                         |
+| C-w   | Kill region                           |
+| M-w   | Copy region to kill ring              |
+| C-y   | Yank                                  |
+| M-y   | Cycle through kill ring after yanking |
+| M-d   | Kill word                             |
+| C-k   | Kill line                             |
 
 *** navigate windows,
-    | C-x o | Switch cursor to another window                                        |
-    | C-x 1 | Delete all other windows, leaving only the current window in the frame |
-    | C-x 2 | Split frame above and below                                            |
-    | C-x 3 | Split frame side by side                                               |
-    | C-x 0 | Delete current window                                                  |
+
+| C-x o | Switch cursor to another window                                        |
+| C-x 1 | Delete all other windows, leaving only the current window in the frame |
+| C-x 2 | Split frame above and below                                            |
+| C-x 3 | Split frame side by side                                               |
+| C-x 0 | Delete current window                                                  |
 
 ** org mode
 
-    [[http://ehneilsen.net/notebook/orgExamples/org-examples.html][comprehensive overview]]
-    [[http://orgmode.org/orgcard.txt][reference card]]
+[[http://ehneilsen.net/notebook/orgExamples/org-examples.html][comprehensive overview]]
+[[http://orgmode.org/orgcard.txt][reference card]]
     
-    | TAB     | toggle subtree |
-    | C-c C-l | enter links    |
-    | C-c C-e | export file    |
+| TAB     | toggle subtree |
+| C-c C-l | enter links    |
+| C-c C-e | export file    |
 
 ** magit basics
 
@@ -103,23 +107,23 @@ Or load them from a custom file, check if they are defined here and use defaults
 
 * Package Management
 #+BEGIN_SRC emacs-lisp
-  (require 'package)
+(require 'package)
 
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			                   ("org" . "https://orgmode.org/elpa/")
+			                   ("elpa" . "https://elpa.gnu.org/packages/")))
 
-  (package-initialize)
-  (unless package-archive-contents
-   (package-refresh-contents))
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
 
-  ;; Initialize use-package on non-Linux platforms
-  (unless (package-installed-p 'use-package)
-     (package-install 'use-package))
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
-  (require 'use-package)
-  ;; always download packages if they don't already exist
-  (setq use-package-always-ensure t)
+(require 'use-package)
+;; always download packages if they don't already exist
+(setq use-package-always-ensure t)
 #+END_SRC
 
 * Keyboard Bindings
@@ -132,8 +136,8 @@ General rebindings
 
 ;; Jump to emacs config
 (global-set-key (kbd "C-c e") '(lambda ()
-			  (interactive)
-			  (find-file dnl/emacs-conf-org-path)))
+			                           (interactive)
+			                           (find-file dnl/emacs-conf-org-path)))
 
 ;; Reload Emacs Config
 (defun dnl/reload-init-file ()
@@ -156,11 +160,11 @@ General rebindings
 Show possible kyebindings after short delay
 
 #+begin_src emacs-lisp
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config
-    (setq which-key-idle-delay 1))
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
 #+end_src
 
 * General Config
@@ -181,8 +185,8 @@ Show possible kyebindings after short delay
 
 ;; but don't show line numbers in certain modes
 (dolist (mode '(org-mode-hook
-	term-mode-hook
-	eshell-mode-hook))
+	              term-mode-hook
+	              eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; transform yes-or-no questions into y-or-n
@@ -192,10 +196,10 @@ Show possible kyebindings after short delay
 ** Theme
 
 #+BEGIN_SRC emacs-lisp
-  (use-package spacemacs-theme
-    :defer t
-    :init
-    (load-theme 'spacemacs-light t))
+(use-package spacemacs-theme
+  :defer t
+  :init
+  (load-theme 'spacemacs-light t))
 #+END_SRC
 
 #+begin_src emacs-lisp
@@ -218,39 +222,39 @@ Show possible kyebindings after short delay
 
 Use emojis everywhere
 
-   #+begin_src emacs-lisp
+#+begin_src emacs-lisp
 (use-package emojify
   :ensure t
   :hook (after-init . global-emojify-mode))
-   #+end_src
+#+end_src
    
 ** Modeline
 
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
-    :init (doom-modeline-mode 1)
-    :custom ((doom-modeline-height 15)))
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
 #+END_SRC
 
 ** Saving and Backup
 
 All backup files get sent to /emacs.d/backups to not clutter the file system
-   #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist '(("." . "~/.config/emcas/backups/")))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
 (setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
-   #+END_SRC
+#+END_SRC
 
 ** Completion
 
 Use Ivy + Counsel for more convenient completion systems. Basically replace emacs own completion
 
 #+BEGIN_SRC emacs-lisp
-      (use-package ivy
-	:diminish
-	:bind (("C-s" . swiper)
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
 	       :map ivy-minibuffer-map
 	       ("TAB" . ivy-alt-done)	
 	       ("C-l" . ivy-alt-done)
@@ -263,17 +267,17 @@ Use Ivy + Counsel for more convenient completion systems. Basically replace emac
 	       :map ivy-reverse-i-search-map
 	       ("C-k" . ivy-previous-line)
 	       ("C-d" . ivy-reverse-i-search-kill))
-	:config
-	(ivy-mode 1))
+  :config
+  (ivy-mode 1))
 
-    (use-package counsel
-      :bind (
-	     ("C-x C-f" . counsel-find-file)
-	     ("C-x b" . counsel-ibuffer)
-	     ;; ("M-y" . counsel-yank-pop)
-	     ("M-x " . counsel-M-x))
-      :config
-      (counsel-mode 1))
+(use-package counsel
+  :bind (
+	       ("C-x C-f" . counsel-find-file)
+	       ("C-x b" . counsel-ibuffer)
+	       ;; ("M-y" . counsel-yank-pop)
+	       ("M-x " . counsel-M-x))
+  :config
+  (counsel-mode 1))
 #+END_SRC
 
 * File Editing
@@ -282,8 +286,8 @@ Default to an indentation size of 2 spaces since it's the norm for pretty much e
 
 #+begin_src emacs-lisp
 
-  (setq-default tab-width 2)
-  (setq-default evil-shift-width tab-width)
+(setq-default tab-width 2)
+(setq-default evil-shift-width tab-width)
 
 #+end_src
 
@@ -293,7 +297,7 @@ Else e.g. Ansible files fail
 
 #+begin_src emacs-lisp
 
-  (setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 
 #+end_src
 
@@ -301,21 +305,21 @@ Else e.g. Ansible files fail
 
 #+begin_src emacs-lisp
 
-  (use-package evil-nerd-commenter
-    :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+(use-package evil-nerd-commenter
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 #+end_src
 
 ** Brackets
-   Highlight brackets, Autoclose is highly annoying in org mode
-   #+BEGIN_SRC emacs-lisp
-   ;; Autoclose brackets
-   ;; (electric-pair-mode 1)
+Highlight brackets, Autoclose is highly annoying in org mode
+#+BEGIN_SRC emacs-lisp
+;; Autoclose brackets
+;; (electric-pair-mode 1)
 
-   ;; Highlight brackets
-   (setq show-paren-delay 0)
-   (show-paren-mode 1)
-   #+END_SRC
+;; Highlight brackets
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+#+END_SRC
 
 * Org Mode
 
@@ -371,18 +375,18 @@ Baseline Org Mode config. Also require the package eventhough it should be insta
 
   ;; theme source blocks like in native mode
   (setq org-src-fontify-natively t
-      org-src-tab-acts-natively t
-      org-confirm-babel-evaluate nil
-      org-edit-src-content-indentation 0)
+        org-src-tab-acts-natively t
+        org-confirm-babel-evaluate nil
+        org-edit-src-content-indentation 0)
 
   (dnl/org-font-setup))
 
 ;; use custom bullets instead of stars for headings
 (use-package org-bullets
-:after org
-:hook (org-mode . org-bullets-mode)
-:custom
-(org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
 
 
 ;; use visual-fill-column to center org mode content
