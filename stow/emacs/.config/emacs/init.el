@@ -56,12 +56,13 @@
 
 (setq inhibit-startup-message t)
 
-(scroll-bar-mode -1)        ; Disable visible scrollbar
-(tool-bar-mode -1)          ; Disable the toolbar
+(scroll-bar-mode -1)        ;; Disable visible scrollbar
+(tool-bar-mode -1)          ;; Disable the toolbar
 ;; (menu-bar-mode -1)          ; Disable the menu bar
-(tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode 10)        ; Give some breathing room
+(tooltip-mode -1)           ;; Disable tooltips
+(set-fringe-mode 10)        ;; Give some breathing room
 (setq ring-bell-function 'ignore) ;; no audio bell
+(blink-cursor-mode 0)       ;; no blinking cursor
 
 ;; show line and column numbers globaly
 (column-number-mode)
@@ -76,14 +77,13 @@
 ;; transform yes-or-no questions into y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(use-package spacemacs-theme
-  :defer t
-  :init
-  (load-theme 'spacemacs-light t))
+;; (use-package spacemacs-theme
+;;  :defer t
+;;  :init
+;;  (load-theme 'spacemacs-light t))
 
-;;  (use-package doom-themes
-;;    :config
-;;    (load-theme 'doom-one t))
+(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+(load-theme 'calcite t)
 
 (set-face-attribute 'default nil :font dnl/default-font :height dnl/default-font-size)
 

@@ -5,3 +5,5 @@
 !.gitignore
 !init.el
 !emacs.org
+!/themes/
+!/themes/*
