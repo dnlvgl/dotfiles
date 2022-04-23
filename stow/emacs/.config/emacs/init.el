@@ -2,9 +2,9 @@
 (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
 (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
 (defvar dnl/default-font "Iosevka")
-(defvar dnl/default-variable-font "Cantarell")
+;;(defvar dnl/default-variable-font "Cantarell")
 (defvar dnl/default-font-size 130)
-(defvar dnl/default-variable-font-size 130)
+;;(defvar dnl/default-variable-font-size 130)
 ;;(defvar dnl/org-path '(""))
 
 (require 'package)
@@ -91,7 +91,7 @@
 (set-face-attribute 'fixed-pitch nil :font dnl/default-font :height  dnl/default-font-size)
 
 ;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font dnl/default-variable-font :height dnl/default-font-size :weight 'regular)
+;; (set-face-attribute 'variable-pitch nil :font dnl/default-variable-font :height dnl/default-font-size :weight 'regular)
 
 (use-package emojify
   :ensure t
@@ -149,33 +149,10 @@
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
-(defun dnl/org-font-setup ()
-  ;; Set faces for heading levels, also use the variable font
-  (dolist (face '((org-level-1 . 1.2)
-                  (org-level-2 . 1.1)
-                  (org-level-3 . 1.05)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font dnl/default-variable-font :weight 'regular :height (cdr face)))
-
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
-
 (defun dnl/org-mode-setup ()
   (org-indent-mode)
   ;; use variable width font, overwrite some of it via dnl/org-font-setup which is run later
-  (variable-pitch-mode 1)
+  ;;(variable-pitch-mode 1)
   ;; make sure we have linebreaks in org mode
   (visual-line-mode 1))
 
@@ -198,7 +175,8 @@
         org-confirm-babel-evaluate nil
         org-edit-src-content-indentation 0)
 
-  (dnl/org-font-setup))
+  ;;(dnl/org-font-setup)
+  )
 
 ;; use custom bullets instead of stars for headings
 (use-package org-bullets
