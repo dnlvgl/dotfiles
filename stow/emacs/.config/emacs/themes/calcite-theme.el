@@ -7,7 +7,7 @@
 (let ((fg "#424242")
       (bg "#f1f1f1")
 
-      (fg-light "#ddddd8")
+      (fg-light "#ddddd8") ;; remove
       
       (blue "#008ec4")
       (green "#10a778")
