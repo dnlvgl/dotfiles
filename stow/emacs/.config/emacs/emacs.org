@@ -146,8 +146,9 @@ General rebindings
   (org-babel-tangle-file dnl/emacs-conf-org-path dnl/emacs-conf-init-path)
   ;; reload init file
   (load-file user-init-file)
-  ;; restart org mode, else there are some hook issues
-  (org-mode-restart))
+  ;; restart org mode, else there are some hook issues. Disabled as also annoying if not changing stuff for org, run manually if needed
+  ;;(org-mode-restart)
+  )
 
 (global-set-key (kbd "C-c r") 'dnl/reload-init-file) 
 
@@ -197,10 +198,11 @@ Show possible kyebindings after short delay
 ** Theme
 
 #+BEGIN_SRC emacs-lisp
-;; (use-package spacemacs-theme
-;;  :defer t
-;;  :init
-;;  (load-theme 'spacemacs-light t))
+ (use-package spacemacs-theme
+  :defer t
+  :disabled
+  :init
+  (load-theme 'spacemacs-light t))
 #+END_SRC
 
 Load custom theme from the themes folder (WIP)
@@ -253,36 +255,41 @@ All backup files get sent to /emacs.d/backups to not clutter the file system
 
 Use Ivy + Counsel for more convenient completion systems. Basically replace emacs own completion
 
-#+BEGIN_SRC emacs-lisp
-;; (use-package ivy
-;;   :diminish
-;;   :bind (("C-s" . swiper)
-;; 	       :map ivy-minibuffer-map
-;; 	       ("TAB" . ivy-alt-done)	
-;; 	       ("C-l" . ivy-alt-done)
-;; 	       ("C-j" . ivy-next-line)
-;; 	       ("C-k" . ivy-previous-line)
-;; 	       :map ivy-switch-buffer-map
-;; 	       ("C-k" . ivy-previous-line)
-;; 	       ("C-l" . ivy-done)
-;; 	       ("C-d" . ivy-switch-buffer-kill)
-;; 	       :map ivy-reverse-i-search-map
-;; 	       ("C-k" . ivy-previous-line)
-;; 	       ("C-d" . ivy-reverse-i-search-kill))
-;;   :config
-;;   (ivy-mode 1))
+Currently disabled to test out vertico, consult, embark, orderless, see below
 
-;; (use-package counsel
-;;   :bind (
-;; 	       ("C-x C-f" . counsel-find-file)
-;; 	       ("C-x b" . counsel-ibuffer)
-;; 	       ;; ("M-y" . counsel-yank-pop)
-;; 	       ("M-x " . counsel-M-x))
-;;   :config
-;;   (counsel-mode 1))
+#+BEGIN_SRC emacs-lisp
+(use-package ivy
+  :disabled
+  :diminish
+  :bind (("C-s" . swiper)
+	       :map ivy-minibuffer-map
+	       ("TAB" . ivy-alt-done)	
+	       ("C-l" . ivy-alt-done)
+	       ("C-j" . ivy-next-line)
+	       ("C-k" . ivy-previous-line)
+	       :map ivy-switch-buffer-map
+	       ("C-k" . ivy-previous-line)
+	       ("C-l" . ivy-done)
+	       ("C-d" . ivy-switch-buffer-kill)
+	       :map ivy-reverse-i-search-map
+	       ("C-k" . ivy-previous-line)
+	       ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+
+(use-package counsel
+  :disabled
+  :bind (
+	       ("C-x C-f" . counsel-find-file)
+	       ("C-x b" . counsel-ibuffer)
+	       ;; ("M-y" . counsel-yank-pop)
+	       ("M-x " . counsel-M-x))
+  :config
+  (counsel-mode 1))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+;; Completion systems based on the standard Emacs completing-read API
 (use-package consult
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings (mode-specific-map)
@@ -319,7 +326,8 @@ Use Ivy + Counsel for more convenient completion systems. Basically replace emac
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
+         ("C-s" . consult-line)
+         ;; ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
@@ -340,6 +348,9 @@ Use Ivy + Counsel for more convenient completion systems. Basically replace emac
   ;; relevant when you use the default completion UI.
   :hook (completion-list-mode . consult-preview-at-point-mode))
 
+
+;; completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order
+;; e.g.: searching "region indent" will match with "indent-region"
 (use-package orderless
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
@@ -349,7 +360,7 @@ Use Ivy + Counsel for more convenient completion systems. Basically replace emac
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-
+;; Vertical completion UI based on the default completion system
 (use-package vertico
   :init
   (vertico-mode)
@@ -385,6 +396,7 @@ Use Ivy + Counsel for more convenient completion systems. Basically replace emac
   ;; enabled right away. Note that this forces loading the package.
   (marginalia-mode))
 
+;; Sort of right-click contextual menu for Emacs, accessed through the embark-act command (which you should bind to a convenient key), offering you relevant actions to use on a target determined by the context
 (use-package embark
   :bind
   (("M-." . embark-act)         ;; pick some comfortable binding. C-. by default but does not work on gnome
@@ -476,44 +488,48 @@ Baseline Org Mode config. Add some custom function to run later in
 Baseline Org Mode config. Also require the package eventhough it should be installed by default.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package org
-    :hook (org-mode . dnl/org-mode-setup)
-    :config
-    (setq org-ellipsis " ▾")
-    ;; shortcut for agenda
-    (global-set-key (kbd "C-c a") 'org-agenda)
-    ;; don't show done items in agenda
-    (setq org-agenda-skip-scheduled-if-done t)
+(use-package org
+  :hook (org-mode . dnl/org-mode-setup)
+  :config
+  (setq org-ellipsis " ▾")
+  ;; set custom todo states
+   (setq org-todo-keywords 
+      '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "SOMEDAY(s)" "PROJ(p)"  "|" "DONE(d)" "CANCELLED(c)")))
 
-    ;; set source for agenda
-    ;;(setq org-agenda-files '("~/Documents/work.org"))
-    (setq org-agenda-files '("~/Sync/org/"))
+  ;; shortcut for agenda
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  ;; don't show done items in agenda
+  (setq org-agenda-skip-scheduled-if-done t)
 
-    ;; theme source blocks like in native mode
-    (setq org-src-fontify-natively t
-          org-src-tab-acts-natively t
-          org-confirm-babel-evaluate nil
-          org-edit-src-content-indentation 0)
+  ;; set source for agenda
+  ;;(setq org-agenda-files '("~/Documents/work.org"))
+  (setq org-agenda-files '("~/Sync/org/"))
 
-    ;;(dnl/org-font-setup)
-    )
+  ;; theme source blocks like in native mode
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-confirm-babel-evaluate nil
+        org-edit-src-content-indentation 0)
 
-  ;; use custom bullets instead of stars for headings
-  (use-package org-bullets
-    :after org
-    :hook (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
+  ;;(dnl/org-font-setup)
+  )
+
+;; use custom bullets instead of stars for headings
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
 
 
-  ;; use visual-fill-column to center org mode content
-  (defun dnl/org-mode-visual-fill ()
-    (setq visual-fill-column-width 100
-          visual-fill-column-center-text t)
-    (visual-fill-column-mode 1))
+;; use visual-fill-column to center org mode content
+(defun dnl/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
 
-  (use-package visual-fill-column
-    :hook (org-mode . dnl/org-mode-visual-fill))
+(use-package visual-fill-column
+  :hook (org-mode . dnl/org-mode-visual-fill))
 #+END_SRC
 
 ** Block Templates
@@ -546,6 +562,26 @@ documentation page.
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+#+end_src
+
+* Language Support
+** Lisp Stuff
+#+begin_src emacs-lisp
+
+(use-package lispy
+  :hook ((emacs-lisp-mode . lispy-mode)
+         (scheme-mode . lispy-mode)))
+
+;; TODO does not find guile implementation yet, try run repl on scheme file C-x C-e
+;;(use-package geiser-guile)
+
+(use-package geiser
+  :config
+  (setq scheme-program-name "guile")
+  ;;(setq geiser-default-implementation '(guile2))
+  ;;(setq geiser-active-implementations '(guile2))
+  (setq geiser-guile-binary "guile2.2")
+  )
 #+end_src
 
 * Config Example

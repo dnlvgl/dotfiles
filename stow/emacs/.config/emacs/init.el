@@ -40,8 +40,9 @@
   (org-babel-tangle-file dnl/emacs-conf-org-path dnl/emacs-conf-init-path)
   ;; reload init file
   (load-file user-init-file)
-  ;; restart org mode, else there are some hook issues
-  (org-mode-restart))
+  ;; restart org mode, else there are some hook issues. Disabled as also annoying if not changing stuff for org, run manually if needed
+  ;;(org-mode-restart)
+  )
 
 (global-set-key (kbd "C-c r") 'dnl/reload-init-file) 
 
@@ -77,10 +78,11 @@
 ;; transform yes-or-no questions into y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; (use-package spacemacs-theme
-;;  :defer t
-;;  :init
-;;  (load-theme 'spacemacs-light t))
+(use-package spacemacs-theme
+ :defer t
+ :disabled
+ :init
+ (load-theme 'spacemacs-light t))
 
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 (load-theme 'calcite t)
@@ -107,33 +109,36 @@
 (setq vc-make-backup-files t)
 (setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
 
-;; (use-package ivy
-;;   :diminish
-;;   :bind (("C-s" . swiper)
-;; 	       :map ivy-minibuffer-map
-;; 	       ("TAB" . ivy-alt-done)	
-;; 	       ("C-l" . ivy-alt-done)
-;; 	       ("C-j" . ivy-next-line)
-;; 	       ("C-k" . ivy-previous-line)
-;; 	       :map ivy-switch-buffer-map
-;; 	       ("C-k" . ivy-previous-line)
-;; 	       ("C-l" . ivy-done)
-;; 	       ("C-d" . ivy-switch-buffer-kill)
-;; 	       :map ivy-reverse-i-search-map
-;; 	       ("C-k" . ivy-previous-line)
-;; 	       ("C-d" . ivy-reverse-i-search-kill))
-;;   :config
-;;   (ivy-mode 1))
+(use-package ivy
+  :disabled
+  :diminish
+  :bind (("C-s" . swiper)
+	       :map ivy-minibuffer-map
+	       ("TAB" . ivy-alt-done)	
+	       ("C-l" . ivy-alt-done)
+	       ("C-j" . ivy-next-line)
+	       ("C-k" . ivy-previous-line)
+	       :map ivy-switch-buffer-map
+	       ("C-k" . ivy-previous-line)
+	       ("C-l" . ivy-done)
+	       ("C-d" . ivy-switch-buffer-kill)
+	       :map ivy-reverse-i-search-map
+	       ("C-k" . ivy-previous-line)
+	       ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
 
-;; (use-package counsel
-;;   :bind (
-;; 	       ("C-x C-f" . counsel-find-file)
-;; 	       ("C-x b" . counsel-ibuffer)
-;; 	       ;; ("M-y" . counsel-yank-pop)
-;; 	       ("M-x " . counsel-M-x))
-;;   :config
-;;   (counsel-mode 1))
+(use-package counsel
+  :disabled
+  :bind (
+	       ("C-x C-f" . counsel-find-file)
+	       ("C-x b" . counsel-ibuffer)
+	       ;; ("M-y" . counsel-yank-pop)
+	       ("M-x " . counsel-M-x))
+  :config
+  (counsel-mode 1))
 
+;; Completion systems based on the standard Emacs completing-read API
 (use-package consult
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings (mode-specific-map)
@@ -170,7 +175,8 @@
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
+         ("C-s" . consult-line)
+         ;; ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
@@ -191,6 +197,9 @@
   ;; relevant when you use the default completion UI.
   :hook (completion-list-mode . consult-preview-at-point-mode))
 
+
+;; completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order
+;; e.g.: searching "region indent" will match with "indent-region"
 (use-package orderless
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
@@ -200,7 +209,7 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-
+;; Vertical completion UI based on the default completion system
 (use-package vertico
   :init
   (vertico-mode)
@@ -236,6 +245,7 @@
   ;; enabled right away. Note that this forces loading the package.
   (marginalia-mode))
 
+;; Sort of right-click contextual menu for Emacs, accessed through the embark-act command (which you should bind to a convenient key), offering you relevant actions to use on a target determined by the context
 (use-package embark
   :bind
   (("M-." . embark-act)         ;; pick some comfortable binding. C-. by default but does not work on gnome
@@ -290,6 +300,10 @@
   :hook (org-mode . dnl/org-mode-setup)
   :config
   (setq org-ellipsis " ▾")
+  ;; set custom todo states
+   (setq org-todo-keywords 
+      '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "SOMEDAY(s)" "PROJ(p)"  "|" "DONE(d)" "CANCELLED(c)")))
+
   ;; shortcut for agenda
   (global-set-key (kbd "C-c a") 'org-agenda)
   ;; don't show done items in agenda
@@ -343,3 +357,18 @@
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+
+(use-package lispy
+  :hook ((emacs-lisp-mode . lispy-mode)
+         (scheme-mode . lispy-mode)))
+
+;; TODO does not find guile implementation yet, try run repl on scheme file C-x C-e
+;;(use-package geiser-guile)
+
+(use-package geiser
+  :config
+  (setq scheme-program-name "guile")
+  ;;(setq geiser-default-implementation '(guile2))
+  ;;(setq geiser-active-implementations '(guile2))
+  (setq geiser-guile-binary "guile2.2")
+  )
