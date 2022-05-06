@@ -15,7 +15,7 @@
  (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
  (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
  (defvar dnl/default-font "Iosevka")
- (defvar dnl/default-font-size 130)
+ (defvar dnl/indent-width 2)
 
 (require 'package)
 
@@ -361,6 +361,38 @@
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+
+(use-package web-mode
+  :config
+  :mode (("\\.html\\'" . web-mode)
+         ("\\.xml\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode))
+  :config
+           (setq web-mode-markup-indent-offset dnl/indent-width)
+           (setq web-mode-code-indent-offset dnl/indent-width)
+           (setq web-mode-css-indent-offset dnl/indent-width)
+           (setq web-mode-script-padding dnl/indent-width)
+           ;; highlight columns
+           ;;(setq web-mode-enable-current-column-highlight t)
+           ;;(setq web-mode-enable-current-element-highlight t)
+           )
+
+(use-package emmet-mode
+  :hook ((web-mode . emmet-mode))
+  :init
+  ;; toggle autocompletion on inline css
+  (add-hook 'web-mode-before-auto-complete-hooks
+    '(lambda ()
+     (let ((web-mode-cur-language
+            (web-mode-language-at-pos)))
+               (if (string= web-mode-cur-language "css")
+           (setq emmet-use-css-transform t)
+           (setq emmet-use-css-transform nil))))))
+
+(use-package typescript-mode
+  :mode ("\\.tsx?\\'" . typescript-mode)
+  :config
+  (setq typescript-indent-level dnl/indent-width))
 
 (use-package lispy
   :hook ((emacs-lisp-mode . lispy-mode)
