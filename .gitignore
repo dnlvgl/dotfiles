@@ -1,4 +1,5 @@
 ssh/
+.DS_Store
 # vim plugins are git repos
 **/dot-vim/plugged/**
 **/package.retry

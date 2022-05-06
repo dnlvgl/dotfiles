@@ -90,19 +90,29 @@ Cheatsheet for basic emacs commands and commands of packages
 * Custom Variables
 
 Setup misc variables to use later.
-
-TODO: find a way to check on which sysem we are (work vs private). Could use ~system-name~, ~user-login-name~.
-Or load them from a custom file, check if they are defined here and use defaults if empty.
+'Per System' variables are loaded via an ~emacs-custom.el~, if this does not exist use fallback values
 
 #+BEGIN_SRC emacs-lisp
-(defvar dnl/emacs-conf-path "~/.config/emacs/")
-(defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
-(defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
-(defvar dnl/default-font "Iosevka")
-;;(defvar dnl/default-variable-font "Cantarell")
-(defvar dnl/default-font-size 130)
-;;(defvar dnl/default-variable-font-size 130)
-;;(defvar dnl/org-path '(""))
+
+(setq custom-file "~/.config/emacs/emacs-custom.el")
+
+(cond ((file-exists-p custom-file)
+        ;; if custom file exists load it and its values
+        (load custom-file))
+       (t
+        ;; if not use standard values
+        ;; cons: this means these need to be tracked in two places
+        (defvar dnl/default-font-size 130)
+        (defvar dnl/org-agenda-path "~/Sync/org/")
+        ))
+ 
+
+ (defvar dnl/emacs-conf-path "~/.config/emacs/")
+ (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
+ (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
+ (defvar dnl/default-font "Iosevka")
+ (defvar dnl/default-font-size 130)
+
 #+END_SRC
 
 * Package Management
@@ -220,8 +230,6 @@ Load custom theme from the themes folder (WIP)
 ;; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil :font dnl/default-font :height  dnl/default-font-size)
 
-;; Set the variable pitch face
-;; (set-face-attribute 'variable-pitch nil :font dnl/default-variable-font :height dnl/default-font-size :weight 'regular)
 #+END_SRC
 
 Use emojis everywhere
@@ -474,14 +482,13 @@ Highlight brackets, Autoclose is highly annoying in org mode
 
 * Org Mode
 
+Check/steal a bit of this config: https://config.daviwil.com/workflow
+
 Baseline Org Mode config. Add some custom function to run later in 
 
 #+begin_src emacs-lisp
 (defun dnl/org-mode-setup ()
   (org-indent-mode)
-  ;; use variable width font, overwrite some of it via dnl/org-font-setup which is run later
-  ;;(variable-pitch-mode 1)
-  ;; make sure we have linebreaks in org mode
   (visual-line-mode 1))
 #+end_src
 
@@ -502,8 +509,8 @@ Baseline Org Mode config. Also require the package eventhough it should be insta
   (setq org-agenda-skip-scheduled-if-done t)
 
   ;; set source for agenda
-  ;;(setq org-agenda-files '("~/Documents/work.org"))
-  (setq org-agenda-files '("~/Sync/org/"))
+  ;; find out why to use this ~`(,var)~ syntax
+  (setq org-agenda-files `(,dnl/org-agenda-path))
 
   ;; theme source blocks like in native mode
   (setq org-src-fontify-natively t

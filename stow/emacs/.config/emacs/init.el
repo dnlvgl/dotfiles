@@ -1,11 +1,21 @@
-(defvar dnl/emacs-conf-path "~/.config/emacs/")
-(defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
-(defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
-(defvar dnl/default-font "Iosevka")
-;;(defvar dnl/default-variable-font "Cantarell")
-(defvar dnl/default-font-size 130)
-;;(defvar dnl/default-variable-font-size 130)
-;;(defvar dnl/org-path '(""))
+(setq custom-file "~/.config/emacs/emacs-custom.el")
+
+(cond ((file-exists-p custom-file)
+        ;; if custom file exists load it and its values
+        (load custom-file))
+       (t
+        ;; if not use standard values
+        ;; cons: this means these need to be tracked in two places
+        (defvar dnl/default-font-size 130)
+        (defvar dnl/org-agenda-path "~/Sync/org/")
+        ))
+ 
+
+ (defvar dnl/emacs-conf-path "~/.config/emacs/")
+ (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
+ (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
+ (defvar dnl/default-font "Iosevka")
+ (defvar dnl/default-font-size 130)
 
 (require 'package)
 
@@ -91,9 +101,6 @@
 
 ;; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil :font dnl/default-font :height  dnl/default-font-size)
-
-;; Set the variable pitch face
-;; (set-face-attribute 'variable-pitch nil :font dnl/default-variable-font :height dnl/default-font-size :weight 'regular)
 
 (use-package emojify
   :ensure t
@@ -291,9 +298,6 @@
 
 (defun dnl/org-mode-setup ()
   (org-indent-mode)
-  ;; use variable width font, overwrite some of it via dnl/org-font-setup which is run later
-  ;;(variable-pitch-mode 1)
-  ;; make sure we have linebreaks in org mode
   (visual-line-mode 1))
 
 (use-package org
@@ -310,8 +314,8 @@
   (setq org-agenda-skip-scheduled-if-done t)
 
   ;; set source for agenda
-  ;;(setq org-agenda-files '("~/Documents/work.org"))
-  (setq org-agenda-files '("~/Sync/org/"))
+  ;; find out why to use this ~`(,var)~ syntax
+  (setq org-agenda-files `(,dnl/org-agenda-path))
 
   ;; theme source blocks like in native mode
   (setq org-src-fontify-natively t
