@@ -103,7 +103,7 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
-(setq backup-directory-alist '(("." . "~/.config/emcas/backups/")))
+(setq backup-directory-alist '(("." . "~/.config/emacs/backups/")))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)

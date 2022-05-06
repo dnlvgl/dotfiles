@@ -244,7 +244,7 @@ Use emojis everywhere
 
 All backup files get sent to /emacs.d/backups to not clutter the file system
 #+BEGIN_SRC emacs-lisp
-(setq backup-directory-alist '(("." . "~/.config/emcas/backups/")))
+(setq backup-directory-alist '(("." . "~/.config/emacs/backups/")))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
