@@ -440,7 +440,10 @@ Enable windmove to use ~SHIFT+arrow~ to move between windows
 #+end_src
 
 * File Editing
-** Tab Widths
+** TODO Tab Widths
+
+Check how this is doubled with dnl/indent-width
+
 Default to an indentation size of 2 spaces since it's the norm for pretty much every language I use.
 
 #+begin_src emacs-lisp
