@@ -90,11 +90,12 @@ Cheatsheet for basic emacs commands and commands of packages
 * Custom Variables
 
 Setup misc variables to use later.
-'Per System' variables are loaded via an ~emacs-custom.el~, if this does not exist use fallback values
+'Per System' variables are loaded via an ~dnl-custom-vars.el~, if this does not exist use fallback values
 
 #+BEGIN_SRC emacs-lisp
 
-(setq custom-file "~/.config/emacs/emacs-custom.el")
+;; use dnl prefixed file, 
+(setq custom-file "~/.config/emacs/dnl-custom-vars.el")
 
 (cond ((file-exists-p custom-file)
         ;; if custom file exists load it and its values
