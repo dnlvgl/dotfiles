@@ -1,4 +1,5 @@
-(setq custom-file "~/.config/emacs/emacs-custom.el")
+;; use dnl prefixed file, 
+(setq custom-file "~/.config/emacs/dnl-custom-vars.el")
 
 (cond ((file-exists-p custom-file)
         ;; if custom file exists load it and its values
@@ -281,6 +282,22 @@
 
 (windmove-default-keybindings)
 
+(use-package dashboard
+  ;; only show dasboard if opening emacs without file
+  :if (< (length command-line-args) 2)
+  :diminish dashboard-mode
+  :config
+  (setq dashboard-banner-logo-title "YOUR ADD HERE")
+  (setq dashboard-set-footer nil)
+  (setq dashboard-startup-banner "~/.config/emacs/dasboard-logo.png")
+  (setq dashboard-items '((bookmarks . 10)
+                          (agenda . 5)                            
+                          ;;(projects . 5)
+                          (recents . 0)
+                          (registers . 5)))
+  (setq dashboard-center-content t)
+  (dashboard-setup-startup-hook))
+
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
 
@@ -368,6 +385,7 @@
          ("\\.xml\\'" . web-mode)
          ("\\.tsx\\'" . web-mode))
   :config
+  ;; should this rather live under :custom, see: https://erickgnavar.github.io/emacs-config/#orgdb7ae90
            (setq web-mode-markup-indent-offset dnl/indent-width)
            (setq web-mode-code-indent-offset dnl/indent-width)
            (setq web-mode-css-indent-offset dnl/indent-width)

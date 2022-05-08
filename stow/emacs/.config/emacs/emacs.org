@@ -440,6 +440,25 @@ Enable windmove to use ~SHIFT+arrow~ to move between windows
 (windmove-default-keybindings)
 #+end_src
 
+** Dashboard
+#+begin_src emacs-lisp
+(use-package dashboard
+  ;; only show dasboard if opening emacs without file
+  :if (< (length command-line-args) 2)
+  :diminish dashboard-mode
+  :config
+  (setq dashboard-banner-logo-title "YOUR ADD HERE")
+  (setq dashboard-set-footer nil)
+  (setq dashboard-startup-banner "~/.config/emacs/dasboard-logo.png")
+  (setq dashboard-items '((bookmarks . 10)
+                          (agenda . 5)                            
+                          ;;(projects . 5)
+                          (recents . 0)
+                          (registers . 5)))
+  (setq dashboard-center-content t)
+  (dashboard-setup-startup-hook))
+#+end_src
+
 * File Editing
 ** TODO Tab Widths
 
