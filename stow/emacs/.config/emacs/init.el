@@ -60,6 +60,13 @@
 ;; Show buffer menu
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 
+;; Kill line backward
+;; alternative: https://github.com/purcell/emacs.d/blob/485a3af948db4671baf73f14bced123bae3112f3/init-editing-utils.el#L147
+(global-set-key (kbd "C-<backspace>") (lambda ()
+                                        (interactive)
+                                        (kill-line 0)
+                                        (indent-according-to-mode)))
+
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
@@ -289,7 +296,7 @@
   :config
   (setq dashboard-banner-logo-title "YOUR ADD HERE")
   (setq dashboard-set-footer nil)
-  (setq dashboard-startup-banner "~/.config/emacs/dasboard-logo.png")
+  (setq dashboard-startup-banner "~/.config/emacs/dashboard-logos/orb.png")
   (setq dashboard-items '((bookmarks . 10)
                           (agenda . 5)                            
                           ;;(projects . 5)
