@@ -297,6 +297,7 @@
   (setq dashboard-banner-logo-title "YOUR ADD HERE")
   (setq dashboard-set-footer nil)
   (setq dashboard-startup-banner "~/.config/emacs/dashboard-logos/orb.png")
+  ;; (setq dashboard-startup-banner "~/.config/emacs/dashboard-logos/rms-pepper.png")  
   (setq dashboard-items '((bookmarks . 10)
                           (agenda . 5)                            
                           ;;(projects . 5)
@@ -433,3 +434,8 @@
   ;;(setq geiser-active-implementations '(guile2))
   (setq geiser-guile-binary "guile2.2")
   )
+
+(defun dnl/word-at-point ()
+  "print current word."
+  (interactive)
+  (message "%s" (thing-at-point 'word)))

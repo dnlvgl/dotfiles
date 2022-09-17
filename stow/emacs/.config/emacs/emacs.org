@@ -669,7 +669,18 @@ Syntax Highlightning for Typescript
   )
 #+end_src
 
-* Config Example
-- https://github.com/alexpeits/emacs.d/blob/master/configuration.org
-- https://github.com/jamiecollinson/dotfiles/blob/master/config.org/
+** Markdown
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+#+end_src
 
+* Stuff to check
+** Config Examples
+*** https://github.com/alexpeits/emacs.d/blob/master/configuration.org
+*** https://github.com/jamiecollinson/dotfiles/blob/master/config.org/
+** Packages
+*** https://github.com/casouri/vundo
+
+alternative to undo-tree
