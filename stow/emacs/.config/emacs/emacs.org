@@ -13,7 +13,7 @@ To reload config you can:
 2. use ~C-x C-e~ on a lisp expression to run it on the fly
 3. use ~C-c r~ to run ~dnl/reload-init-file~ to tangle and reload everything in one go
 
-To exclude an SRC block from tangling use ~#:begin_src emacs-lisp :tangle no~
+To exclude an SRC block from tangling use ~#+begin_src emacs-lisp :tangle no~
 
 ** Load org config via init.el
 
@@ -440,6 +440,16 @@ Currently disabled to test out vertico, consult, embark, orderless, see below
   (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 
+
+use corfu for completion at point
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :custom
+  (corfu-auto t)
+  :init
+  (global-corfu-mode))
+#+end_src
 ** Movement
 
 Enable windmove to use ~SHIFT+arrow~ to move between windows
@@ -605,6 +615,7 @@ documentation page.
 * Language Support
 ** Web
 
+*** HTML
 Minimal setup for HTML and mixed modes
 
 #+begin_src emacs-lisp
@@ -612,7 +623,8 @@ Minimal setup for HTML and mixed modes
   :config
   :mode (("\\.html\\'" . web-mode)
          ("\\.xml\\'" . web-mode)
-         ("\\.tsx\\'" . web-mode))
+         ("\\.tsx\\'" . web-mode)
+         )
   :config
   ;; should this rather live under :custom, see: https://erickgnavar.github.io/emacs-config/#orgdb7ae90
            (setq web-mode-markup-indent-offset dnl/indent-width)
@@ -624,6 +636,10 @@ Minimal setup for HTML and mixed modes
            ;;(setq web-mode-enable-current-element-highlight t)
            )
 #+end_src
+
+**** TODO move tsx out of here and find a better way to integrate it with ts-mode and eglot
+
+*** Emmet
 
 Use emmet to complete HTML abbreviations via ~C-j~. So ~div~ becomes ~<div></div>~
 
@@ -641,15 +657,26 @@ Use emmet to complete HTML abbreviations via ~C-j~. So ~div~ becomes ~<div></div
            (setq emmet-use-css-transform nil))))))
 #+end_src
 
-Syntax Highlightning for Typescript 
+*** JS/TS
+
+Syntax Highlightning for Javascript + Typescript 
 
 #+begin_src emacs-lisp
+;; js-mode is fine instead of js2-mode as we use treesitter for syntax
+(use-package js-mode
+  :ensure nil
+  :custom
+  (js-indent-level 2)
+  (js-switch-indent-offset 2))
+
 (use-package typescript-mode
-  :mode ("\\.tsx?\\'" . typescript-mode)
-  :config
-  (setq typescript-indent-level dnl/indent-width))
+  ;;:mode "\\.ts\\'"
+  :custom (typescript-indent-level 2))
 #+end_src
 
+**** TODO use straight.el to be able to configure built in packages via use-package
+currently it compalins that it can't install js-mode, which is already part of emacs
+**** TODO add yasnippet with complete function definitions
 ** Lisp Stuff
 #+begin_src emacs-lisp
 
@@ -674,6 +701,33 @@ Syntax Highlightning for Typescript
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
+#+end_src
+
+** LSP + Parser
+*** treesitter
+use treesitter to handle more complex syntax tress for better highlightning
+
+tree-sitter-langs provides pre-compiled language bundles
+#+begin_src emacs-lisp
+(use-package tree-sitter
+  :hook
+  (js-mode . tree-sitter-hl-mode)
+  (typescript-mode . tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
+#+end_src
+
+**** TODO use [[https://vxlabs.com/2022/06/12/typescript-development-with-emacs-tree-sitter-and-lsp-in-2022/#ensure-for-tsx-configure-for-tree-sitter-based-indentation][tsi with treesitter]] for ts/json/scss indendation?
+
+*** eglot
+
+try something lighter with eglot
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :hook ((js-mode typescript-mode) . eglot-ensure))
 #+end_src
 
 * Stuff to check

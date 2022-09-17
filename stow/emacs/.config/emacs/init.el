@@ -287,6 +287,12 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package corfu
+  :custom
+  (corfu-auto t)
+  :init
+  (global-corfu-mode))
+
 (windmove-default-keybindings)
 
 (use-package dashboard
@@ -391,7 +397,8 @@
   :config
   :mode (("\\.html\\'" . web-mode)
          ("\\.xml\\'" . web-mode)
-         ("\\.tsx\\'" . web-mode))
+         ("\\.tsx\\'" . web-mode)
+         )
   :config
   ;; should this rather live under :custom, see: https://erickgnavar.github.io/emacs-config/#orgdb7ae90
            (setq web-mode-markup-indent-offset dnl/indent-width)
@@ -415,10 +422,16 @@
            (setq emmet-use-css-transform t)
            (setq emmet-use-css-transform nil))))))
 
+(setq package--initialized t)
+(use-package js-mode
+  :ensure nil
+  :custom
+  (js-indent-level 2)
+  (js-switch-indent-offset 2))
+
 (use-package typescript-mode
-  :mode ("\\.tsx?\\'" . typescript-mode)
-  :config
-  (setq typescript-indent-level dnl/indent-width))
+  ;;:mode "\\.ts\\'"
+  :custom (typescript-indent-level 2))
 
 (use-package lispy
   :hook ((emacs-lisp-mode . lispy-mode)
@@ -435,7 +448,18 @@
   (setq geiser-guile-binary "guile2.2")
   )
 
-(defun dnl/word-at-point ()
-  "print current word."
-  (interactive)
-  (message "%s" (thing-at-point 'word)))
+(use-package markdown-mode
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package tree-sitter
+  :hook
+  (js-mode . tree-sitter-hl-mode)
+  (typescript-mode . tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
+
+(use-package eglot
+  :hook ((js-mode typescript-mode) . eglot-ensure))
