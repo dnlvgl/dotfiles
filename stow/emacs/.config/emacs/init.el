@@ -90,7 +90,8 @@
 ;; but don't show line numbers in certain modes
 (dolist (mode '(org-mode-hook
 	              term-mode-hook
-	              eshell-mode-hook))
+	              eshell-mode-hook
+                vterm-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; transform yes-or-no questions into y-or-n
@@ -263,7 +264,7 @@
 ;; Sort of right-click contextual menu for Emacs, accessed through the embark-act command (which you should bind to a convenient key), offering you relevant actions to use on a target determined by the context
 (use-package embark
   :bind
-  (("M-." . embark-act)         ;; pick some comfortable binding. C-. by default but does not work on gnome
+  (("C-." . embark-act)         ;; C-. by default but does not work on gnome, run ~gsettings set org.freedesktop.ibus.panel.emoji hotkey "[]"~ to get it back
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
@@ -311,6 +312,20 @@
                           (registers . 5)))
   (setq dashboard-center-content t)
   (dashboard-setup-startup-hook))
+
+(use-package vterm
+  ;;:when (bound-and-true-p module-file-suffix)
+  :commands vterm-mode
+  :init
+  ;;(add-hook 'vterm-mode-hook
+  ;;          (lambda ()
+  ;;            (setq confirm-kill-processes nil
+  ;;                  hscroll-margin 0)))
+  :bind
+  (("C-c t t" . vterm))
+  :config
+  (setq vterm-kill-buffer-on-exit t
+        vterm-shell "/usr/bin/fish"))
 
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
@@ -422,7 +437,7 @@
            (setq emmet-use-css-transform t)
            (setq emmet-use-css-transform nil))))))
 
-(setq package--initialized t)
+;; js-mode is fine instead of js2-mode as we use treesitter for syntax, so should?! be fine
 (use-package js-mode
   :ensure nil
   :custom
@@ -454,7 +469,7 @@
 
 (use-package tree-sitter
   :hook
-  (js-mode . tree-sitter-hl-mode)
+   (js-mode . tree-sitter-hl-mode)
   (typescript-mode . tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs

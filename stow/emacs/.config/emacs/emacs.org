@@ -206,7 +206,8 @@ Show possible kyebindings after short delay
 ;; but don't show line numbers in certain modes
 (dolist (mode '(org-mode-hook
 	              term-mode-hook
-	              eshell-mode-hook))
+	              eshell-mode-hook
+                vterm-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; transform yes-or-no questions into y-or-n
@@ -415,7 +416,7 @@ Currently disabled to test out vertico, consult, embark, orderless, see below
 ;; Sort of right-click contextual menu for Emacs, accessed through the embark-act command (which you should bind to a convenient key), offering you relevant actions to use on a target determined by the context
 (use-package embark
   :bind
-  (("M-." . embark-act)         ;; pick some comfortable binding. C-. by default but does not work on gnome
+  (("C-." . embark-act)         ;; C-. by default but does not work on gnome, run ~gsettings set org.freedesktop.ibus.panel.emoji hotkey "[]"~ to get it back
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
@@ -450,6 +451,7 @@ use corfu for completion at point
   :init
   (global-corfu-mode))
 #+end_src
+
 ** Movement
 
 Enable windmove to use ~SHIFT+arrow~ to move between windows
@@ -475,6 +477,28 @@ Enable windmove to use ~SHIFT+arrow~ to move between windows
                           (registers . 5)))
   (setq dashboard-center-content t)
   (dashboard-setup-startup-hook))
+#+end_src
+
+** TODO Teminal
+
+Use Vterm, faster than term
+neded to install ~sudo dnf install cmake libtool~
+needs some more [[https://github.com/akermu/emacs-libvterm#shell-side-configuration][shell-side configuration]]
+
+#+begin_src emacs-lisp
+  (use-package vterm
+    ;;:when (bound-and-true-p module-file-suffix)
+    :commands vterm-mode
+    :init
+    ;;(add-hook 'vterm-mode-hook
+    ;;          (lambda ()
+    ;;            (setq confirm-kill-processes nil
+    ;;                  hscroll-margin 0)))
+    :bind
+    (("C-c t t" . vterm))
+    :config
+    (setq vterm-kill-buffer-on-exit t
+          vterm-shell "/usr/bin/fish"))
 #+end_src
 
 * File Editing
@@ -662,7 +686,7 @@ Use emmet to complete HTML abbreviations via ~C-j~. So ~div~ becomes ~<div></div
 Syntax Highlightning for Javascript + Typescript 
 
 #+begin_src emacs-lisp
-;; js-mode is fine instead of js2-mode as we use treesitter for syntax
+;; js-mode is fine instead of js2-mode as we use treesitter for syntax, so should?! be fine
 (use-package js-mode
   :ensure nil
   :custom
@@ -711,7 +735,7 @@ tree-sitter-langs provides pre-compiled language bundles
 #+begin_src emacs-lisp
 (use-package tree-sitter
   :hook
-  (js-mode . tree-sitter-hl-mode)
+   (js-mode . tree-sitter-hl-mode)
   (typescript-mode . tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs
@@ -734,7 +758,13 @@ try something lighter with eglot
 ** Config Examples
 *** https://github.com/alexpeits/emacs.d/blob/master/configuration.org
 *** https://github.com/jamiecollinson/dotfiles/blob/master/config.org/
+*** https://gitlab.com/Gamino97/dotfiles/-/blob/master/emacs.org
 ** Packages
 *** https://github.com/casouri/vundo
 
 alternative to undo-tree
+*** TODO use [[https://github.com/joaotavora/yasnippet][yasnippets]]
+
+use [[https://github.com/microsoft/vscode/blob/174db5eb992d880adcc42c41d83a0e6cb6b92474/extensions/javascript/snippets/javascript.code-snippets][vscode js snippets]] 
+
+or just use predifined [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet collection]]
