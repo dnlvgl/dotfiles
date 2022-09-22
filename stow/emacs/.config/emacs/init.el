@@ -452,15 +452,12 @@
   :hook ((emacs-lisp-mode . lispy-mode)
          (scheme-mode . lispy-mode)))
 
-;; TODO does not find guile implementation yet, try run repl on scheme file C-x C-e
-;;(use-package geiser-guile)
 
+;; fedora defaults to older guile 2 version, need to explicitly set the used guile version
+;; ~sudo dnf install guile30~
 (use-package geiser
   :config
-  ;;(setq scheme-program-name "guile")
-  ;;(setq geiser-default-implementation '(guile2.2))
-  ;;(setq geiser-active-implementations '(guile2.2))
-  (setq geiser-guile-binary "guile2.2")
+  (setq geiser-guile-binary "guile3.0")
   )
 
 (use-package geiser-guile

@@ -709,10 +709,11 @@ currently it compalins that it can't install js-mode, which is already part of e
          (scheme-mode . lispy-mode)))
 
 
-;; fedora defaults to older guile 2 version, need to explicitly set this
+;; fedora defaults to older guile 2 version, need to explicitly set the used guile version
+;; ~sudo dnf install guile30~
 (use-package geiser
   :config
-  (setq geiser-guile-binary "guile2.2")
+  (setq geiser-guile-binary "guile3.0")
   )
 
 (use-package geiser-guile
