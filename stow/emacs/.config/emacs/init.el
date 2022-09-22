@@ -457,11 +457,14 @@
 
 (use-package geiser
   :config
-  (setq scheme-program-name "guile")
-  ;;(setq geiser-default-implementation '(guile2))
-  ;;(setq geiser-active-implementations '(guile2))
+  ;;(setq scheme-program-name "guile")
+  ;;(setq geiser-default-implementation '(guile2.2))
+  ;;(setq geiser-active-implementations '(guile2.2))
   (setq geiser-guile-binary "guile2.2")
   )
+
+(use-package geiser-guile
+  :after: geiser)
 
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)

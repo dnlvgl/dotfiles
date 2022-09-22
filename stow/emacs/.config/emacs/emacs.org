@@ -708,16 +708,15 @@ currently it compalins that it can't install js-mode, which is already part of e
   :hook ((emacs-lisp-mode . lispy-mode)
          (scheme-mode . lispy-mode)))
 
-;; TODO does not find guile implementation yet, try run repl on scheme file C-x C-e
-;;(use-package geiser-guile)
 
+;; fedora defaults to older guile 2 version, need to explicitly set this
 (use-package geiser
   :config
-  (setq scheme-program-name "guile")
-  ;;(setq geiser-default-implementation '(guile2))
-  ;;(setq geiser-active-implementations '(guile2))
   (setq geiser-guile-binary "guile2.2")
   )
+
+(use-package geiser-guile
+  :after: geiser)
 #+end_src
 
 ** Markdown
