@@ -461,7 +461,7 @@
   )
 
 (use-package geiser-guile
-  :after: geiser)
+  :after geiser)
 
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)

@@ -717,7 +717,7 @@ currently it compalins that it can't install js-mode, which is already part of e
   )
 
 (use-package geiser-guile
-  :after: geiser)
+  :after geiser)
 #+end_src
 
 ** Markdown
