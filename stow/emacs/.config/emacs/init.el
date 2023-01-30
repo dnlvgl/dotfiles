@@ -359,6 +359,11 @@
   ;; don't show done items in agenda
   (setq org-agenda-skip-scheduled-if-done t)
 
+  ;; set to same size as visual-fill-mode TODO this could be a variable
+  ;; (setq org-tags-column 100)
+
+  (setq org-image-actual-width nil)
+
   ;; set source for agenda
   ;; find out why to use this ~`(,var)~ syntax
   (setq org-agenda-files `(,dnl/org-agenda-path))
@@ -370,7 +375,24 @@
         org-edit-src-content-indentation 0)
 
   ;;(dnl/org-font-setup)
-  )
+
+  ;; capture keybind and templates
+  (define-key global-map "\C-cc" 'org-capture)
+
+  ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
+  ;; work tracking: https://yannesposito.com/posts/0015-how-i-use-org-mode/index.html https://writequit.org/denver-emacs/presentations/2017-04-11-time-clocking-with-org.html
+  (setq org-capture-templates
+      '(
+        ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+         "** %?")
+        ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+         "** TODO %?")
+        ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+         "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+         :jump-to-captured t)
+        ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+         "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
+)
 
 ;; use custom bullets instead of stars for headings
 (use-package org-bullets
@@ -398,6 +420,14 @@
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
 (add-to-list 'org-structure-template-alist '("json" . "src json"))
+
+(use-package org-web-tools
+  :ensure t)
+
+(defun dnl/org-web-tools-insert-link-for-clipboard-url ()
+  "Extend =org-web-tools-inster-link-for-url= to take URL from clipboard or kill-ring"
+  (interactive)
+  (org-web-tools--org-link-for-url (org-web-tools--get-first-url)))
 
 (use-package magit)
 
@@ -478,3 +508,13 @@
 
 (use-package eglot
   :hook ((js-mode typescript-mode) . eglot-ensure))
+
+(use-package elfeed
+  :ensure t)
+
+
+(use-package elfeed-org
+  :ensure t
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))

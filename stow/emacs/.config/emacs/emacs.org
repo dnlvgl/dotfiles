@@ -259,7 +259,8 @@ Use emojis everywhere
 
 ** Saving and Backup
 
-All backup files get sent to /emacs.d/backups to not clutter the file system
+All backup files get sent to ~/.config/emacs/backups/~ to not clutter the file system
+
 #+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist '(("." . "~/.config/emacs/backups/")))
 (setq delete-old-versions -1)
@@ -573,6 +574,11 @@ Baseline Org Mode config. Also require the package eventhough it should be insta
   ;; don't show done items in agenda
   (setq org-agenda-skip-scheduled-if-done t)
 
+  ;; set to same size as visual-fill-mode TODO this could be a variable
+  ;; (setq org-tags-column 100)
+
+  (setq org-image-actual-width nil)
+
   ;; set source for agenda
   ;; find out why to use this ~`(,var)~ syntax
   (setq org-agenda-files `(,dnl/org-agenda-path))
@@ -584,7 +590,24 @@ Baseline Org Mode config. Also require the package eventhough it should be insta
         org-edit-src-content-indentation 0)
 
   ;;(dnl/org-font-setup)
-  )
+
+  ;; capture keybind and templates
+  (define-key global-map "\C-cc" 'org-capture)
+
+  ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
+  ;; work tracking: https://yannesposito.com/posts/0015-how-i-use-org-mode/index.html https://writequit.org/denver-emacs/presentations/2017-04-11-time-clocking-with-org.html
+  (setq org-capture-templates
+      '(
+        ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+         "** %?")
+        ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+         "** TODO %?")
+        ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+         "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+         :jump-to-captured t)
+        ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+         "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
+)
 
 ;; use custom bullets instead of stars for headings
 (use-package org-bullets
@@ -622,6 +645,18 @@ documentation page.
 (add-to-list 'org-structure-template-alist '("json" . "src json"))
 #+end_src
 
+** Capture Web Brookmarks to orgmode
+
+#+begin_src emacs-lisp
+(use-package org-web-tools
+  :ensure t)
+
+(defun dnl/org-web-tools-insert-link-for-clipboard-url ()
+  "Extend =org-web-tools-inster-link-for-url= to take URL from clipboard or kill-ring"
+  (interactive)
+  (org-web-tools--org-link-for-url (org-web-tools--get-first-url)))
+#+end_src
+
 * Git
 #+begin_src emacs-lisp
 (use-package magit)
@@ -638,7 +673,6 @@ documentation page.
 
 * Language Support
 ** Web
-
 *** HTML
 Minimal setup for HTML and mixed modes
 
@@ -662,6 +696,8 @@ Minimal setup for HTML and mixed modes
 #+end_src
 
 **** TODO move tsx out of here and find a better way to integrate it with ts-mode and eglot
+
+Check [[https://vxlabs.com/2022/06/12/typescript-development-with-emacs-tree-sitter-and-lsp-in-2022/?utm_source=pocket_reader][this post]]
 
 *** Emmet
 
@@ -753,6 +789,21 @@ try something lighter with eglot
 (use-package eglot
   :hook ((js-mode typescript-mode) . eglot-ensure))
 #+end_src
+
+* RSS
+#+begin_src emacs-lisp
+
+(use-package elfeed
+  :ensure t)
+
+
+(use-package elfeed-org
+  :ensure t
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
+#+end_src
+
 
 * Stuff to check
 ** Config Examples
