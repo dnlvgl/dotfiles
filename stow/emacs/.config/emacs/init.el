@@ -342,6 +342,25 @@
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
+(defun dnl/move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun dnl/move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+;; meta shift to not collide with orgmode
+(global-set-key [(meta shift up)]  'dnl/move-line-up)
+(global-set-key [(meta shift down)]  'dnl/move-line-down)
+
 (defun dnl/org-mode-setup ()
   (org-indent-mode)
   (visual-line-mode 1))
