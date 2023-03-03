@@ -3,29 +3,24 @@
 
 ;; use `M-x list-faces-display` to check which faces to customize
 
-
-(let ((fg "#424242")
-      (bg "#f1f1f1")
-
-      (fg-light "#ddddd8") ;; remove
-      
+(let ((fg "#424242") ;;TODO better name
+      (bg "#f1f1f1") ;; TODO better name
       (blue "#008ec4")
       (green "#10a778")
-      (cyan "#007a7a") ;;TODO
-      (yellow "#7c730e") ;;TODO
+      (cyan "#007a7a") ;;TODO better color
+      (yellow "#7c730e") ;;TODO better color
       (red "#c30771")
       (purple "#523c79")
-      (purple-light "#e8e3f0")
-      )
+      (purple-light "#e8e3f0"))
 
   (custom-theme-set-faces
    'calcite
    
    `(default ((t (:background ,bg :foreground ,fg))))
    `(button ((t (:foreground ,fg :underline t))))
-   `(cursor ((t (:background ,fg :foreground "white smoke"))))
+   `(cursor ((t (:background ,fg :foreground ,bg))))
    `(custom-variable-tag ((t (:foreground ,fg :weight bold))))
-   ;; `(default-italic ((t (:italic t))))
+   `(default-italic ((t (:italic t))))
    `(diff-hl-change ((t (:background ,blue :foreground ,blue ))))
    `(diff-hl-delete ((t (:background ,red :foreground ,red))))
    `(diff-hl-insert ((t (:background ,green :foreground, green ))))
@@ -59,7 +54,6 @@
    ;; `(mode-line-inactive ((t (:background ,bg :foreground ,bg :height 0.8))))
    ;; `(mode-line-minor-mode ((t (:weight ultra-light))))
    ;; `(modeline ((t (:background ,bg :foreground ,fg :height 0.8))))
-   ;; orgmode
    `(org-agenda-date ((t (:foreground ,fg :height 1.2))))
    `(org-agenda-date-today ((t (:foreground ,fg :weight bold :height 1.4))))
    `(org-agenda-date-weekend ((t (:foreground ,fg :weight normal))))
@@ -67,8 +61,8 @@
    `(org-block ((t (:foreground ,fg :background ,purple-light))))
    `(org-block-begin-line ((t (:foreground ,fg :background ,purple-light))))
    `(org-block-end-line ((t (:foreground ,fg :background ,purple-light))))
-   `(org-block-begin-line ((t (:foreground ,fg-light))))
-   `(org-block-end-line ((t (:foreground ,fg-light))))
+   `(org-block-begin-line ((t (:foreground ,purple-light))))
+   `(org-block-end-line ((t (:foreground ,purple-light))))
    `(org-date ((t (:foreground ,fg) :underline)))
    `(org-document-info-keyword ((t (:foreground ,fg))))
    `(org-document-title ((t (:foreground ,purple :height 1.0 :underline nil))))
