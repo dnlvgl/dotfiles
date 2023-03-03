@@ -20,18 +20,20 @@
 
   (custom-theme-set-faces
    'calcite
-
-   ;; general faces
+   
    `(default ((t (:background ,bg :foreground ,fg))))
    `(button ((t (:foreground ,fg :underline t))))
    `(cursor ((t (:background ,fg :foreground "white smoke"))))
    `(custom-variable-tag ((t (:foreground ,fg :weight bold))))
-   `(default-italic ((t (:italic t))))
-   `(font-latex-bold-face ((t (:foreground ,fg))))
-   `(font-latex-italic-face ((t (:foreground ,fg :slant italic))))
-   `(font-latex-match-reference-keywords ((t (:foreground ,fg))))
-   `(font-latex-match-variable-keywords ((t (:foreground ,fg))))
-   `(font-latex-string-face ((t (:foreground "#a9a9a9"))))
+   ;; `(default-italic ((t (:italic t))))
+   `(diff-hl-change ((t (:background ,blue :foreground ,blue ))))
+   `(diff-hl-delete ((t (:background ,red :foreground ,red))))
+   `(diff-hl-insert ((t (:background ,green :foreground, green ))))
+   ;; `(font-latex-bold-face ((t (:foreground ,fg))))
+   ;; `(font-latex-italic-face ((t (:foreground ,fg :slant italic))))
+   ;; `(font-latex-match-reference-keywords ((t (:foreground ,fg))))
+   ;; `(font-latex-match-variable-keywords ((t (:foreground ,fg))))
+   ;; `(font-latex-string-face ((t (:foreground "#a9a9a9"))))
    `(font-lock-builtin-face ((t (:background ,bg :foreground ,fg))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,blue))))
    `(font-lock-comment-face ((t (:foreground ,blue :background ,bg))))
@@ -46,7 +48,8 @@
    `(font-lock-variable-name-face ((t (:foreground ,fg :underline nil))))
    `(font-lock-warning-face ((t (:foreground ,red :weight bold))))
    `(fringe ((t (:background ,bg ))))
-   `(isearch ((t (:background "#eeeee8" :foreground ,fg))))
+   `(highlight ((t (:background ,purple-light :foreground ,fg))))
+   `(isearch ((t (:background ,purple-light :foreground ,fg))))
    `(line-number ((t (:background ,bg :foreground: ,fg ))))
    `(line-number-current-line ((t (:background ,bg :foreground ,purple ))))
    `(link ((t (:foreground ,fg))))
@@ -56,10 +59,6 @@
    ;; `(mode-line-inactive ((t (:background ,bg :foreground ,bg :height 0.8))))
    ;; `(mode-line-minor-mode ((t (:weight ultra-light))))
    ;; `(modeline ((t (:background ,bg :foreground ,fg :height 0.8))))
-   `(region ((t (:background "#eeeee8" :foreground ,fg))))
-   `(slime-repl-inputed-output-face ((t (:foreground ,fg))))
-   `(whitespace-line ((t (:background ,purple :foreground ,fg))))
-
    ;; orgmode
    `(org-agenda-date ((t (:foreground ,fg :height 1.2))))
    `(org-agenda-date-today ((t (:foreground ,fg :weight bold :height 1.4))))
@@ -92,12 +91,10 @@
    `(org-special-keyword ((t (:foreground ,fg))))
    `(org-todo ((t (:foreground ,purple :background, purple-light))))
    `(org-verse ((t (:inherit org-block :slant italic))))
-
-   ;; vc
-   `(diff-hl-change ((t (:background ,blue :foreground ,blue ))))
-   `(diff-hl-delete ((t (:background ,red :foreground ,red))))
-   `(diff-hl-insert ((t (:background ,green :foreground, green ))))
-   ;; TODO add magit
+   `(region ((t (:background ,purple-light :foreground ,fg))))
+   `(slime-repl-inputed-output-face ((t (:foreground ,fg))))
+   `(vertico-current ((t (:background ,purple-light :foreground ,fg))))
+   `(whitespace-line ((t (:background ,purple :foreground ,fg))))
    ))
 
 (provide-theme 'calcite)
