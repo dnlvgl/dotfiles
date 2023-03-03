@@ -26,7 +26,7 @@ cd stow/
 ./setup.sh
 ```
 
-Link a signle folder:
+Link a single folder:
 
 ```
 cd stow/
@@ -49,4 +49,5 @@ systemctl --user start syncthing.service
 TODO: add script in etc/
 
 save `90-kensington-expert-trackball-remap.hwdb` under `/etc/udev/hwdb.d/90-kensington-expert-trackball-remap.hwdb`
+
 run `sudo systemd-hwdb update` and reboot
