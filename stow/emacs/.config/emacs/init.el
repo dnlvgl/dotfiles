@@ -15,7 +15,7 @@
  (defvar dnl/emacs-conf-path "~/.config/emacs/")
  (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
  (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
- (defvar dnl/default-font "Iosevka")
+ (defvar dnl/default-font "Iosevka SS08")
  (defvar dnl/indent-width 2)
 
 (require 'package)
@@ -96,6 +96,9 @@
 
 ;; transform yes-or-no questions into y-or-n
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; use olivetti mode for writing
+(use-package olivetti )
 
 (use-package spacemacs-theme
  :defer t
@@ -383,6 +386,9 @@
 
   (setq org-image-actual-width nil)
 
+  ;; no indentation, all text starts at same position
+  ;; (setq org-adapt-indentation nil)
+
   ;; set source for agenda
   ;; find out why to use this ~`(,var)~ syntax
   (setq org-agenda-files `(,dnl/org-agenda-path))
@@ -414,11 +420,13 @@
 )
 
 ;; use custom bullets instead of stars for headings
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
+;;(use-package org-bullets
+;;  :after org
+;;  :hook (org-mode . org-bullets-mode)
+;;  :custom
+;;  (org-bullets-bullet-list '("➀" "➁" "➂" "➃" "➄" "➅" "➆" "➇" "➈" "➉")))
+  ;;(org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
+  ;;(org-bullets-bullet-list '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒" "➓")))
 
 
 ;; use visual-fill-column to center org mode content
@@ -427,8 +435,8 @@
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
-(use-package visual-fill-column
-  :hook (org-mode . dnl/org-mode-visual-fill))
+;;(use-package visual-fill-column
+;;  :hook (org-mode . dnl/org-mode-visual-fill))
 
 ;; This is needed as of Org 9.2
 (require 'org-tempo)
