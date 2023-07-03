@@ -227,11 +227,19 @@ Show possible kyebindings after short delay
   (load-theme 'spacemacs-light t))
 #+END_SRC
 
+#+begin_src emacs-lisp
+(use-package mindre-theme
+  :custom
+  (mindre-use-more-bold nil)
+  :config
+  (load-theme 'mindre t))
+#+end_src
+
 Load custom theme from the themes folder (WIP)
 
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-(load-theme 'calcite t)
+;;(load-theme 'calcite t)
 #+end_src
 
 ** Font

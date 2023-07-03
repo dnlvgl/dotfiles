@@ -106,8 +106,14 @@
  :init
  (load-theme 'spacemacs-light t))
 
+(use-package mindre-theme
+  :custom
+  (mindre-use-more-bold nil)
+  :config
+  (load-theme 'mindre t))
+
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-(load-theme 'calcite t)
+;;(load-theme 'calcite t)
 
 (set-face-attribute 'default nil :font dnl/default-font :height dnl/default-font-size)
 
