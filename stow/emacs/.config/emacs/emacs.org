@@ -513,6 +513,15 @@ needs some more [[https://github.com/akermu/emacs-libvterm#shell-side-configurat
           vterm-shell "/usr/bin/fish"))
 #+end_src
 
+** File Management
+
+Using dired for file management, some basic tweaks
+
+#+begin_src emacs-lisp
+(use-package dired
+  :ensure nil
+  :config (dired-listing-switches "-agho --group-directories-first"))
+#+end_src
 * File Editing
 ** TODO Tab Widths
 

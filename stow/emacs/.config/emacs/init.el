@@ -336,6 +336,10 @@
   (setq vterm-kill-buffer-on-exit t
         vterm-shell "/usr/bin/fish"))
 
+(use-package dired
+  :ensure nil
+  :config (dired-listing-switches "-agho --group-directories-first"))
+
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
 
