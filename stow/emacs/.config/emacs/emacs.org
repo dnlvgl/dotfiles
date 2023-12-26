@@ -220,11 +220,11 @@ Show possible kyebindings after short delay
 ** Theme
 
 #+BEGIN_SRC emacs-lisp
- (use-package spacemacs-theme
-  :defer t
-  :disabled
-  :init
-  (load-theme 'spacemacs-light t))
+;; (Use-package spacemacs-theme
+;;  :defer t
+;;  :disabled
+;;  :init
+;;  (load-theme 'spacemacs-light t))
 #+END_SRC
 
 #+begin_src emacs-lisp
@@ -238,7 +238,7 @@ Show possible kyebindings after short delay
 Load custom theme from the themes folder (WIP)
 
 #+begin_src emacs-lisp
-(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+;;(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 ;;(load-theme 'calcite t)
 #+end_src
 
@@ -538,7 +538,7 @@ Using dired for file management, some basic tweaks
 #+begin_src emacs-lisp
 (use-package dired
   :ensure nil
-  :config (dired-listing-switches "-agho --group-directories-first"))
+  :config (setq dired-listing-switches "-agho --group-directories-first"))
 #+end_src
 * File Editing
 ** TODO Tab Widths
@@ -791,11 +791,11 @@ Syntax Highlightning for Javascript + Typescript
 
 #+begin_src emacs-lisp
 ;; js-mode is fine instead of js2-mode as we use treesitter for syntax, so should?! be fine
-(use-package js-mode
-  :ensure nil
-  :custom
-  (js-indent-level 2)
-  (js-switch-indent-offset 2))
+;; (use-package js-mode
+;;   :ensure nil
+;;   :custom
+;;   (js-indent-level 2)
+;;   (js-switch-indent-offset 2))
 
 (use-package typescript-mode
   ;;:mode "\\.ts\\'"
@@ -885,4 +885,4 @@ alternative to undo-tree
 
 use [[https://github.com/microsoft/vscode/blob/174db5eb992d880adcc42c41d83a0e6cb6b92474/extensions/javascript/snippets/javascript.code-snippets][vscode js snippets]] 
 
-or just use predifined [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet collection]]
+or just use predifined [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet]]

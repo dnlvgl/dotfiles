@@ -100,11 +100,11 @@
 ;; use olivetti mode for writing
 (use-package olivetti )
 
-(use-package spacemacs-theme
- :defer t
- :disabled
- :init
- (load-theme 'spacemacs-light t))
+;; (Use-package spacemacs-theme
+;;  :defer t
+;;  :disabled
+;;  :init
+;;  (load-theme 'spacemacs-light t))
 
 (use-package mindre-theme
   :custom
@@ -112,7 +112,7 @@
   :config
   (load-theme 'mindre t))
 
-(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+;;(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 ;;(load-theme 'calcite t)
 
 (set-face-attribute 'default nil :font dnl/default-font :height dnl/default-font-size)
@@ -352,7 +352,7 @@
 
 (use-package dired
   :ensure nil
-  :config (dired-listing-switches "-agho --group-directories-first"))
+  :config (setq dired-listing-switches "-agho --group-directories-first"))
 
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
@@ -519,11 +519,11 @@
            (setq emmet-use-css-transform nil))))))
 
 ;; js-mode is fine instead of js2-mode as we use treesitter for syntax, so should?! be fine
-(use-package js-mode
-  :ensure nil
-  :custom
-  (js-indent-level 2)
-  (js-switch-indent-offset 2))
+;; (use-package js-mode
+;;   :ensure nil
+;;   :custom
+;;   (js-indent-level 2)
+;;   (js-switch-indent-offset 2))
 
 (use-package typescript-mode
   ;;:mode "\\.ts\\'"
