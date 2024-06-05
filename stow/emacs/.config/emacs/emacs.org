@@ -814,16 +814,20 @@ Use emmet to complete HTML abbreviations via ~C-j~. So ~div~ becomes ~<div></div
 Syntax Highlightning for Javascript + Typescript 
 
 #+begin_src emacs-lisp
-;; js-mode is fine instead of js2-mode as we use treesitter for syntax, so should?! be fine
-;; (use-package js-mode
-;;   :ensure nil
-;;   :custom
-;;   (js-indent-level 2)
-;;   (js-switch-indent-offset 2))
+(use-package typescript-ts-mode
+  :ensure t
+  :after eglot
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode))
+  :config
+  (setq typescript-ts-mode-indent-offset 4))
+#+end_src
 
-(use-package typescript-mode
-  ;;:mode "\\.ts\\'"
-  :custom (typescript-indent-level 2))
+#+begin_src emacs-lisp
+(use-package js-ts-mode
+  :ensure t
+  :after eglot
+  :mode(("\\.js\\'" . js-ts-mode)))
 #+end_src
 
 **** TODO use straight.el to be able to configure built in packages via use-package
@@ -857,18 +861,16 @@ currently it compalins that it can't install js-mode, which is already part of e
 
 ** LSP + Parser
 *** treesitter
-use treesitter to handle more complex syntax tress for better highlightning
+use treesitter to handle more complex syntax tress for better highlightning. included since emacs 29+
 
-tree-sitter-langs provides pre-compiled language bundles
+tree-auto to install treesitter major modes automatically
 #+begin_src emacs-lisp
-(use-package tree-sitter
-  :hook
-   (js-mode . tree-sitter-hl-mode)
-  (typescript-mode . tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 #+end_src
 
 **** TODO use [[https://vxlabs.com/2022/06/12/typescript-development-with-emacs-tree-sitter-and-lsp-in-2022/#ensure-for-tsx-configure-for-tree-sitter-based-indentation][tsi with treesitter]] for ts/json/scss indendation?
@@ -879,7 +881,9 @@ try something lighter with eglot
 
 #+begin_src emacs-lisp
 (use-package eglot
-  :hook ((js-mode typescript-mode) . eglot-ensure))
+  :hook ((typescript-ts-mode . eglot-ensure)
+         (tsx-ts-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure)))
 #+end_src
 
 * RSS

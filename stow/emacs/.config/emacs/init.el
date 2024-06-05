@@ -538,16 +538,18 @@
            (setq emmet-use-css-transform t)
            (setq emmet-use-css-transform nil))))))
 
-;; js-mode is fine instead of js2-mode as we use treesitter for syntax, so should?! be fine
-;; (use-package js-mode
-;;   :ensure nil
-;;   :custom
-;;   (js-indent-level 2)
-;;   (js-switch-indent-offset 2))
+(use-package typescript-ts-mode
+  :ensure t
+  :after eglot
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode))
+  :config
+  (setq typescript-ts-mode-indent-offset 4))
 
-(use-package typescript-mode
-  ;;:mode "\\.ts\\'"
-  :custom (typescript-indent-level 2))
+(use-package js-ts-mode
+  :ensure t
+  :after eglot
+  :mode(("\\.js\\'" . js-ts-mode)))
 
 (use-package lispy
   :hook ((emacs-lisp-mode . lispy-mode)
@@ -568,17 +570,17 @@
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
 
-(use-package tree-sitter
-  :hook
-   (js-mode . tree-sitter-hl-mode)
-  (typescript-mode . tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package eglot
-  :hook ((js-mode typescript-mode) . eglot-ensure))
+  :hook ((typescript-ts-mode . eglot-ensure)
+         (tsx-ts-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure)))
 
 (use-package elfeed
   :ensure t)
