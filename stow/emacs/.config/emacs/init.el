@@ -388,30 +388,28 @@
 (global-set-key [(meta shift up)]  'dnl/move-line-up)
 (global-set-key [(meta shift down)]  'dnl/move-line-down)
 
-(defun dnl/org-mode-setup ()
-  (org-indent-mode)
-  (visual-line-mode 1))
-
 (use-package org
-  :hook (org-mode . dnl/org-mode-setup)
   :config
+
+  ;;(setq org-startup-indented t)
+  
   (setq org-ellipsis " ▾")
+
   ;; set custom todo states
-   (setq org-todo-keywords 
-      '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "SOMEDAY(s)" "PROJ(p)"  "|" "DONE(d)" "CANCELLED(c)")))
+  (setq org-todo-keywords 
+        '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)"  "|" "DONE(d)")))
 
   ;; shortcut for agenda
   (global-set-key (kbd "C-c a") 'org-agenda)
+
   ;; don't show done items in agenda
   (setq org-agenda-skip-scheduled-if-done t)
 
-  ;; set to same size as visual-fill-mode TODO this could be a variable
-  ;; (setq org-tags-column 100)
+  ;; shortcut for agenda
+  (global-set-key (kbd "C-c a") 'org-agenda)
 
-  (setq org-image-actual-width nil)
-
-  ;; no indentation, all text starts at same position
-  ;; (setq org-adapt-indentation nil)
+  ;; don't show done items in agenda
+  (setq org-agenda-skip-scheduled-if-done t)
 
   ;; set source for agenda
   ;; find out why to use this ~`(,var)~ syntax
@@ -423,44 +421,28 @@
         org-confirm-babel-evaluate nil
         org-edit-src-content-indentation 0)
 
-  ;;(dnl/org-font-setup)
-
   ;; capture keybind and templates
   (define-key global-map "\C-cc" 'org-capture)
 
   ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
   ;; work tracking: https://yannesposito.com/posts/0015-how-i-use-org-mode/index.html https://writequit.org/denver-emacs/presentations/2017-04-11-time-clocking-with-org.html
   (setq org-capture-templates
-      '(
-        ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
-         "** %?")
-        ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
-         "** TODO %?")
-        ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
-         "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
-         :jump-to-captured t)
-        ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
-         "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
-)
+        '(
+          ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+           "** %?")
+          ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+           "** TODO %?")
+          ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+           "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+           :jump-to-captured t)
+          ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+           "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
 
-;; use custom bullets instead of stars for headings
-;;(use-package org-bullets
-;;  :after org
-;;  :hook (org-mode . org-bullets-mode)
-;;  :custom
-;;  (org-bullets-bullet-list '("➀" "➁" "➂" "➃" "➄" "➅" "➆" "➇" "➈" "➉")))
-  ;;(org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
-  ;;(org-bullets-bullet-list '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒" "➓")))
-
-
-;; use visual-fill-column to center org mode content
-(defun dnl/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-;;(use-package visual-fill-column
-;;  :hook (org-mode . dnl/org-mode-visual-fill))
+(use-package org-modern
+  :hook
+  (org-mode . global-org-modern-mode)
+  :custom
+  (org-modern-star nil))
 
 ;; This is needed as of Org 9.2
 (require 'org-tempo)
@@ -479,26 +461,6 @@
   "Extend =org-web-tools-inster-link-for-url= to take URL from clipboard or kill-ring"
   (interactive)
   (org-web-tools--org-link-for-url (org-web-tools--get-first-url)))
-
-(use-package org-roam
-  :after org
-  :custom (org-roam-directory "~/Sync/org/roam")
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert))
-  :config (org-roam-setup))
-
-(use-package org-roam-ui
-    :after org-roam
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
 
 (use-package magit)
 

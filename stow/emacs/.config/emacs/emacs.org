@@ -611,39 +611,31 @@ Also make it move block of code if region is selected
 
 * Org Mode
 
-Check/steal a bit of this config: https://config.daviwil.com/workflow
-
-Baseline Org Mode config. Add some custom function to run later in 
+new simple setup
 
 #+begin_src emacs-lisp
-(defun dnl/org-mode-setup ()
-  (org-indent-mode)
-  (visual-line-mode 1))
-#+end_src
-
-Baseline Org Mode config. Also require the package eventhough it should be installed by default.
-
-#+BEGIN_SRC emacs-lisp
 (use-package org
-  :hook (org-mode . dnl/org-mode-setup)
   :config
+
+  ;;(setq org-startup-indented t)
+  
   (setq org-ellipsis " ▾")
+
   ;; set custom todo states
-   (setq org-todo-keywords 
-      '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "SOMEDAY(s)" "PROJ(p)"  "|" "DONE(d)" "CANCELLED(c)")))
+  (setq org-todo-keywords 
+        '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)"  "|" "DONE(d)")))
 
   ;; shortcut for agenda
   (global-set-key (kbd "C-c a") 'org-agenda)
+
   ;; don't show done items in agenda
   (setq org-agenda-skip-scheduled-if-done t)
 
-  ;; set to same size as visual-fill-mode TODO this could be a variable
-  ;; (setq org-tags-column 100)
+  ;; shortcut for agenda
+  (global-set-key (kbd "C-c a") 'org-agenda)
 
-  (setq org-image-actual-width nil)
-
-  ;; no indentation, all text starts at same position
-  ;; (setq org-adapt-indentation nil)
+  ;; don't show done items in agenda
+  (setq org-agenda-skip-scheduled-if-done t)
 
   ;; set source for agenda
   ;; find out why to use this ~`(,var)~ syntax
@@ -655,45 +647,29 @@ Baseline Org Mode config. Also require the package eventhough it should be insta
         org-confirm-babel-evaluate nil
         org-edit-src-content-indentation 0)
 
-  ;;(dnl/org-font-setup)
-
   ;; capture keybind and templates
   (define-key global-map "\C-cc" 'org-capture)
 
   ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
   ;; work tracking: https://yannesposito.com/posts/0015-how-i-use-org-mode/index.html https://writequit.org/denver-emacs/presentations/2017-04-11-time-clocking-with-org.html
   (setq org-capture-templates
-      '(
-        ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
-         "** %?")
-        ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
-         "** TODO %?")
-        ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
-         "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
-         :jump-to-captured t)
-        ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
-         "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
-)
+        '(
+          ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+           "** %?")
+          ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+           "** TODO %?")
+          ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+           "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+           :jump-to-captured t)
+          ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+           "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
 
-;; use custom bullets instead of stars for headings
-;;(use-package org-bullets
-;;  :after org
-;;  :hook (org-mode . org-bullets-mode)
-;;  :custom
-;;  (org-bullets-bullet-list '("➀" "➁" "➂" "➃" "➄" "➅" "➆" "➇" "➈" "➉")))
-  ;;(org-bullets-bullet-list '("●" "○" "◉" "○" "●" "○" "●")))
-  ;;(org-bullets-bullet-list '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒" "➓")))
-
-
-;; use visual-fill-column to center org mode content
-(defun dnl/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-;;(use-package visual-fill-column
-;;  :hook (org-mode . dnl/org-mode-visual-fill))
-#+END_SRC
+(use-package org-modern
+  :hook
+  (org-mode . global-org-modern-mode)
+  :custom
+  (org-modern-star nil))
+#+end_src
 
 ** Block Templates
 
@@ -726,7 +702,7 @@ documentation page.
 #+end_src
 
 ** org roam notes
-#+begin_src elisp
+#+begin_src elisp :tangle no~
 (use-package org-roam
   :after org
   :custom (org-roam-directory "~/Sync/org/roam")
@@ -736,7 +712,7 @@ documentation page.
   :config (org-roam-setup))
 #+end_src
 
-#+begin_src elisp
+#+begin_src elisp :tangle no~
 (use-package org-roam-ui
     :after org-roam
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
@@ -830,8 +806,6 @@ Syntax Highlightning for Javascript + Typescript
   :mode(("\\.js\\'" . js-ts-mode)))
 #+end_src
 
-**** TODO use straight.el to be able to configure built in packages via use-package
-currently it compalins that it can't install js-mode, which is already part of emacs
 **** TODO add yasnippet with complete function definitions
 ** Lisp Stuff
 #+begin_src emacs-lisp
