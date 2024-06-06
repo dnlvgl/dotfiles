@@ -402,10 +402,14 @@
   ;; shortcut for agenda
   (global-set-key (kbd "C-c a") 'org-agenda)
 
+  ;; start agenda + calendar on monday
+  (setq org-agenda-start-on-weekday 1)
+  (setq calendar-week-start-day 1)
+  
   ;; don't show done items in agenda
   (setq org-agenda-skip-scheduled-if-done t)
 
-  ;; shortcut for agenda
+  ;; shortcut for agendab
   (global-set-key (kbd "C-c a") 'org-agenda)
 
   ;; don't show done items in agenda
