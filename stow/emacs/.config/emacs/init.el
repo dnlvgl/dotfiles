@@ -67,6 +67,9 @@
                                         (kill-line 0)
                                         (indent-according-to-mode)))
 
+(use-package god-mode
+  :bind (("<menu>" . god-local-mode)))
+
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
@@ -98,22 +101,24 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; use olivetti mode for writing
-(use-package olivetti )
-
-;; (Use-package spacemacs-theme
-;;  :defer t
-;;  :disabled
-;;  :init
-;;  (load-theme 'spacemacs-light t))
+(use-package olivetti
+  :init
+  (setq olivetti-body-width 80)
+  (setq olivetti-style 'fancy))
 
 (use-package mindre-theme
   :custom
-  (mindre-use-more-bold nil)
+  (mindre-use-more-bold t)
   :config
   (load-theme 'mindre t))
 
-;;(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-;;(load-theme 'calcite t)
+(use-package nerd-icons
+  ;; :custom
+  ;; The Nerd Font you want to use in GUI
+  ;; "Symbols Nerd Font Mono" is the default and is recommended
+  ;; but you can use any other Nerd Font if you want
+  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+  )
 
 (set-face-attribute 'default nil :font dnl/default-font :height dnl/default-font-size)
 
@@ -429,7 +434,6 @@
   (define-key global-map "\C-cc" 'org-capture)
 
   ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
-  ;; work tracking: https://yannesposito.com/posts/0015-how-i-use-org-mode/index.html https://writequit.org/denver-emacs/presentations/2017-04-11-time-clocking-with-org.html
   (setq org-capture-templates
         '(
           ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
