@@ -561,3 +561,10 @@
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
+
+(use-package gptel
+   :config
+   (setq gptel-api-key dnl/openai-api-key)
+   (setq gptel-default-mode 'org-mode)
+   (setq gptel-model "gpt-3.5-turbo")
+   )

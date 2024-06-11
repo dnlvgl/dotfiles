@@ -175,7 +175,8 @@ General rebindings
 #+END_SRC
 
 ** god mode
-<menu> is bound to caps lock
+<menu> is bound to caps lock in os settings. <menu> normally opens the m-x buffer, would be sweet to have as an actual key. what to replace the god-mode trigger with?
+<escape> already is uded as an alternative for C-g to quit menus.
 
 #+begin_src emacs-lisp
 (use-package god-mode
@@ -895,6 +896,20 @@ try something lighter with eglot
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
+#+end_src
+
+* Misc
+** LLM
+Be wrong faster
+
+[[https://systemcrafters.net/live-streams/march-31-2023/][config example]] [[https://www.armindarvish.com/post/use_emacs_as_a_chatgpt_client/][another one]]
+#+begin_src emacs-lisp
+(use-package gptel
+   :config
+   (setq gptel-api-key dnl/openai-api-key)
+   (setq gptel-default-mode 'org-mode)
+   (setq gptel-model "gpt-3.5-turbo")
+   )
 #+end_src
 
 * Stuff to check
