@@ -397,7 +397,7 @@
   :config
 
   ;;(setq org-startup-indented t)
-  
+
   (setq org-ellipsis " ▾")
 
   ;; set custom todo states
@@ -410,7 +410,7 @@
   ;; start agenda + calendar on monday
   (setq org-agenda-start-on-weekday 1)
   (setq calendar-week-start-day 1)
-  
+
   ;; don't show done items in agenda
   (setq org-agenda-skip-scheduled-if-done t)
 
@@ -434,17 +434,20 @@
   (define-key global-map "\C-cc" 'org-capture)
 
   ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
-  (setq org-capture-templates
-        '(
-          ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
-           "** %?")
-          ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
-           "** TODO %?")
-          ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
-           "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
-           :jump-to-captured t)
-          ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
-           "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
+  ;; currently loading org-capture templates from dnl-custom-vars
+  ;; create a conditional, if it's defined in custom-vars use this, else fall back to default ones
+  ;; (setq org-capture-templates
+  ;;       '(
+  ;;         ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+  ;;          "** %?")
+  ;;         ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+  ;;          "** TODO %?")
+  ;;         ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+  ;;          "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+  ;;          :jump-to-captured t)
+  ;;         ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+  ;;          "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
+  )
 
 (use-package org-modern
   :hook
@@ -517,7 +520,7 @@
   (setq typescript-ts-mode-indent-offset 4))
 
 (use-package js-ts-mode
-  :ensure t
+  :ensure nil ; derived mode
   :after eglot
   :mode(("\\.js\\'" . js-ts-mode)))
 
@@ -561,10 +564,3 @@
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
-
-(use-package gptel
-   :config
-   (setq gptel-api-key dnl/openai-api-key)
-   (setq gptel-default-mode 'org-mode)
-   (setq gptel-model "gpt-3.5-turbo")
-   )

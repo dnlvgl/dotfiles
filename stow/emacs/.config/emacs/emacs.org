@@ -635,64 +635,67 @@ Also make it move block of code if region is selected
 * Org Mode
 
 #+begin_src emacs-lisp
-(use-package org
-  :config
+  (use-package org
+    :config
 
-  ;;(setq org-startup-indented t)
+    ;;(setq org-startup-indented t)
   
-  (setq org-ellipsis " ▾")
+    (setq org-ellipsis " ▾")
 
-  ;; set custom todo states
-  (setq org-todo-keywords 
-        '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)"  "|" "DONE(d)")))
+    ;; set custom todo states
+    (setq org-todo-keywords 
+          '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)"  "|" "DONE(d)")))
 
-  ;; shortcut for agenda
-  (global-set-key (kbd "C-c a") 'org-agenda)
+    ;; shortcut for agenda
+    (global-set-key (kbd "C-c a") 'org-agenda)
 
-  ;; start agenda + calendar on monday
-  (setq org-agenda-start-on-weekday 1)
-  (setq calendar-week-start-day 1)
+    ;; start agenda + calendar on monday
+    (setq org-agenda-start-on-weekday 1)
+    (setq calendar-week-start-day 1)
   
-  ;; don't show done items in agenda
-  (setq org-agenda-skip-scheduled-if-done t)
+    ;; don't show done items in agenda
+    (setq org-agenda-skip-scheduled-if-done t)
 
-  ;; shortcut for agendab
-  (global-set-key (kbd "C-c a") 'org-agenda)
+    ;; shortcut for agendab
+    (global-set-key (kbd "C-c a") 'org-agenda)
 
-  ;; don't show done items in agenda
-  (setq org-agenda-skip-scheduled-if-done t)
+    ;; don't show done items in agenda
+    (setq org-agenda-skip-scheduled-if-done t)
 
-  ;; set source for agenda
-  ;; find out why to use this ~`(,var)~ syntax
-  (setq org-agenda-files `(,dnl/org-agenda-path))
+    ;; set source for agenda
+    ;; find out why to use this ~`(,var)~ syntax
+    (setq org-agenda-files `(,dnl/org-agenda-path))
 
-  ;; theme source blocks like in native mode
-  (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-confirm-babel-evaluate nil
-        org-edit-src-content-indentation 0)
+    ;; theme source blocks like in native mode
+    (setq org-src-fontify-natively t
+          org-src-tab-acts-natively t
+          org-confirm-babel-evaluate nil
+          org-edit-src-content-indentation 0)
 
-  ;; capture keybind and templates
-  (define-key global-map "\C-cc" 'org-capture)
+    ;; capture keybind and templates
+    (define-key global-map "\C-cc" 'org-capture)
 
-  ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
-  (setq org-capture-templates
-        '(
-          ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
-           "** %?")
-          ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
-           "** TODO %?")
-          ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
-           "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
-           :jump-to-captured t)
-          ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
-           "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
+    ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
+    ;; currently loading org-capture templates from dnl-custom-vars
+    ;; create a conditional, if it's defined in custom-vars use this, else fall back to default ones
+    ;; (setq org-capture-templates
+    ;;       '(
+    ;;         ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+    ;;          "** %?")
+    ;;         ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+    ;;          "** TODO %?")
+    ;;         ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+    ;;          "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+    ;;          :jump-to-captured t)
+    ;;         ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+    ;;          "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
+    )
 
-(use-package org-modern
-  :hook
-  (org-mode . global-org-modern-mode)
-  :custom
-  (org-modern-star nil))
+  (use-package org-modern
+    :hook
+    (org-mode . global-org-modern-mode)
+    :custom
+    (org-modern-star nil))
 #+end_src
 
 ** Block Templates
@@ -825,7 +828,7 @@ Syntax Highlightning for Javascript + Typescript
 
 #+begin_src emacs-lisp
 (use-package js-ts-mode
-  :ensure t
+  :ensure nil ; derived mode
   :after eglot
   :mode(("\\.js\\'" . js-ts-mode)))
 #+end_src
@@ -903,7 +906,7 @@ try something lighter with eglot
 Be wrong faster
 
 [[https://systemcrafters.net/live-streams/march-31-2023/][config example]] [[https://www.armindarvish.com/post/use_emacs_as_a_chatgpt_client/][another one]]
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no~
 (use-package gptel
    :config
    (setq gptel-api-key dnl/openai-api-key)
