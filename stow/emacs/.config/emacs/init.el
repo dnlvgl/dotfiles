@@ -34,7 +34,7 @@
 
 (require 'use-package)
 ;; always download packages if they don't already exist
-(setq use-package-always-ensure t)
+;; (setq use-package-always-ensure t)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -126,7 +126,6 @@
 (set-face-attribute 'fixed-pitch nil :font dnl/default-font :height  dnl/default-font-size)
 
 (use-package emojify
-  :ensure t
   :hook (after-init . global-emojify-mode))
 
 (use-package doom-modeline
@@ -449,6 +448,10 @@
   ;;          "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
   )
 
+;; capture template for work looks smth like this
+;; ("w" "Worklog" entry (file+datetree "~/Documents/org/worklog.org")
+;;  "* %^{Heading}")))
+
 (use-package org-modern
   :hook
   (org-mode . global-org-modern-mode)
@@ -465,8 +468,7 @@
 (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
 (add-to-list 'org-structure-template-alist '("json" . "src json"))
 
-(use-package org-web-tools
-  :ensure t)
+(use-package org-web-tools)
 
 (defun dnl/org-web-tools-insert-link-for-clipboard-url ()
   "Extend =org-web-tools-inster-link-for-url= to take URL from clipboard or kill-ring"
@@ -476,7 +478,6 @@
 (use-package magit)
 
 (use-package diff-hl
-  :ensure t
   :config
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
@@ -512,7 +513,6 @@
            (setq emmet-use-css-transform nil))))))
 
 (use-package typescript-ts-mode
-  :ensure t
   :after eglot
   :mode (("\\.ts\\'" . typescript-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
@@ -555,12 +555,10 @@
          (tsx-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)))
 
-(use-package elfeed
-  :ensure t)
+(use-package elfeed)
 
 
 (use-package elfeed-org
-  :ensure t
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
