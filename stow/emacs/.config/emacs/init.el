@@ -376,69 +376,33 @@
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
-;; (defun dnl/move-line-up ()                                
-;;   "Move up the current line."                             
-;;   (interactive)                                           
-;;   (transpose-lines 1)                                     
-;;   (forward-line -2)                                       
-;;   (indent-according-to-mode))                             
-                                                          
-;; (defun dnl/move-line-down ()                              
-;;   "Move down the current line."                           
-;;   (interactive)                                           
-;;   (forward-line 1)                                        
-;;   (transpose-lines 1)                                     
-;;   (forward-line -1)                                       
-;;   (indent-according-to-mode))
-
 (use-package move-text
+;; meta shift to not collide with orgmode                 
   :bind(("M-S-<up>" . move-text-up)
         ("M-S-<down>" . move-text-down)))
-                                                          
-;; meta shift to not collide with orgmode                 
-;;(global-set-key [(meta shift up)]  'dnl/move-line-up)     
-;;(global-set-key [(meta shift down)]  'dnl/move-line-down)
 
 (use-package org
+  :bind(("C-c a" . org-agenda)
+        ("C-c c" . org-capture))
+  :custom
+  ;; Visual settings
+  (org-ellipsis " ▾")
+  ;; Set custom TODO states
+  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)" "|" "DONE(d)")))
+  ;; Start agenda + calendar on Monday
+  (org-agenda-start-on-weekday 1)
+  (calendar-week-start-day 1)
+  ;; Don't show done items in agenda
+  (org-agenda-skip-scheduled-if-done t)
+  ;; Set source for agenda
+  ;; Find out why to use this `(,var)` syntax
+  (org-agenda-files `(,dnl/org-agenda-path))
+  ;; Theme source blocks like in native mode
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0)
   :config
-
-  ;;(setq org-startup-indented t)
-
-  (setq org-ellipsis " ▾")
-
-  ;; set custom todo states
-  (setq org-todo-keywords 
-        '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)"  "|" "DONE(d)")))
-
-  ;; shortcut for agenda
-  (global-set-key (kbd "C-c a") 'org-agenda)
-
-  ;; start agenda + calendar on monday
-  (setq org-agenda-start-on-weekday 1)
-  (setq calendar-week-start-day 1)
-
-  ;; don't show done items in agenda
-  (setq org-agenda-skip-scheduled-if-done t)
-
-  ;; shortcut for agendab
-  (global-set-key (kbd "C-c a") 'org-agenda)
-
-  ;; don't show done items in agenda
-  (setq org-agenda-skip-scheduled-if-done t)
-
-  ;; set source for agenda
-  ;; find out why to use this ~`(,var)~ syntax
-  (setq org-agenda-files `(,dnl/org-agenda-path))
-
-  ;; theme source blocks like in native mode
-  (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-confirm-babel-evaluate nil
-        org-edit-src-content-indentation 0)
-
-  ;; capture keybind and templates
-  (define-key global-map "\C-cc" 'org-capture)
-
   ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
   ;; currently loading org-capture templates from dnl-custom-vars
   ;; create a conditional, if it's defined in custom-vars use this, else fall back to default ones
@@ -454,10 +418,6 @@
   ;;         ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
   ;;          "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
   )
-
-;; capture template for work looks smth like this
-;; ("w" "Worklog" entry (file+datetree "~/Documents/org/worklog.org")
-;;  "* %^{Heading}")))
 
 (use-package org-modern
   :hook
