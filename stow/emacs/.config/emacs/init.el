@@ -15,7 +15,10 @@
  (defvar dnl/emacs-conf-path "~/.config/emacs/")
  (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
  (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
- (defvar dnl/default-font "Iosevka SS08")
+;; Try Fira for Larger Screen slowness
+;; else try: https://www.reddit.com/r/emacs/comments/zgp6kw/gui_emacs_weird_the_bigger_the_frame_size_is_the/
+;; (defvar dnl/default-font "Iosevka SS08")
+ (defvar dnl/default-font "Fira Code")
  (defvar dnl/indent-width 2)
 
 (require 'package)
@@ -85,6 +88,9 @@
 (set-fringe-mode 10)        ;; Give some breathing room
 (setq ring-bell-function 'ignore) ;; no audio bell
 (blink-cursor-mode 0)       ;; no blinking cursor
+
+;; enable right click context menu
+(context-menu-mode t)
 
 ;; show line and column numbers globaly
 (column-number-mode)
@@ -231,9 +237,6 @@
 ;; e.g.: searching "region indent" will match with "indent-region"
 (use-package orderless
   :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
@@ -373,24 +376,28 @@
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
-(defun dnl/move-line-up ()
-  "Move up the current line."
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2)
-  (indent-according-to-mode))
+;; (defun dnl/move-line-up ()                                
+;;   "Move up the current line."                             
+;;   (interactive)                                           
+;;   (transpose-lines 1)                                     
+;;   (forward-line -2)                                       
+;;   (indent-according-to-mode))                             
+                                                          
+;; (defun dnl/move-line-down ()                              
+;;   "Move down the current line."                           
+;;   (interactive)                                           
+;;   (forward-line 1)                                        
+;;   (transpose-lines 1)                                     
+;;   (forward-line -1)                                       
+;;   (indent-according-to-mode))
 
-(defun dnl/move-line-down ()
-  "Move down the current line."
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-;; meta shift to not collide with orgmode
-(global-set-key [(meta shift up)]  'dnl/move-line-up)
-(global-set-key [(meta shift down)]  'dnl/move-line-down)
+(use-package move-text
+  :bind(("M-S-<up>" . move-text-up)
+        ("M-S-<down>" . move-text-down)))
+                                                          
+;; meta shift to not collide with orgmode                 
+;;(global-set-key [(meta shift up)]  'dnl/move-line-up)     
+;;(global-set-key [(meta shift down)]  'dnl/move-line-down)
 
 (use-package org
   :config

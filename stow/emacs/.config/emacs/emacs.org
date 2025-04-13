@@ -111,7 +111,10 @@ Setup misc variables to use later.
  (defvar dnl/emacs-conf-path "~/.config/emacs/")
  (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
  (defvar dnl/emacs-conf-init-path "~/.config/.emacs/init.el")
- (defvar dnl/default-font "Iosevka SS08")
+;; Try Fira for Larger Screen slowness
+;; else try: https://www.reddit.com/r/emacs/comments/zgp6kw/gui_emacs_weird_the_bigger_the_frame_size_is_the/
+;; (defvar dnl/default-font "Iosevka SS08")
+ (defvar dnl/default-font "Fira Code")
  (defvar dnl/indent-width 2)
 
 #+END_SRC
@@ -207,6 +210,9 @@ Show possible kyebindings after short delay
 (set-fringe-mode 10)        ;; Give some breathing room
 (setq ring-bell-function 'ignore) ;; no audio bell
 (blink-cursor-mode 0)       ;; no blinking cursor
+
+;; enable right click context menu
+(context-menu-mode t)
 
 ;; show line and column numbers globaly
 (column-number-mode)
@@ -404,9 +410,6 @@ Currently disabled to test out vertico, consult, embark, orderless, see below
 ;; e.g.: searching "region indent" will match with "indent-region"
 (use-package orderless
   :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
@@ -531,7 +534,7 @@ Switches cursor automatically to new splitted window
   (dashboard-setup-startup-hook))
 #+end_src
 
-** TODO Teminal
+** Teminal
 
 Use Vterm, faster than term
 neded to install ~sudo dnf install cmake libtool~
@@ -563,9 +566,7 @@ Using dired for file management, some basic tweaks
   :config (setq dired-listing-switches "-agho --group-directories-first"))
 #+end_src
 * File Editing
-** TODO Tab Widths
-
-Check how this is doubled with dnl/indent-width
+** Tab Widths
 
 Default to an indentation size of 2 spaces since it's the norm for pretty much every language I use.
 
@@ -606,29 +607,13 @@ Highlight brackets, Autoclose is highly annoying in org mode
 (show-paren-mode 1)
 #+END_SRC
 
-** TODO Move current line of code up and down
-Also make it move block of code if region is selected
+** Move current line or region up and down
 
 #+BEGIN_SRC emacs-lisp
-(defun dnl/move-line-up ()
-  "Move up the current line."
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2)
-  (indent-according-to-mode))
-
-(defun dnl/move-line-down ()
-  "Move down the current line."
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-;; meta shift to not collide with orgmode
-(global-set-key [(meta shift up)]  'dnl/move-line-up)
-(global-set-key [(meta shift down)]  'dnl/move-line-down)
-
+(use-package move-text
+;; meta shift to not collide with orgmode                 
+  :bind(("M-S-<up>" . move-text-up)
+        ("M-S-<down>" . move-text-down)))
 #+END_SRC
 
 * Org Mode
