@@ -361,6 +361,9 @@
   :ensure nil
   :config (setq dired-listing-switches "-agho --group-directories-first"))
 
+(when (eq system-type 'darwin)
+  (setq insert-directory-program "/opt/homebrew/bin/gls"))
+
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
 

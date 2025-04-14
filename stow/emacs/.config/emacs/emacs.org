@@ -564,6 +564,9 @@ Using dired for file management, some basic tweaks
 (use-package dired
   :ensure nil
   :config (setq dired-listing-switches "-agho --group-directories-first"))
+
+(when (eq system-type 'darwin)
+  (setq insert-directory-program "/opt/homebrew/bin/gls"))
 #+end_src
 * File Editing
 ** Tab Widths
