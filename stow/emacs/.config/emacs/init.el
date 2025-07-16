@@ -364,6 +364,22 @@
 (when (eq system-type 'darwin)
   (setq insert-directory-program "/opt/homebrew/bin/gls"))
 
+(use-package gptel
+  :ensure nil
+  :config
+  ;; Remove default backend
+  (setq gptel--known-backends nil))
+
+;; Internal OpenAI proxy, only reachable from VPN
+(gptel-make-azure "Azure-1"             ; Name, whatever you'd like
+  :protocol "https"                     ; Optional -- https is the default
+  :host dnl/llm-azure-proxy-url
+  ;;:host "openaiproxy.k.fal.deepl.dev"
+  :endpoint "/v1/chat/completions"      ; Specify endpoint if needed
+  :stream t                             ; Enable streaming responses
+  :key "foo"                            ; Replace with your Azure API key
+  :models '("o1" "o3"))                 ; Specify the model(s) you want to use
+
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
 

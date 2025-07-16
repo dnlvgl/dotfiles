@@ -568,6 +568,24 @@ Using dired for file management, some basic tweaks
 (when (eq system-type 'darwin)
   (setq insert-directory-program "/opt/homebrew/bin/gls"))
 #+end_src
+** LLMs
+
+#+begin_src emacs-lisp
+(use-package gptel
+  :ensure nil
+  :config
+  ;; Remove default backend
+  (setq gptel--known-backends nil))
+
+;; Internal OpenAI proxy, only reachable from VPN
+(gptel-make-azure "Azure-1"             ; Name, whatever you'd like
+  :protocol "https"                     ; Optional -- https is the default
+  :host dnl/llm-azure-proxy-url         ; Don't want to leak the internal url
+  :endpoint "/v1/chat/completions"      ; Specify endpoint if needed
+  :stream t                             ; Enable streaming responses
+  :key "foo"                            ; Replace with your Azure API key
+  :models '("o1" "o3"))                 ; Specify the model(s) you want to use
+#+end_src
 * File Editing
 ** Tab Widths
 
