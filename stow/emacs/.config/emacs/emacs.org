@@ -137,7 +137,7 @@ Setup misc variables to use later.
 
 (require 'use-package)
 ;; always download packages if they don't already exist
-;; (setq use-package-always-ensure t)
+(setq use-package-always-ensure t)
 #+END_SRC
 
 * Keyboard Bindings
@@ -235,8 +235,7 @@ Show possible kyebindings after short delay
   (setq olivetti-style 'fancy))
 #+END_SRC
 
-**
-Theme
+** Theme
 
 #+BEGIN_SRC emacs-lisp :tangle no~
  (use-package spacemacs-theme
@@ -246,6 +245,7 @@ Theme
 
 #+begin_src emacs-lisp
 (use-package mindre-theme
+  :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)
   :custom
   (mindre-use-more-bold t)
   :config
@@ -283,10 +283,10 @@ update with mindre as basis but keep color choices + larger and bold org heading
 
 Use emojis everywhere
 
-#+begin_src emacs-lisp
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
-#+end_src
+;;#+begin_src emacs-lisp
+;;(use-package emojify
+;;  :hook (after-init . global-emojify-mode))
+;;#+end_src
    
 ** Modeline
 
@@ -514,6 +514,15 @@ Switches cursor automatically to new splitted window
 (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 #+end_src
 
+
+Move around with avy. Lots of feature, lets start simple with jumping to chars
+Would be cool to have a transient menu
+#+begin_src emacs-lisp
+(use-package avy
+      :bind
+    (("C-a" . avy-goto-char)))
+#+end_src
+
 ** Dashboard
 #+begin_src emacs-lisp
 (use-package dashboard
@@ -570,8 +579,10 @@ Using dired for file management, some basic tweaks
 #+end_src
 ** LLMs
 
-#+begin_src emacs-lisp
-(use-package gptel
+Be wrong faster
+
+#+begin_src emacs-lisp :tangle no
+(use-package gptel 
   :ensure nil
   :config
   ;; Remove default backend
@@ -647,12 +658,14 @@ Highlight brackets, Autoclose is highly annoying in org mode
   ;; Visual settings
   (org-ellipsis " ▾")
   ;; Set custom TODO states
-  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)" "|" "DONE(d)")))
+  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)" "|" "DONE(d)" "DELEGATED(g)")))
   ;; Start agenda + calendar on Monday
   (org-agenda-start-on-weekday 1)
   (calendar-week-start-day 1)
   ;; Don't show done items in agenda
   (org-agenda-skip-scheduled-if-done t)
+  ;; Add timestamp once task is done
+  (org-log-done t)
   ;; Set source for agenda
   ;; Find out why to use this `(,var)` syntax
   (org-agenda-files `(,dnl/org-agenda-path))
@@ -797,9 +810,9 @@ Syntax Highlightning for Javascript + Typescript
 ** Lisp Stuff
 #+begin_src emacs-lisp
 
-(use-package lispy
-  :hook ((emacs-lisp-mode . lispy-mode)
-         (scheme-mode . lispy-mode)))
+;;(use-package lispy
+;;  :hook ((emacs-lisp-mode . lispy-mode)
+;;         (scheme-mode . lispy-mode)))
 
 
 ;; fedora defaults to older guile 2 version, need to explicitly set the used guile version
@@ -860,19 +873,6 @@ try something lighter with eglot
 #+end_src
 
 * Misc
-** LLM
-Be wrong faster
-
-[[https://systemcrafters.net/live-streams/march-31-2023/][config example]] [[https://www.armindarvish.com/post/use_emacs_as_a_chatgpt_client/][another one]]
-#+begin_src emacs-lisp :tangle no~
-(use-package gptel
-   :config
-   (setq gptel-api-key dnl/openai-api-key)
-   (setq gptel-default-mode 'org-mode)
-   (setq gptel-model "gpt-3.5-turbo")
-   )
-#+end_src
-
 * Stuff to check
 ** Config Examples
 *** https://github.com/alexpeits/emacs.d/blob/master/configuration.org

@@ -37,7 +37,7 @@
 
 (require 'use-package)
 ;; always download packages if they don't already exist
-;; (setq use-package-always-ensure t)
+(setq use-package-always-ensure t)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -113,6 +113,7 @@
   (setq olivetti-style 'fancy))
 
 (use-package mindre-theme
+  :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)
   :custom
   (mindre-use-more-bold t)
   :config
@@ -130,9 +131,6 @@
 
 ;; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil :font dnl/default-font :height  dnl/default-font-size)
-
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
@@ -326,6 +324,10 @@
     (other-window 1))
 (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
+(use-package avy
+      :bind
+    (("C-a" . avy-goto-char)))
+
 (use-package dashboard
   ;; only show dasboard if opening emacs without file
   :if (< (length command-line-args) 2)
@@ -364,22 +366,6 @@
 (when (eq system-type 'darwin)
   (setq insert-directory-program "/opt/homebrew/bin/gls"))
 
-(use-package gptel
-  :ensure nil
-  :config
-  ;; Remove default backend
-  (setq gptel--known-backends nil))
-
-;; Internal OpenAI proxy, only reachable from VPN
-(gptel-make-azure "Azure-1"             ; Name, whatever you'd like
-  :protocol "https"                     ; Optional -- https is the default
-  :host dnl/llm-azure-proxy-url
-  ;;:host "openaiproxy.k.fal.deepl.dev"
-  :endpoint "/v1/chat/completions"      ; Specify endpoint if needed
-  :stream t                             ; Enable streaming responses
-  :key "foo"                            ; Replace with your Azure API key
-  :models '("o1" "o3"))                 ; Specify the model(s) you want to use
-
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
 
@@ -407,12 +393,14 @@
   ;; Visual settings
   (org-ellipsis " ▾")
   ;; Set custom TODO states
-  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)" "|" "DONE(d)")))
+  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)" "|" "DONE(d)" "DELEGATED(g)")))
   ;; Start agenda + calendar on Monday
   (org-agenda-start-on-weekday 1)
   (calendar-week-start-day 1)
   ;; Don't show done items in agenda
   (org-agenda-skip-scheduled-if-done t)
+  ;; Add timestamp once task is done
+  (org-log-done t)
   ;; Set source for agenda
   ;; Find out why to use this `(,var)` syntax
   (org-agenda-files `(,dnl/org-agenda-path))
@@ -510,9 +498,9 @@
   :after eglot
   :mode(("\\.js\\'" . js-ts-mode)))
 
-(use-package lispy
-  :hook ((emacs-lisp-mode . lispy-mode)
-         (scheme-mode . lispy-mode)))
+;;(use-package lispy
+;;  :hook ((emacs-lisp-mode . lispy-mode)
+;;         (scheme-mode . lispy-mode)))
 
 
 ;; fedora defaults to older guile 2 version, need to explicitly set the used guile version
