@@ -516,12 +516,13 @@ Switches cursor automatically to new splitted window
 
 
 Move around with avy. Lots of feature, lets start simple with jumping to chars
-Would be cool to have a transient menu
+Would be cool to have a
 #+begin_src emacs-lisp
 (use-package avy
       :bind
-    (("C-a" . avy-goto-char)))
+    (("C-z" . avy-goto-char)))
 #+end_src
+
 
 ** Dashboard
 #+begin_src emacs-lisp

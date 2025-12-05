@@ -326,7 +326,7 @@
 
 (use-package avy
       :bind
-    (("C-a" . avy-goto-char)))
+    (("C-z" . avy-goto-char)))
 
 (use-package dashboard
   ;; only show dasboard if opening emacs without file
