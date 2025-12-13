@@ -3,3 +3,4 @@ ssh/
 # vim plugins are git repos
 **/dot-vim/plugged/**
 **/package.retry
+stow/bin/.local/bin/claude

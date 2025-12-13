@@ -302,11 +302,22 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+;;(use-package corfu
+  ;;:custom
+  ;;(corfu-auto t)
+  ;;:init
+  ;;(global-corfu-mode))
+
 (use-package corfu
-  :custom
-  (corfu-auto t)
-  :init
-  (global-corfu-mode))
+  :hook (after-init . global-corfu-mode)
+  :bind (:map corfu-map ("<tab>" . corfu-complete))
+  :config
+  (setq tab-always-indent 'complete)
+  (setq corfu-preview-current nil)
+  (setq corfu-min-width 20)
+
+  (setq corfu-popupinfo-delay '(1.25 . 0.5))
+  (corfu-popupinfo-mode 1)) ; shows documentation after `corfu-popupinfo-delay'
 
 (windmove-default-keybindings)
 
