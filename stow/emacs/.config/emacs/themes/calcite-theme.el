@@ -2,6 +2,7 @@
   "Distractionless light theme with minimal syntax highlighting")
 
 ;; use `M-x list-faces-display` to check which faces to customize
+;; mindre-theme for some inspiration https://github.com/erikbackman/mindre-theme/blob/master/mindre-theme.el
 
 (let ((fg "#424242") ;;TODO better name
       (bg "#f1f1f1") ;; TODO better name
@@ -48,12 +49,13 @@
    `(line-number ((t (:background ,bg :foreground: ,fg ))))
    `(line-number-current-line ((t (:background ,bg :foreground ,purple ))))
    `(link ((t (:foreground ,fg))))
+   `(marginalia-documentation ((t (:inherit completions-annotations :underline nil))))
    `(minibuffer-prompt ((t (:foreground ,fg :weight bold))))
-   ;; `(mode-line ((t (:background ,bg :foreground ,fg :height 0.8))))
-   ;; `(mode-line-buffer ((t (:foreground ,fg :weight bold))))
-   ;; `(mode-line-inactive ((t (:background ,bg :foreground ,bg :height 0.8))))
-   ;; `(mode-line-minor-mode ((t (:weight ultra-light))))
-   ;; `(modeline ((t (:background ,bg :foreground ,fg :height 0.8))))
+   `(mode-line ((t (:background ,bg :foreground ,fg :height 0.8))))
+   `(mode-line-buffer ((t (:foreground ,fg :weight bold))))
+   `(mode-line-inactive ((t (:background ,bg :foreground ,bg :height 0.8))))
+   `(mode-line-minor-mode ((t (:weight ultra-light))))
+   `(modeline ((t (:background ,bg :foreground ,fg :height 0.8))))
    `(org-agenda-date ((t (:foreground ,fg :height 1.2))))
    `(org-agenda-date-today ((t (:foreground ,fg :weight bold :height 1.4))))
    `(org-agenda-date-weekend ((t (:foreground ,fg :weight normal))))
@@ -69,14 +71,14 @@
    `(org-done ((t (:foreground ,green))))
    `(org-ellipsis ((t (:foreground ,fg))))
    `(org-hide ((t (:foreground ,bg))))
-   `(org-level-1 ((t (:foreground ,green :weight semi-bold :height 1.1))))
-   `(org-level-2 ((t (:foreground ,green :weight semi-bold :height 1.1))))
-   `(org-level-3 ((t (:foreground ,green :weight semi-bold :height 1.1))))
-   `(org-level-4 ((t (:foreground ,green :weight semi-bold :height 1.1))))
-   `(org-level-5 ((t (:foreground ,green :weight semi-bold :height 1.1))))
-   `(org-level-6 ((t (:foreground ,green :weight semi-bold :height 1.1))))
-   `(org-level-7 ((t (:foreground ,green :weight semi-bold :height 1.1))))
-   `(org-level-8 ((t (:foreground ,green :weight semi-bold :height 1.1))))
+   `(org-level-1 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
+   `(org-level-2 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
+   `(org-level-3 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
+   `(org-level-4 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
+   `(org-level-5 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
+   `(org-level-6 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
+   `(org-level-7 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
+   `(org-level-8 ((t (:foreground ,purple :weight semi-bold :height 1.1))))
    `(org-link ((t (:foreground ,fg :underline t))))
    `(org-meta-line ((t (:foreground ,fg)))) 
    `(org-quote ((t (:foreground ,fg :slant italic :inherit org-block))))
@@ -86,11 +88,11 @@
    `(org-todo ((t (:foreground ,purple :background, purple-light))))
    `(org-verse ((t (:inherit org-block :slant italic))))
    `(region ((t (:background ,purple-light :foreground ,fg))))
-   `(slime-repl-inputed-output-face ((t (:foreground ,fg))))
+   `(show-paren-match ((t (:background ,purple-light :foreground ,fg))))
    `(vertico-current ((t (:background ,purple-light :foreground ,fg))))
    `(whitespace-line ((t (:background ,purple :foreground ,fg))))
    ))
 
 (provide-theme 'calcite)
 
-(provide 'calcite-theme)
+;;(provide 'calcite-theme)

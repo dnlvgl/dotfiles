@@ -112,12 +112,30 @@
   (setq olivetti-body-width 80)
   (setq olivetti-style 'fancy))
 
+(use-package spacemacs-theme
+ ;;:init
+ ;;(load-theme 'spacemacs-dark t)
+ )
+
+(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+;;(load-theme 'calcite t)
+
 (use-package mindre-theme
   :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)
   :custom
   (mindre-use-more-bold t)
-  :config
-  (load-theme 'mindre t))
+  ;;:config
+  ;;(load-theme 'mindre t)
+  )
+
+(use-package auto-dark
+  :custom
+  ;; list 1. dark theme 2. light theme
+  (auto-dark-themes '((spacemacs-dark) (calcite)))
+  (auto-dark-polling-interval-seconds 5)
+  (auto-dark-allow-osascript nil)
+  (auto-dark-allow-powershell nil)
+  :init (auto-dark-mode))
 
 (use-package nerd-icons
   ;; :custom

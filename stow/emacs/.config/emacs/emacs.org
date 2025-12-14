@@ -237,19 +237,43 @@ Show possible kyebindings after short delay
 
 ** Theme
 
-#+BEGIN_SRC emacs-lisp :tangle no~
+#+BEGIN_SRC emacs-lisp
  (use-package spacemacs-theme
-  :init
-  (load-theme 'spacemacs-dark t))
+  ;;:init
+  ;;(load-theme 'spacemacs-dark t)
+  )
 #+END_SRC
+
+Load custom theme from the themes folder (WIP)
+update with mindre as basis but keep color choices + larger and bold org headings
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+;;(load-theme 'calcite t)
+#+end_src
 
 #+begin_src emacs-lisp
 (use-package mindre-theme
   :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)
   :custom
   (mindre-use-more-bold t)
-  :config
-  (load-theme 'mindre t))
+  ;;:config
+  ;;(load-theme 'mindre t)
+  )
+#+end_src
+
+Switch theme according to system theme
+Linux: current used Emacs 30.2 uses GTK3 Theme and needs e.g. [[https://extensions.gnome.org/extension/4998/legacy-gtk3-theme-scheme-auto-switcher/][Legacy GTK3 Switcher Extension]]
+Mindre does not want to load on switch, but also from M-x load-theme
+
+#+begin_src emacs-lisp
+(use-package auto-dark
+  :custom
+  ;; list 1. dark theme 2. light theme
+  (auto-dark-themes '((spacemacs-dark) (calcite)))
+  (auto-dark-polling-interval-seconds 5)
+  (auto-dark-allow-osascript nil)
+  (auto-dark-allow-powershell nil)
+  :init (auto-dark-mode))
 #+end_src
 
 Icons similiar to all-the-icons, e.g used by doom-modeline
@@ -262,13 +286,6 @@ Icons similiar to all-the-icons, e.g used by doom-modeline
   ;; but you can use any other Nerd Font if you want
   ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
   )
-#+end_src
-
-Load custom theme from the themes folder (WIP)
-update with mindre as basis but keep color choices + larger and bold org headings
-#+begin_src emacs-lisp :tangle no~
-(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-(load-theme 'calcite t)
 #+end_src
 
 ** Font
