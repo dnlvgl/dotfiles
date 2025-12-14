@@ -118,7 +118,7 @@
  )
 
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-;;(load-theme 'calcite t)
+(load-theme 'calcite t)
 
 (use-package mindre-theme
   :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)

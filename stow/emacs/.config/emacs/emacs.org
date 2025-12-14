@@ -248,7 +248,7 @@ Load custom theme from the themes folder (WIP)
 update with mindre as basis but keep color choices + larger and bold org headings
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-;;(load-theme 'calcite t)
+(load-theme 'calcite t)
 #+end_src
 
 #+begin_src emacs-lisp
