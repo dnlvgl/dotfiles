@@ -551,7 +551,6 @@ Would be cool to have a
     (("C-z" . avy-goto-char)))
 #+end_src
 
-
 ** Dashboard
 #+begin_src emacs-lisp
 (use-package dashboard
