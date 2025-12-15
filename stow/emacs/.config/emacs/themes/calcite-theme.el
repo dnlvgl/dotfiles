@@ -28,6 +28,8 @@
    `(diff-hl-change ((t (:background ,blue :foreground ,blue ))))
    `(diff-hl-delete ((t (:background ,red :foreground ,red))))
    `(diff-hl-insert ((t (:background ,green :foreground, green ))))
+   ;;want to see non active windows`(doom-modeline-bar-inactive ((t (:background ,bg :foreground, purple-light ))))
+   `(doom-modeline-buffer-modified ((t (:background ,bg :foreground, purple ))))
    ;; `(font-latex-bold-face ((t (:foreground ,fg))))
    ;; `(font-latex-italic-face ((t (:foreground ,fg :slant italic))))
    ;; `(font-latex-match-reference-keywords ((t (:foreground ,fg))))
