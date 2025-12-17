@@ -14,6 +14,8 @@
       (purple "#523c79")
       (purple-light "#e8e3f0"))
 
+
+  ;; Todo: org calendar, magit, mute line numbers, center org tags
   (custom-theme-set-faces
    'calcite
    
