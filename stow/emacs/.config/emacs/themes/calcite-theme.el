@@ -15,7 +15,7 @@
       (purple-light "#e8e3f0"))
 
 
-  ;; Todo: org calendar, magit, mute line numbers, center org tags
+  ;; Todo: magit, mute line numbers, center org tags
   (custom-theme-set-faces
    'calcite
    
@@ -68,6 +68,7 @@
    `(orderless-match-face-1 ((t (:background ,bg :foreground ,green :weight bold))))
    `(orderless-match-face-2 ((t (:background ,bg :foreground ,blue :weight bold))))
    `(orderless-match-face-3 ((t (:background ,bg :foreground ,cyan :weight bold))))
+   `(org-agenda-clocking ((t (:foreground ,fg :background ,purple-light))))
    `(org-agenda-date ((t (:foreground ,fg))))
    `(org-agenda-date-today ((t (:foreground ,fg :weight bold))))
    `(org-agenda-date-weekend ((t (:foreground ,fg :weight normal))))
@@ -78,6 +79,7 @@
    `(org-block-begin-line ((t (:foreground ,purple-light))))
    `(org-block-end-line ((t (:foreground ,purple-light))))
    `(org-date ((t (:foreground ,fg) :underline)))
+   `(org-date-selected ((t (:foreground ,bg :background ,purple))))
    `(org-document-info-keyword ((t (:foreground ,fg))))
    `(org-document-title ((t (:foreground ,purple :height 1.0 :underline nil))))
    `(org-done ((t (:foreground ,green))))
@@ -101,6 +103,7 @@
    `(org-todo ((t (:foreground ,purple :background, purple-light))))
    `(org-verse ((t (:inherit org-block :slant italic))))
    `(region ((t (:background ,purple-light :foreground ,fg))))
+   `(secondary-selection ((t (:background ,bg :foreground ,green))))
    `(show-paren-match ((t (:background ,purple-light :foreground ,fg))))
    `(vertico-current ((t (:background ,purple-light :foreground ,fg))))
    `(whitespace-line ((t (:background ,purple :foreground ,fg))))
