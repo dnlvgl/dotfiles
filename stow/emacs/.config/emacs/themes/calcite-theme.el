@@ -5,6 +5,7 @@
 ;; mindre-theme for some inspiration https://github.com/erikbackman/mindre-theme/blob/master/mindre-theme.el
 
 (let ((fg "#424242") ;;TODO better name
+      (fg-muted "#9a9a9a")
       (bg "#f1f1f1") ;; TODO better name
       (blue "#008ec4")
       (green "#10a778")
@@ -53,8 +54,8 @@
    `(fringe ((t (:background ,bg ))))
    ;;`(highlight ((t (:background ,purple-light :foreground ,fg))))
    `(isearch ((t (:background ,purple-light :foreground ,fg))))
-   `(line-number ((t (:background ,bg :foreground: ,fg ))))
-   `(line-number-current-line ((t (:background ,bg :foreground ,purple ))))
+   `(line-number ((t (:background ,bg :foreground ,fg-muted))))
+   `(line-number-current-line ((t (:background ,bg :foreground ,purple))))
    `(link ((t (:foreground ,fg))))
    `(magit-branch-local ((t (:foreground ,fg))))
    `(magit-branch-remote ((t (:foreground ,fg))))
