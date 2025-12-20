@@ -16,6 +16,7 @@
       (purple-muted "#e8e3f0"))
 
   ;; Todo: center org tags, fix highlight color in org source blocks same as background
+  ;; consult, marginalia and corfu faces
   (custom-theme-set-faces
    'calcite
    `(ansi-color-black ((t (:foreground ,fg :background ,fg))))
@@ -102,9 +103,9 @@
    `(font-latex-script-char-face ((t (:foreground ,fg))))
    `(font-latex-sectioning-2-face ((t (:weight semi-bold :height 1.4))))
    `(font-latex-warning-face ((t (:foreground ,green))))
-   `(font-lock-builtin-face ((t (:background ,bg :foreground ,fg))))
+   `(font-lock-builtin-face ((t (:foreground ,fg))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,blue))))
-   `(font-lock-comment-face ((t (:foreground ,blue :background ,bg))))
+   `(font-lock-comment-face ((t (:foreground ,blue))))
    `(font-lock-constant-face ((t (:foreground ,fg))))
    `(font-lock-doc-face ((t (:foreground ,fg :weight semi-bold))))
    `(font-lock-function-name-face ((t (:foreground ,fg))))
