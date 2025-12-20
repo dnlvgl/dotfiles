@@ -15,7 +15,7 @@
       (purple-light "#e8e3f0"))
 
 
-  ;; Todo: magit, mute line numbers, center org tags
+  ;; Todo: mute line numbers, center org tags
   (custom-theme-set-faces
    'calcite
    
@@ -56,6 +56,21 @@
    `(line-number ((t (:background ,bg :foreground: ,fg ))))
    `(line-number-current-line ((t (:background ,bg :foreground ,purple ))))
    `(link ((t (:foreground ,fg))))
+   `(magit-branch-local ((t (:foreground ,fg))))
+   `(magit-branch-remote ((t (:foreground ,fg))))
+   `(magit-diff-added ((t (:background ,bg :foreground ,green))))
+   `(magit-diff-added-highlight ((t (:background ,bg :foreground ,green))))
+   `(magit-diff-removed ((t (:background ,bg :foreground ,red))))
+   `(magit-diff-removed-highlight ((t (:background ,bg :foreground ,red))))
+   `(magit-diff-context ((t (:background ,bg :foreground ,fg))))
+   `(magit-diff-context-highlight ((t (:background ,bg :foreground ,fg))))
+   `(magit-diff-file-heading ((t (:foreground ,fg :weight bold))))
+   `(magit-diff-hunk-heading ((t (:background ,bg :foreground ,fg))))
+   `(magit-diff-hunk-heading-highlight ((t (:background ,purple-light :foreground ,fg))))
+   `(magit-hash ((t (:foreground ,fg))))
+   `(magit-section-heading ((t (:foreground ,purple :weight bold))))
+   `(magit-section-highlight ((t (:background ,bg))))
+   `(magit-tag ((t (:foreground ,fg))))
    `(marginalia-documentation ((t (:inherit completions-annotations :underline nil))))
    `(minibuffer-prompt ((t (:foreground ,fg :weight bold))))
    `(mode-line ((t (:background ,bg :foreground ,fg))))
