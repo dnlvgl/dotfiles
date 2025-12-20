@@ -4,13 +4,13 @@
 ;; use `M-x list-faces-display` to check which faces to customize
 ;; mindre-theme for some inspiration https://github.com/erikbackman/mindre-theme/blob/master/mindre-theme.el
 
-(let ((fg "#424242") ;;TODO better name
+(let ((fg "#424242")
       (fg-muted "#9a9a9a")
-      (bg "#f1f1f1") ;; TODO better name
-      (blue "#008ec4")
+      (bg "#f1f1f1")
+      (blue "#2963b2") ;;old: #008ec4
       (green "#10a778")
-      (cyan "#007a7a") ;;TODO better color
-      (yellow "#7c730e") ;;TODO better color
+      (cyan "#007a7a")
+      (yellow "#c8a830")
       (red "#b85450")
       (purple "#523c79")
       (purple-muted "#e8e3f0"))
