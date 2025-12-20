@@ -120,6 +120,14 @@
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 (load-theme 'calcite t)
 
+
+(defun dnl/reload-theme ()                                                                                                              
+  "Reload the current theme without confirmation."                                                                                  
+  (interactive)                                                                                                                     
+  (let ((current-themes custom-enabled-themes))                                                                                     
+    (mapc #'disable-theme custom-enabled-themes)                                                                                    
+    (mapc (lambda (theme) (load-theme theme t)) current-themes)))
+
 (use-package mindre-theme
   :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)
   :custom

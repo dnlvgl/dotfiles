@@ -249,6 +249,14 @@ update with mindre as basis but keep color choices + larger and bold org heading
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 (load-theme 'calcite t)
+
+
+(defun dnl/reload-theme ()                                                                                                              
+  "Reload the current theme without confirmation."                                                                                  
+  (interactive)                                                                                                                     
+  (let ((current-themes custom-enabled-themes))                                                                                     
+    (mapc #'disable-theme custom-enabled-themes)                                                                                    
+    (mapc (lambda (theme) (load-theme theme t)) current-themes)))    
 #+end_src
 
 #+begin_src emacs-lisp

@@ -11,12 +11,11 @@
       (green "#10a778")
       (cyan "#007a7a") ;;TODO better color
       (yellow "#7c730e") ;;TODO better color
-      (red "#c30771")
+      (red "#b85450")
       (purple "#523c79")
       (purple-muted "#e8e3f0"))
 
-
-  ;; Todo: center org tags
+  ;; Todo: center org tags, fix highlight color in org source blocks same as background, org tables
   (custom-theme-set-faces
    'calcite
    `(default ((t (:background ,bg :foreground ,fg))))
@@ -27,15 +26,10 @@
    `(cursor ((t (:background ,fg :foreground ,bg))))
    `(custom-variable-tag ((t (:foreground ,fg :weight bold))))
    `(default-italic ((t (:italic t))))
-   `(diff-hl-change ((t (:background ,blue :foreground ,blue ))))
+   `(diff-hl-change ((t (:background ,purple :foreground ,purple ))))
    `(diff-hl-delete ((t (:background ,red :foreground ,red))))
    `(diff-hl-insert ((t (:background ,green :foreground, green ))))
    `(doom-modeline-buffer-modified ((t (:background ,bg :foreground, purple ))))
-   ;; `(font-latex-bold-face ((t (:foreground ,fg))))
-   ;; `(font-latex-italic-face ((t (:foreground ,fg :slant italic))))
-   ;; `(font-latex-match-reference-keywords ((t (:foreground ,fg))))
-   ;; `(font-latex-match-variable-keywords ((t (:foreground ,fg))))
-   ;; `(font-latex-string-face ((t (:foreground "#a9a9a9"))))
    `(font-lock-builtin-face ((t (:background ,bg :foreground ,fg))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,blue))))
    `(font-lock-comment-face ((t (:foreground ,blue :background ,bg))))
