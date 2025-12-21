@@ -15,8 +15,7 @@
       (purple "#523c79")
       (purple-muted "#e8e3f0"))
 
-  ;; Todo: center org tags, fix highlight color in org source blocks same as background
-  ;; consult, marginalia and corfu faces
+  ;; Todo: fix highlight color in org source blocks same as background
   (custom-theme-set-faces
    'calcite
    `(ansi-color-black ((t (:foreground ,fg :background ,fg))))
