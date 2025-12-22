@@ -128,14 +128,6 @@
     (mapc #'disable-theme custom-enabled-themes)                                                                                    
     (mapc (lambda (theme) (load-theme theme t)) current-themes)))
 
-(use-package mindre-theme
-  :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)
-  :custom
-  (mindre-use-more-bold t)
-  ;;:config
-  ;;(load-theme 'mindre t)
-  )
-
 (use-package auto-dark
   :custom
   ;; list 1. dark theme 2. light theme
