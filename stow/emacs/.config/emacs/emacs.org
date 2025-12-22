@@ -244,8 +244,7 @@ Show possible kyebindings after short delay
   )
 #+END_SRC
 
-Load custom theme from the themes folder (WIP)
-update with mindre as basis but keep color choices + larger and bold org headings
+Load custom theme from the themes folder
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 (load-theme 'calcite t)
@@ -257,16 +256,6 @@ update with mindre as basis but keep color choices + larger and bold org heading
   (let ((current-themes custom-enabled-themes))                                                                                     
     (mapc #'disable-theme custom-enabled-themes)                                                                                    
     (mapc (lambda (theme) (load-theme theme t)) current-themes)))    
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package mindre-theme
-  :vc (:url "https://github.com/erikbackman/mindre-theme" :rev :newest)
-  :custom
-  (mindre-use-more-bold t)
-  ;;:config
-  ;;(load-theme 'mindre t)
-  )
 #+end_src
 
 Switch theme according to system theme
