@@ -15,6 +15,8 @@
       (purple "#523c79")
       (purple-muted "#e8e3f0"))
 
+  ;; only keep fg/gg + purple/green. Other highlights via bold and boxes?
+
   ;; Todo: fix highlight color in org source blocks same as background
   (custom-theme-set-faces
    'calcite
@@ -36,10 +38,10 @@
    `(ansi-color-white ((t (:foreground ,bg :background ,bg))))
    `(ansi-color-yellow ((t (:foreground ,yellow :background ,yellow))))
    `(avy-background-face ((t (:foreground ,fg-muted))))
-   `(avy-lead-face ((t (:background ,purple :foreground ,bg :weight bold)))) ;; use muted?
-   `(avy-lead-face-0 ((t (:background ,green :foreground ,bg :weight bold))))
-   `(avy-lead-face-1 ((t (:background ,blue :foreground ,bg :weight bold))))
-   `(avy-lead-face-2 ((t (:background ,red :foreground ,bg :weight bold))))
+   `(avy-lead-face ((t (:background ,purple :foreground ,bg :weight bold))))
+   `(avy-lead-face-0 ((t (:background ,purple-muted :foreground ,purple :weight bold))))
+   `(avy-lead-face-1 ((t (:foreground ,purple :weight bold :underline t))))
+   `(avy-lead-face-2 ((t (:background ,purple-muted :foreground ,fg :weight bold))))
    `(bold ((t (:weight semi-bold))))
    `(bold-italic ((t (:weight semi-bold :slant italic))))
    `(buffer-menu-buffer ((t (:weight semi-bold))))
@@ -145,8 +147,8 @@
    `(font-latex-sectioning-2-face ((t (:weight semi-bold :height 1.4))))
    `(font-latex-warning-face ((t (:foreground ,green))))
    `(font-lock-builtin-face ((t (:foreground ,fg))))
-   `(font-lock-comment-delimiter-face ((t (:foreground ,blue))))
-   `(font-lock-comment-face ((t (:foreground ,blue))))
+   `(font-lock-comment-delimiter-face ((t (:foreground ,fg-muted))))
+   `(font-lock-comment-face ((t (:foreground ,fg-muted))))
    `(font-lock-constant-face ((t (:foreground ,fg))))
    `(font-lock-doc-face ((t (:foreground ,fg :weight semi-bold))))
    `(font-lock-function-name-face ((t (:foreground ,fg))))
