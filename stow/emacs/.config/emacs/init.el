@@ -131,7 +131,7 @@
 (use-package auto-dark
   :custom
   ;; list 1. dark theme 2. light theme
-  (auto-dark-themes '((spacemacs-dark) (calcite)))
+  (auto-dark-themes '((calcite-dark) (calcite-light)))
   (auto-dark-polling-interval-seconds 5)
   (auto-dark-allow-osascript nil)
   (auto-dark-allow-powershell nil)
