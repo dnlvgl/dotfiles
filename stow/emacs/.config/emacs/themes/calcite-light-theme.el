@@ -6,9 +6,9 @@
 
 ;;; Code:
 
-(let ((themes-file (locate-file "calcite-themes.el" custom-theme-load-path)))
+(let ((themes-file (locate-file "calcite-theme.el" custom-theme-load-path)))
   (unless themes-file
-    (error "Cannot find calcite-themes.el in custom-theme-load-path"))
+    (error "Cannot find calcite-theme.el in custom-theme-load-path"))
   (load themes-file nil t))
 
 (deftheme calcite-light
