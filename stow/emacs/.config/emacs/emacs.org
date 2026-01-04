@@ -237,17 +237,10 @@ Show possible kyebindings after short delay
 
 ** Theme
 
-#+BEGIN_SRC emacs-lisp
- (use-package spacemacs-theme
-  ;;:init
-  ;;(load-theme 'spacemacs-dark t)
-  )
-#+END_SRC
-
 Load custom theme from the themes folder
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-(load-theme 'calcite t)
+(load-theme 'calcite-light t)
 
 
 (defun dnl/reload-theme ()                                                                                                              

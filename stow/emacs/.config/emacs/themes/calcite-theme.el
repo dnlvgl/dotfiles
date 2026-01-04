@@ -9,13 +9,13 @@
 (defconst calcite-themes-colors
   '((fg          "#424242" "#f1f1f1")
     (fg-accent   "#9a9a9a" "#6a6a6a")
-    (bg          "#f1f1f1" "#353535")
+    (bg          "#f1f1f1" "#2c2b30")
     (blue        "#2963b2" "#2963b2")
     (green       "#10a778" "#10a778")
     (cyan        "#007a7a" "#007a7a")
     (yellow      "#c8a830" "#c8a830")
     (red         "#b85450" "#b85450")
-    (purple      "#523c79" "#a45bad")
+    (purple      "#523c79" "#ebaafa")
     (purple-accent "#e8e3f0" "#4d3e66"))
   "Color palette for calcite themes.
 Each color is a list: (light-value dark-value).")

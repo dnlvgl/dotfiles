@@ -112,13 +112,8 @@
   (setq olivetti-body-width 80)
   (setq olivetti-style 'fancy))
 
-(use-package spacemacs-theme
- ;;:init
- ;;(load-theme 'spacemacs-dark t)
- )
-
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
-(load-theme 'calcite t)
+(load-theme 'calcite-light t)
 
 
 (defun dnl/reload-theme ()                                                                                                              
