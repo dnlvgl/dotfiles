@@ -114,7 +114,7 @@ Setup misc variables to use later.
 ;; Try Fira for Larger Screen slowness
 ;; else try: https://www.reddit.com/r/emacs/comments/zgp6kw/gui_emacs_weird_the_bigger_the_frame_size_is_the/
 ;; (defvar dnl/default-font "Iosevka SS08")
- (defvar dnl/default-font "Fira Code")
+ (defvar dnl/default-font "Fira Code") ;; sudo dnf install fira-code-fonts
  (defvar dnl/indent-width 2)
 
 #+END_SRC
@@ -252,8 +252,7 @@ Load custom theme from the themes folder
 #+end_src
 
 Switch theme according to system theme
-Linux: current used Emacs 30.2 uses GTK3 Theme and needs e.g. [[https://extensions.gnome.org/extension/4998/legacy-gtk3-theme-scheme-auto-switcher/][Legacy GTK3 Switcher Extension]]
-Mindre does not want to load on switch, but also from M-x load-theme
+Linux: current used Emacs 30.2 uses GTK3 Theme and needs e.g. [[https://extensions.gnome.org/extension/4998/legacy-gtk3-theme-scheme-auto-switcher/][Legacy GTK3 Switcher Extension]] + ~dnf install adw-gtk3-theme~ and set it in gnome tweaks
 
 #+begin_src emacs-lisp
 (use-package auto-dark

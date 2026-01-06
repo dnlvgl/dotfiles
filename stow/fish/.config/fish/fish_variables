@@ -1,10 +1,14 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR __fish_initialized:3400
+SETUVAR __fish_initialized:3800
 SETUVAR _fish_abbr_pubip:curl\x20ifconfig\x2eme
 SETUVAR _fish_abbr_texrm:rm\x20\x2df\x20\x2a\x2eaux\x20\x2a\x2etoc\x20\x2a\x2eblg\x20\x2a\x2ebbl\x20\x2a\x2elog\x20\x2a\x2eout\x20\x2a\x2esynctex\x2egz
 SETUVAR _fish_abbr_warpcorebg0:play\x20\x2dn\x20synth\x20whitenoise\x20band\x20\x2dn\x20100\x2024\x20band\x20\x2dn\x20300\x20100\x20gain\x20\x2b20
 SETUVAR _fish_abbr_warpcorebg1:play\x20\x2dn\x20\x2dc1\x20synth\x20whitenoise\x20lowpass\x20\x2d1\x20120\x20lowpass\x20\x2d1\x20120\x20lowpass\x20\x2d1\x20120\x20gain\x20\x2b8
+SETUVAR _fisher_jorgebucaran_2F_fisher_files:\x7e/\x2econfig/fish/functions/fisher\x2efish\x1e\x7e/\x2econfig/fish/completions/fisher\x2efish
+SETUVAR _fisher_jorgebucaran_2F_nvm_2E_fish_files:\x7e/\x2econfig/fish/functions/_nvm_index_update\x2efish\x1e\x7e/\x2econfig/fish/functions/_nvm_list\x2efish\x1e\x7e/\x2econfig/fish/functions/_nvm_version_activate\x2efish\x1e\x7e/\x2econfig/fish/functions/_nvm_version_deactivate\x2efish\x1e\x7e/\x2econfig/fish/functions/nvm\x2efish\x1e\x7e/\x2econfig/fish/conf\x2ed/nvm\x2efish\x1e\x7e/\x2econfig/fish/completions/nvm\x2efish
+SETUVAR _fisher_plugins:jorgebucaran/fisher\x1ejorgebucaran/nvm\x2efish
+SETUVAR _fisher_upgraded_to_4_4:\x1d
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:005fd7
@@ -22,7 +26,7 @@ SETUVAR fish_color_operator:00a6b2
 SETUVAR fish_color_param:00afff
 SETUVAR fish_color_quote:999900
 SETUVAR fish_color_redirection:00afff
-SETUVAR fish_color_search_match:bryellow\x1e\x2d\x2dbackground\x3dbrblack
+SETUVAR fish_color_search_match:white\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
