@@ -5,18 +5,6 @@ Dotfiles managed via [stow](https://www.gnu.org/software/stow/).
 Pull the repository, and then create the symbolic links via stow.
 
 
-## Ansible
-
-Setup a Fedora Worksation via Ansible
-
-Installs all packeges in `ansible/packages.yml` expects a standard Gnome Desktop.
-
-```
-cd ansible/
-./setup.sh
-```
-
-
 ## Link Dotfiles via Stow
 
 Link all:
