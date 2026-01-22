@@ -1,4 +1,4 @@
-e#+TITLE: Emacs Config
+#+TITLE: Emacs Config
 #+STARTUP: overview
 #+PROPERTY: header-args :tangle init.el
 
