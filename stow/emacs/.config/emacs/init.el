@@ -79,6 +79,12 @@
   :config
   (setq which-key-idle-delay 1))
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)        ;; Disable visible scrollbar
