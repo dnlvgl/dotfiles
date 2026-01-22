@@ -1,4 +1,4 @@
-#+TITLE: Emacs Config
+e#+TITLE: Emacs Config
 #+STARTUP: overview
 #+PROPERTY: header-args :tangle init.el
 
@@ -199,6 +199,17 @@ Show possible kyebindings after short delay
 #+end_src
 
 * General Config
+
+At work emacs does not see all shell path by default under macos
+This fixes stuff like lsp not being found
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+#+end_src
+
 ** UI
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t)
