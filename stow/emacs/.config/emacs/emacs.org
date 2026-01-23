@@ -626,23 +626,13 @@ Be wrong faster
   :models '("o1" "o3"))                 ; Specify the model(s) you want to use
 #+end_src
 * File Editing
-** Tab Widths
+** Indentation
 
-Default to an indentation size of 2 spaces since it's the norm for pretty much every language I use.
+Use 2 spaces by default
 
 #+begin_src emacs-lisp
 
 (setq-default tab-width 2)
-(setq-default evil-shift-width tab-width)
-
-#+end_src
-
-** Spaces over Tabs
-
-Else e.g. Ansible files fail
-
-#+begin_src emacs-lisp
-
 (setq-default indent-tabs-mode nil)
 
 #+end_src
@@ -657,10 +647,12 @@ Else e.g. Ansible files fail
 #+end_src
 
 ** Brackets
-Highlight brackets, Autoclose is highly annoying in org mode
+
+Highlight and autoclose brackets
+
 #+BEGIN_SRC emacs-lisp
 ;; Autoclose brackets
-;; (electric-pair-mode 1)
+(electric-pair-mode 1)
 
 ;; Highlight brackets
 (setq show-paren-delay 0)

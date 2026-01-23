@@ -18,7 +18,7 @@
 ;; Try Fira for Larger Screen slowness
 ;; else try: https://www.reddit.com/r/emacs/comments/zgp6kw/gui_emacs_weird_the_bigger_the_frame_size_is_the/
 ;; (defvar dnl/default-font "Iosevka SS08")
- (defvar dnl/default-font "Fira Code")
+ (defvar dnl/default-font "Fira Code") ;; sudo dnf install fira-code-fonts
  (defvar dnl/indent-width 2)
 
 (require 'package)
@@ -397,15 +397,13 @@
   (setq insert-directory-program "/opt/homebrew/bin/gls"))
 
 (setq-default tab-width 2)
-(setq-default evil-shift-width tab-width)
-
 (setq-default indent-tabs-mode nil)
 
 (use-package evil-nerd-commenter
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 ;; Autoclose brackets
-;; (electric-pair-mode 1)
+(electric-pair-mode 1)
 
 ;; Highlight brackets
 (setq show-paren-delay 0)
