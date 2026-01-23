@@ -70,6 +70,9 @@
                                         (kill-line 0)
                                         (indent-according-to-mode)))
 
+;; jump to file under cursor, problems without file ending, use xref-find-definition or projectile?
+(global-set-key (kbd "C-c f") 'find-file-at-point)
+
 (use-package god-mode
   :bind (("<menu>" . god-local-mode)))
 
