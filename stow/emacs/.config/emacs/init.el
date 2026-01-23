@@ -118,6 +118,9 @@
   (setq olivetti-body-width 80)
   (setq olivetti-style 'fancy))
 
+;; Pick up the changes from disk automatically
+(global-auto-revert-mode 1)
+
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 (load-theme 'calcite-light t)
 
@@ -483,7 +486,8 @@
   :config
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  (add-hook 'after-revert-hook 'diff-hl-update))
 
 (use-package web-mode
   :config

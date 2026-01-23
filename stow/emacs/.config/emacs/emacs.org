@@ -244,6 +244,9 @@ This fixes stuff like lsp not being found
   :init
   (setq olivetti-body-width 80)
   (setq olivetti-style 'fancy))
+
+;; Pick up the changes from disk automatically
+(global-auto-revert-mode 1)
 #+END_SRC
 
 ** Theme
@@ -748,6 +751,9 @@ documentation page.
 #+end_src
 
 * Git
+
+Does it make sense to aut-refresh Magit status buffers? `(setq magit-auto-revert-mode t)`
+
 #+begin_src emacs-lisp
 (use-package magit)
 #+end_src
@@ -757,7 +763,8 @@ documentation page.
   :config
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  (add-hook 'after-revert-hook 'diff-hl-update))
 #+end_src
 
 * Language Support
