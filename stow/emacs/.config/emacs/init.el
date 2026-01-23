@@ -399,7 +399,7 @@
 (when (eq system-type 'darwin)
   (setq insert-directory-program "/opt/homebrew/bin/gls"))
 
-(setq-default tab-width 2)
+(setq-default tab-width dnl/indent-width)
 (setq-default indent-tabs-mode nil)
 
 (use-package evil-nerd-commenter
@@ -523,12 +523,14 @@
   :mode (("\\.ts\\'" . typescript-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
   :config
-  (setq typescript-ts-mode-indent-offset 4))
+  (setq typescript-ts-mode-indent-offset dnl/indent-width))
 
 (use-package js-ts-mode
   :ensure nil ; derived mode
   :after eglot
-  :mode(("\\.js\\'" . js-ts-mode)))
+  :mode(("\\.js\\'" . js-ts-mode))
+  :config
+  (setq js-ts-mode-indent-offset dnl/indent-width))
 
 ;;(use-package lispy
 ;;  :hook ((emacs-lisp-mode . lispy-mode)
