@@ -405,6 +405,10 @@
 (setq-default tab-width dnl/indent-width)
 (setq-default indent-tabs-mode nil)
 
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
 (use-package evil-nerd-commenter
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 

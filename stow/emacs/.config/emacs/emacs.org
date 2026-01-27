@@ -643,6 +643,16 @@ Use 2 spaces by default
 
 #+end_src
 
+** EditorConfig
+
+Use .editorconfig files to maintain consistent coding styles across editors
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+#+end_src
+
 ** Commenting Lines
 
 #+begin_src emacs-lisp
