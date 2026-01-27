@@ -85,7 +85,9 @@
 (use-package exec-path-from-shell
   :ensure t
   :config
-  (when (memq window-system '(mac ns x))
+  (when (memq window-system '(mac ns x pgtk))
+    (setq exec-path-from-shell-shell-name "fish")
+    (setq exec-path-from-shell-arguments '("-l" "-i"))
     (exec-path-from-shell-initialize)))
 
 (setq inhibit-startup-message t)
@@ -404,6 +406,7 @@
 
 (setq-default tab-width dnl/indent-width)
 (setq-default indent-tabs-mode nil)
+(setq-default js-indent-level dnl/indent-width)
 
 (use-package editorconfig
   :config
@@ -537,7 +540,7 @@
   :after eglot
   :mode(("\\.js\\'" . js-ts-mode))
   :config
-  (setq js-ts-mode-indent-offset dnl/indent-width))
+  (setq js-indent-level dnl/indent-width))
 
 ;;(use-package lispy
 ;;  :hook ((emacs-lisp-mode . lispy-mode)

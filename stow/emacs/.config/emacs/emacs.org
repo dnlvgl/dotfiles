@@ -203,13 +203,15 @@ Show possible kyebindings after short delay
 
 * General Config
 
-At work emacs does not see all shell path by default under macos
-This fixes stuff like lsp not being found
+Emacs does not inherit shell PATH when launched from desktop environment.
+This fixes stuff like lsp not being found. Uses fish with interactive flag for nvm support.
 #+begin_src emacs-lisp
 (use-package exec-path-from-shell
   :ensure t
   :config
-  (when (memq window-system '(mac ns x))
+  (when (memq window-system '(mac ns x pgtk))
+    (setq exec-path-from-shell-shell-name "fish")
+    (setq exec-path-from-shell-arguments '("-l" "-i"))
     (exec-path-from-shell-initialize)))
 #+end_src
 
@@ -640,6 +642,7 @@ Use 2 spaces by default
 
 (setq-default tab-width dnl/indent-width)
 (setq-default indent-tabs-mode nil)
+(setq-default js-indent-level dnl/indent-width)
 
 #+end_src
 
@@ -845,7 +848,7 @@ Syntax Highlightning for Javascript + Typescript
   :after eglot
   :mode(("\\.js\\'" . js-ts-mode))
   :config
-  (setq js-ts-mode-indent-offset dnl/indent-width))
+  (setq js-indent-level dnl/indent-width))
 #+end_src
 
 **** TODO add yasnippet with complete function definitions
