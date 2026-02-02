@@ -16,9 +16,9 @@
 	# show last change in file
 	lc = "!f() { git log --follow -p "$1"; }; f"
 	# show only own commits
-	lgo		= log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --abbrev-commit --author=hello@dnlvgl.com
+	lgo		= "!git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --abbrev-commit --author=$(git config user.email)"
 	# show own commits since yesterday
-	lgy = log --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --since=yesterday --before=0am --author=hello@dnlvgl.com
+	lgy = "!git log --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(cyan)[%an]%Creset' --since=yesterday --before=0am --author=$(git config user.email)"
 	# show short status with branch
 	st 			= status --short --branch
 	# status but show all stashed files
@@ -44,3 +44,5 @@
 	lsb= for-each-ref --format='%(color:cyan)%(authordate:format:%m/%d/%Y %H:%M)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)' --sort=authordate refs/remotes
 [init]
 	defaultBranch = main
+[include]
+	path = ~/.gitconfig.local
