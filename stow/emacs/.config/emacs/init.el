@@ -703,6 +703,7 @@
 ;;;;; CSS
 
 (use-package css-ts-mode
+  :ensure nil ;derived mode
   :after eglot
   :mode "\\.css\\'"
   :config
