@@ -214,6 +214,11 @@
 (setq vc-make-backup-files t)
 (setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
 
+;;;; Project Management
+(use-package project
+  :ensure nil
+  :bind-keymap ("C-x p" . project-prefix-map))
+
 ;;;; Completion
 
 ;; Use Ivy + Counsel for more convenient completion systems. Basically replace
