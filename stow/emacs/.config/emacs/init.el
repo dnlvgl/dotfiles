@@ -484,6 +484,7 @@
 (setq-default tab-width dnl/indent-width)
 (setq-default indent-tabs-mode nil)
 (setq-default js-indent-level dnl/indent-width)
+(setq-default css-indent-offset dnl/indent-width)
 
 (use-package editorconfig
   :config
