@@ -1,4 +1,4 @@
-e;;; init.el --- Emacs Configuration -*- lexical-binding: t -*-
+;;; init.el --- Emacs Configuration -*- lexical-binding: t -*-
 
 ;; This file uses outline-minor-mode for section folding.
 ;; Use M-g o (consult-outline) to jump between sections.
@@ -221,40 +221,6 @@ e;;; init.el --- Emacs Configuration -*- lexical-binding: t -*-
 
 ;;;; Completion
 
-;; Use Ivy + Counsel for more convenient completion systems. Basically replace
-;; emacs own completion
-;;
-;; Currently disabled to test out vertico, consult, embark, orderless, see below
-
-(use-package ivy
-  :disabled
-  :diminish
-  :bind (("C-s" . swiper)
-	       :map ivy-minibuffer-map
-	       ("TAB" . ivy-alt-done)
-	       ("C-l" . ivy-alt-done)
-	       ("C-j" . ivy-next-line)
-	       ("C-k" . ivy-previous-line)
-	       :map ivy-switch-buffer-map
-	       ("C-k" . ivy-previous-line)
-	       ("C-l" . ivy-done)
-	       ("C-d" . ivy-switch-buffer-kill)
-	       :map ivy-reverse-i-search-map
-	       ("C-k" . ivy-previous-line)
-	       ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
-
-(use-package counsel
-  :disabled
-  :bind (
-	       ("C-x C-f" . counsel-find-file)
-	       ("C-x b" . counsel-ibuffer)
-	       ;; ("M-y" . counsel-yank-pop)
-	       ("M-x " . counsel-M-x))
-  :config
-  (counsel-mode 1))
-
 ;; Completion systems based on the standard Emacs completing-read API
 
 (use-package consult
@@ -269,7 +235,7 @@ e;;; init.el --- Emacs Configuration -*- lexical-binding: t -*-
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
          ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
          ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+         ;; ("C-x p b" . consult-project-buffer)   ;; conflicts with project :bind-keymap on C-x p
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)
          ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
@@ -397,12 +363,6 @@ e;;; init.el --- Emacs Configuration -*- lexical-binding: t -*-
   (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; use corfu for completion at point
-
-;;(use-package corfu
-  ;;:custom
-  ;;(corfu-auto t)
-  ;;:init
-  ;;(global-corfu-mode))
 
 (use-package corfu
   :hook (after-init . global-corfu-mode)
