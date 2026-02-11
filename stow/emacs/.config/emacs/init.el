@@ -1,4 +1,4 @@
-;;; init.el --- Emacs Configuration -*- lexical-binding: t -*-
+e;;; init.el --- Emacs Configuration -*- lexical-binding: t -*-
 
 ;; This file uses outline-minor-mode for section folding.
 ;; Use M-g o (consult-outline) to jump between sections.
@@ -561,7 +561,7 @@
   ;; Visual settings
   (org-ellipsis " ▾")
   ;; Set custom TODO states
-  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b)" "ONGOING(o)" "|" "DONE(d)" "DELEGATED(g)")))
+  (org-todo-keywords '((sequence "TODO(t)" "DOING(n)" "BLOCKED(b)" "|" "DONE(d)" "DELEGATED(g)" "CANCELLED(c)")))
   ;; Start agenda + calendar on Monday
   (org-agenda-start-on-weekday 1)
   (calendar-week-start-day 1)
