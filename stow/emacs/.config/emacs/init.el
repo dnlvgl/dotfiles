@@ -549,16 +549,22 @@
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (add-hook 'after-revert-hook 'diff-hl-update)
 
-  (defun dnl/diff-hl-update-visible ()
-    "Update diff-hl in all visible buffers."
-    (walk-windows
-     (lambda (w)
-       (with-current-buffer (window-buffer w)
-         (when diff-hl-mode
-           (diff-hl-update))))))
+  ;; update diff-hl once focus is on a buffer
+  (defvar dnl/diff-hl-needs-refresh nil
+    "Non-nil when diff-hl may need refresh after focus change.")
 
   (add-function :after after-focus-change-function
-                (lambda () (when (frame-focus-state) (dnl/diff-hl-update-visible)))))
+                (lambda ()
+                  (if (frame-focus-state)
+                      (progn
+                        (setq dnl/diff-hl-needs-refresh t)
+                        (when diff-hl-mode (diff-hl-update)))
+                    (setq dnl/diff-hl-needs-refresh nil))))
+
+  (add-hook 'window-selection-change-functions
+            (lambda (_)
+              (when (and dnl/diff-hl-needs-refresh diff-hl-mode)
+                (diff-hl-update)))))
 
 ;;; Language Support
 
