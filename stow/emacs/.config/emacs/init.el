@@ -549,21 +549,22 @@
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (add-hook 'after-revert-hook 'diff-hl-update)
 
-  ;; update diff-hl once focus is on a buffer
-  (defvar dnl/diff-hl-needs-refresh nil
-    "Non-nil when diff-hl may need refresh after focus change.")
+  ;; diff-hl-flydiff-mode only diffs buffer content against the last
+  ;; save — it does not re-run `git diff` against HEAD, so external
+  ;; git state changes (commits, stashes, index updates) won't show
+  ;; up.  We hook into focus and window-selection changes to call
+  ;; diff-hl-update, which does shell out to git.
 
+  ;; fires once when Emacs gains focus — this updates the current buffer immediately when you alt-tab back.                    
   (add-function :after after-focus-change-function
                 (lambda ()
-                  (if (frame-focus-state)
-                      (progn
-                        (setq dnl/diff-hl-needs-refresh t)
-                        (when diff-hl-mode (diff-hl-update)))
-                    (setq dnl/diff-hl-needs-refresh nil))))
+                  (when (frame-focus-state)
+                    (when diff-hl-mode (diff-hl-update)))))
 
+  ;; fires when you switch between windows (splits) — this updates buffers you navigate to after returning
   (add-hook 'window-selection-change-functions
             (lambda (_)
-              (when (and dnl/diff-hl-needs-refresh diff-hl-mode)
+              (when diff-hl-mode
                 (diff-hl-update)))))
 
 ;;; Language Support
