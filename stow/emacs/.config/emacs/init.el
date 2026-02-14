@@ -69,16 +69,6 @@
 ;; jump to file under cursor, problems without file ending, use xref-find-definition or projectile?
 (global-set-key (kbd "C-c f") 'find-file-at-point)
 
-;;;; god mode
-
-;; <menu> is bound to caps lock in os settings. <menu> normally opens the m-x
-;; buffer, would be sweet to have as an actual key. what to replace the god-mode
-;; trigger with? <escape> already is used as an alternative for C-g to quit
-;; menus.
-
-(use-package god-mode
-  :bind (("<menu>" . god-local-mode)))
-
 ;;;; which-key
 
 ;; Show possible keybindings after short delay
@@ -289,16 +279,12 @@
 (use-package vertico
   :init
   (vertico-mode)
-
   ;; Different scroll margin
   ;; (setq vertico-scroll-margin 0)
-
   ;; Show more candidates
   ;; (setq vertico-count 20)
-
   ;; Grow and shrink the Vertico minibuffer
   (setq vertico-resize t)
-
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   ;; (setq vertico-cycle t)
   )
@@ -364,7 +350,6 @@
   (setq tab-always-indent 'complete)
   (setq corfu-preview-current nil)
   (setq corfu-min-width 20)
-
   (setq corfu-popupinfo-delay '(1.25 . 0.5))
   (corfu-popupinfo-mode 1)) ; shows documentation after `corfu-popupinfo-delay'
 
@@ -421,13 +406,7 @@
 ;; libtool~. Needs some more shell-side configuration
 
 (use-package vterm
-  ;;:when (bound-and-true-p module-file-suffix)
   :commands vterm-mode
-  :init
-  ;;(add-hook 'vterm-mode-hook
-  ;;          (lambda ()
-  ;;            (setq confirm-kill-processes nil
-  ;;                  hscroll-margin 0)))
   :bind
   (("C-c t t" . vterm))
   :config
@@ -467,8 +446,6 @@
 
 ;;;; Brackets
 
-;; Highlight and autoclose brackets
-
 ;; Autoclose brackets
 (electric-pair-mode 1)
 
@@ -502,7 +479,7 @@
   ;; Add timestamp once task is done
   (org-log-done t)
   ;; Set source for agenda
-  ;; Find out why to use this `(,var)` syntax
+  ;; Comma unquote, rather use: (org-agenda-files (list dnl/org-agenda-path))
   (org-agenda-files `(,dnl/org-agenda-path))
   ;; Theme source blocks like in native mode
   (org-src-fontify-natively t)
@@ -674,9 +651,6 @@
 
 ;;;;; treesitter
 
-;; use treesitter to handle more complex syntax trees for better highlighting.
-;; Included since emacs 29+
-;;
 ;; treesit-auto to install treesitter major modes automatically
 
 (use-package treesit-auto
@@ -687,8 +661,6 @@
   (global-treesit-auto-mode))
 
 ;;;;; eglot
-
-;; try something lighter with eglot
 
 (use-package eglot
   :ensure nil
