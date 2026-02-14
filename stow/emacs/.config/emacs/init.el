@@ -22,9 +22,6 @@
         (defvar dnl/org-agenda-path "~/Sync/org/")
         ))
 
- ;; Kept for backward compatibility, no longer actively used
- (defvar dnl/emacs-conf-org-path "~/.config/emacs/emacs.org")
- (defvar dnl/emacs-conf-init-path "~/.config/emacs/init.el")
 ;; Try Fira for Larger Screen slowness
 ;; else try: https://www.reddit.com/r/emacs/comments/zgp6kw/gui_emacs_weird_the_bigger_the_frame_size_is_the/
 ;; (defvar dnl/default-font "Iosevka SS08")
@@ -36,16 +33,11 @@
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			                   ("org" . "https://orgmode.org/elpa/")
 			                   ("elpa" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
-
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
 
 (require 'use-package)
 ;; always download packages if they don't already exist
@@ -59,9 +51,9 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; Jump to emacs config
-(global-set-key (kbd "C-c e") '(lambda ()
-			                           (interactive)
-			                           (find-file user-init-file)))
+(global-set-key (kbd "C-c e") (lambda ()
+                                (interactive)
+                                (find-file user-init-file)))
 
 ;; Show buffer menu
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
@@ -91,6 +83,7 @@
 ;; Show possible keybindings after short delay
 
 (use-package which-key
+  :ensure nil
   :init (which-key-mode)
   :diminish which-key-mode
   :config
@@ -136,7 +129,7 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; transform yes-or-no questions into y-or-n
-(defalias 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 
 ;; use olivetti mode for writing
 (use-package olivetti
@@ -314,6 +307,7 @@
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 
 (use-package savehist
+  :ensure nil
   :init
   (savehist-mode))
 
@@ -510,13 +504,14 @@
 
 (use-package move-text
 ;; meta shift to not collide with orgmode
-  :bind(("M-S-<up>" . move-text-up)
+  :bind (("M-S-<up>" . move-text-up)
         ("M-S-<down>" . move-text-down)))
 
 ;;; Org Mode
 
 (use-package org
-  :bind(("C-c a" . org-agenda)
+  :ensure nil
+  :bind (("C-c a" . org-agenda)
         ("C-c c" . org-capture))
   :custom
   ;; Visual settings
@@ -650,11 +645,7 @@
 (use-package js-ts-mode
   :ensure nil ; derived mode
   :after eglot
-  :mode (("\\.js\\'" . js-ts-mode))
-  :config
-  (setq js-indent-level dnl/indent-width))
-
-;;;;;; TODO add yasnippet with complete function definitions
+  :mode (("\\.js\\'" . js-ts-mode)))
 
 ;;;;; CSS
 
@@ -728,6 +719,7 @@
 ;; try something lighter with eglot
 
 (use-package eglot
+  :ensure nil
   :hook ((typescript-ts-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
