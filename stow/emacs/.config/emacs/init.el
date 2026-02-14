@@ -547,7 +547,18 @@
   (diff-hl-flydiff-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  (add-hook 'after-revert-hook 'diff-hl-update))
+  (add-hook 'after-revert-hook 'diff-hl-update)
+
+  (defun dnl/diff-hl-update-visible ()
+    "Update diff-hl in all visible buffers."
+    (walk-windows
+     (lambda (w)
+       (with-current-buffer (window-buffer w)
+         (when diff-hl-mode
+           (diff-hl-update))))))
+
+  (add-function :after after-focus-change-function
+                (lambda () (when (frame-focus-state) (dnl/diff-hl-update-visible)))))
 
 ;;; Language Support
 
