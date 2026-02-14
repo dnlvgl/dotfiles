@@ -727,10 +727,11 @@
   :config
   (defun dnl/eglot-format-on-save ()
     (add-hook 'before-save-hook #'eglot-format-buffer nil t))
-  (add-hook 'go-ts-mode-hook #'dnl/eglot-format-on-save)
-  (add-hook 'typescript-ts-mode-hook #'dnl/eglot-format-on-save)
-  (add-hook 'tsx-ts-mode-hook #'dnl/eglot-format-on-save)
-  (add-hook 'js-ts-mode-hook #'dnl/eglot-format-on-save))
+  (dolist (hook '(go-ts-mode-hook
+                 typescript-ts-mode-hook
+                 tsx-ts-mode-hook
+                 js-ts-mode-hook))
+    (add-hook hook #'dnl/eglot-format-on-save)))
 
 ;;; RSS
 
