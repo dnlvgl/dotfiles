@@ -610,25 +610,13 @@
 ;; Minimal setup for HTML and mixed modes
 
 (use-package web-mode
-  :config
   :mode (("\\.html\\'" . web-mode)
-         ("\\.xml\\'" . web-mode)
-         ("\\.tsx\\'" . web-mode)
-         )
+         ("\\.xml\\'" . web-mode))
   :config
-  ;; should this rather live under :custom, see: https://erickgnavar.github.io/emacs-config/#orgdb7ae90
-           (setq web-mode-markup-indent-offset dnl/indent-width)
-           (setq web-mode-code-indent-offset dnl/indent-width)
-           (setq web-mode-css-indent-offset dnl/indent-width)
-           (setq web-mode-script-padding dnl/indent-width)
-           ;; highlight columns
-           ;;(setq web-mode-enable-current-column-highlight t)
-           ;;(setq web-mode-enable-current-element-highlight t)
-           )
-
-;;;;;; TODO move tsx out of here and find a better way to integrate it with ts-mode and eglot
-
-;; Check this post: https://vxlabs.com/2022/06/12/typescript-development-with-emacs-tree-sitter-and-lsp-in-2022/?utm_source=pocket_reader
+  (setq web-mode-markup-indent-offset dnl/indent-width)
+  (setq web-mode-code-indent-offset dnl/indent-width)
+  (setq web-mode-css-indent-offset dnl/indent-width)
+  (setq web-mode-script-padding dnl/indent-width))
 
 ;;;;; Emmet
 
@@ -652,6 +640,7 @@
 ;; Syntax Highlighting for Javascript + Typescript
 
 (use-package typescript-ts-mode
+  :ensure nil
   :after eglot
   :mode (("\\.ts\\'" . typescript-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
@@ -661,7 +650,7 @@
 (use-package js-ts-mode
   :ensure nil ; derived mode
   :after eglot
-  :mode(("\\.js\\'" . js-ts-mode))
+  :mode (("\\.js\\'" . js-ts-mode))
   :config
   (setq js-indent-level dnl/indent-width))
 
@@ -679,6 +668,7 @@
 ;;;;; JSON
 
 (use-package json-ts-mode
+  :ensure nil
   :after eglot
   :mode "\\.json\\'"
   :config
@@ -708,6 +698,15 @@
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
 
+;;;; Go
+
+(use-package go-ts-mode
+  :ensure nil
+  :after eglot
+  :mode "\\.go\\'"
+  :config
+  (setq go-ts-mode-indent-offset tab-width))
+
 ;;;; LSP + Parser
 
 ;;;;; treesitter
@@ -731,7 +730,15 @@
 (use-package eglot
   :hook ((typescript-ts-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
-         (js-ts-mode . eglot-ensure)))
+         (js-ts-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure))
+  :config
+  (defun dnl/eglot-format-on-save ()
+    (add-hook 'before-save-hook #'eglot-format-buffer nil t))
+  (add-hook 'go-ts-mode-hook #'dnl/eglot-format-on-save)
+  (add-hook 'typescript-ts-mode-hook #'dnl/eglot-format-on-save)
+  (add-hook 'tsx-ts-mode-hook #'dnl/eglot-format-on-save)
+  (add-hook 'js-ts-mode-hook #'dnl/eglot-format-on-save))
 
 ;;; RSS
 
