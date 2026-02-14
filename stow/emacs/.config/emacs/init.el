@@ -10,7 +10,7 @@
 ;; exist use fallback values
 
 ;; use dnl prefixed file,
-(setq custom-file "~/.config/emacs/dnl-custom-vars.el")
+(setq custom-file (expand-file-name "dnl-custom-vars.el" user-emacs-directory))
 
 (cond ((file-exists-p custom-file)
         ;; if custom file exists load it and its values
@@ -22,11 +22,8 @@
         (defvar dnl/org-agenda-path "~/Sync/org/")
         ))
 
-;; Try Fira for Larger Screen slowness
-;; else try: https://www.reddit.com/r/emacs/comments/zgp6kw/gui_emacs_weird_the_bigger_the_frame_size_is_the/
-;; (defvar dnl/default-font "Iosevka SS08")
- (defvar dnl/default-font "Fira Code") ;; sudo dnf install fira-code-fonts
- (defvar dnl/indent-width 2)
+(defvar dnl/default-font "Fira Code") ;; sudo dnf install fira-code-fonts
+(defvar dnl/indent-width 2)
 
 ;;; Package Management
 
@@ -51,19 +48,23 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; Jump to emacs config
-(global-set-key (kbd "C-c e") (lambda ()
-                                (interactive)
-                                (find-file user-init-file)))
+(defun dnl/jump-to-init-file ()
+  "Open the Emacs init file."
+  (interactive)
+  (find-file user-init-file))
+(global-set-key (kbd "C-c e") #'dnl/jump-to-init-file)
 
 ;; Show buffer menu
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 
 ;; Kill line backward
 ;; alternative: https://github.com/purcell/emacs.d/blob/485a3af948db4671baf73f14bced123bae3112f3/init-editing-utils.el#L147
-(global-set-key (kbd "C-<backspace>") (lambda ()
-                                        (interactive)
-                                        (kill-line 0)
-                                        (indent-according-to-mode)))
+(defun dnl/kill-line-backward ()
+  "Kill from point to the beginning of the line, then re-indent."
+  (interactive)
+  (kill-line 0)
+  (indent-according-to-mode))
+(global-set-key (kbd "C-<backspace>") #'dnl/kill-line-backward)
 
 ;; jump to file under cursor, problems without file ending, use xref-find-definition or projectile?
 (global-set-key (kbd "C-c f") 'find-file-at-point)
@@ -122,11 +123,14 @@
 (global-display-line-numbers-mode t)
 
 ;; but don't show line numbers in certain modes
+(defun dnl/disable-line-numbers ()
+  "Disable line numbers in the current buffer."
+  (display-line-numbers-mode 0))
 (dolist (mode '(org-mode-hook
 	              term-mode-hook
 	              eshell-mode-hook
                 vterm-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (add-hook mode #'dnl/disable-line-numbers))
 
 ;; transform yes-or-no questions into y-or-n
 (setq use-short-answers t)
@@ -144,7 +148,7 @@
 
 ;; Load custom theme from the themes folder
 
-(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+(add-to-list 'custom-theme-load-path (expand-file-name "themes/" user-emacs-directory))
 (load-theme 'calcite-light t)
 
 
@@ -185,11 +189,6 @@
 ;; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil :font dnl/default-font :height  dnl/default-font-size)
 
-;; Use emojis everywhere
-
-;;(use-package emojify
-;;  :hook (after-init . global-emojify-mode))
-
 ;;;; Modeline
 
 (use-package doom-modeline
@@ -201,11 +200,11 @@
 ;; All backup files get sent to ~/.config/emacs/backups/ to not clutter the
 ;; file system
 
-(setq backup-directory-alist '(("." . "~/.config/emacs/backups/")))
+(setq backup-directory-alist `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
-(setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
+(setq auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-save-list/" user-emacs-directory) t)))
 
 ;;;; Project Management
 (use-package project
@@ -407,8 +406,7 @@
   :config
   (setq dashboard-banner-logo-title "YOUR ADD HERE")
   (setq dashboard-set-footer nil)
-  (setq dashboard-startup-banner "~/.config/emacs/dashboard-logos/orb.png")
-  ;; (setq dashboard-startup-banner "~/.config/emacs/dashboard-logos/rms-pepper.png")
+  (setq dashboard-startup-banner (expand-file-name "dashboard-logos/orb.png" user-emacs-directory))
   (setq dashboard-items '((bookmarks . 10)
                           (agenda . 5)
                           ;;(projects . 5)
@@ -446,28 +444,6 @@
 
 (when (eq system-type 'darwin)
   (setq insert-directory-program "/opt/homebrew/bin/gls"))
-
-;;;; LLMs
-
-;; Be wrong faster
-;;
-;; NOTE: This configuration is currently disabled but preserved for reference.
-;; Uncomment and configure with your actual Azure proxy URL to enable.
-
-;; (use-package gptel
-;;   :ensure nil
-;;   :config
-;;   ;; Remove default backend
-;;   (setq gptel--known-backends nil))
-;;
-;; ;; Internal OpenAI proxy, only reachable from VPN
-;; (gptel-make-azure "Azure-1"             ; Name, whatever you'd like
-;;   :protocol "https"                     ; Optional -- https is the default
-;;   :host dnl/llm-azure-proxy-url         ; Don't want to leak the internal url
-;;   :endpoint "/v1/chat/completions"      ; Specify endpoint if needed
-;;   :stream t                             ; Enable streaming responses
-;;   :key "foo"                            ; Replace with your Azure API key
-;;   :models '("o1" "o3"))                 ; Specify the model(s) you want to use
 
 ;;; File Editing
 
@@ -534,20 +510,20 @@
   (org-confirm-babel-evaluate nil)
   (org-edit-src-content-indentation 0)
   :config
-  ;; collection of examples: https://www.reddit.com/r/emacs/comments/7zqc7b/share_your_org_capture_templates/
-  ;; currently loading org-capture templates from dnl-custom-vars
-  ;; create a conditional, if it's defined in custom-vars use this, else fall back to default ones
-  ;; (setq org-capture-templates
-  ;;       '(
-  ;;         ("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
-  ;;          "** %?")
-  ;;         ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
-  ;;          "** TODO %?")
-  ;;         ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
-  ;;          "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
-  ;;          :jump-to-captured t)
-  ;;         ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
-  ;;          "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))
+  ;; Default capture templates for personal use. On my work machine,
+  ;; dnl-custom-vars.el sets org-capture-templates before this runs,
+  ;; so the unless check skips these defaults.
+  (unless org-capture-templates
+    (setq org-capture-templates
+          '(("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+             "** %?")
+            ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+             "** TODO %?")
+            ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+             "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+             :jump-to-captured t)
+            ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+             "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
   )
 
 (use-package org-modern
@@ -619,11 +595,12 @@
 ;; ~<div></div>~
 
 (use-package emmet-mode
-  :hook ((web-mode . emmet-mode))
+  :hook ((web-mode . emmet-mode)
+         (css-ts-mode . emmet-mode))
   :init
   ;; toggle autocompletion on inline css
   (add-hook 'web-mode-before-auto-complete-hooks
-    '(lambda ()
+    (lambda ()
      (let ((web-mode-cur-language
             (web-mode-language-at-pos)))
                (if (string= web-mode-cur-language "css")
@@ -666,11 +643,6 @@
   (setq json-ts-mode-indent-offset dnl/indent-width))
 
 ;;;; Lisp Stuff
-
-;;(use-package lispy
-;;  :hook ((emacs-lisp-mode . lispy-mode)
-;;         (scheme-mode . lispy-mode)))
-
 
 ;; fedora defaults to older guile 2 version, need to explicitly set the used
 ;; guile version ~sudo dnf install guile30~
@@ -723,14 +695,16 @@
   :hook ((typescript-ts-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
-         (go-ts-mode . eglot-ensure))
+         (go-ts-mode . eglot-ensure)
+         (css-ts-mode . eglot-ensure))
   :config
   (defun dnl/eglot-format-on-save ()
     (add-hook 'before-save-hook #'eglot-format-buffer nil t))
   (dolist (hook '(go-ts-mode-hook
                  typescript-ts-mode-hook
                  tsx-ts-mode-hook
-                 js-ts-mode-hook))
+                 js-ts-mode-hook
+                 css-ts-mode-hook))
     (add-hook hook #'dnl/eglot-format-on-save)))
 
 ;;; RSS
