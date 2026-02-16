@@ -653,8 +653,30 @@
 ;;;; Markdown
 
 (use-package markdown-mode
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init
+  (setq markdown-command "multimarkdown"
+        ;; Enable syntax highlighting in code blocks
+        markdown-fontify-code-blocks-natively t
+        ;; Better list indentation
+        markdown-indent-on-enter 'indent-and-new-item
+        ;; Asymmetric header styling (# Header instead of # Header #)
+        markdown-asymmetric-header t
+        ;; Show braces around code blocks
+        markdown-code-block-braces t
+        ;; Hide markup for cleaner editing (set to t to hide **, __, etc.)
+        markdown-hide-markup nil)
+  :config
+  ;; Visual line mode for long lines
+  (add-hook 'markdown-mode-hook #'visual-line-mode)
+
+  ;; Spell checking for prose
+  (add-hook 'markdown-mode-hook #'flyspell-mode)
+
+  ;; Better navigation with imenu
+  (add-hook 'markdown-mode-hook #'imenu-add-menubar-index))
 
 ;;;; Go
 
