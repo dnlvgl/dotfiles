@@ -1,0 +1,21 @@
+# This is the configuration file for Ghostty.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+
+# Ghostty can reload the configuration while running by using the menu
+# options or the bound key (default: Command + Shift + comma on macOS and
+# Control + Shift + comma on other platforms). Not all config options can be
+# reloaded while running; some only apply to new windows and others may require
+# a full restart to take effect.
+
+# --- Theme Switching ---
+# This looks for the system-wide light/dark mode
+theme = dark:Catppuccin Frappe,light:Catppuccin Latte
+
+# --- Window & UI ---
+# On macOS, this gives a clean "Integrated" look
+# On Fedora/GNOME, it respects the Adwaita styling
+window-decoration = true
+window-save-state = "always"
