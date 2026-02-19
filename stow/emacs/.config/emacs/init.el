@@ -411,7 +411,7 @@
   (("C-c t t" . vterm))
   :config
   (setq vterm-kill-buffer-on-exit t
-        vterm-shell "/usr/bin/fish"))
+        vterm-shell (or (executable-find "fish") "/bin/sh")))
 
 ;;;; File Management
 
