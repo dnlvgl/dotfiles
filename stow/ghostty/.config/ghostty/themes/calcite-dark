@@ -1,0 +1,41 @@
+# Calcite Dark
+# Extracted from calcite-dark-theme.el
+
+background = #2c2b30
+foreground = #f1f1f1
+
+cursor-color = #f1f1f1
+selection-background = #4d3e66
+selection-foreground = #f1f1f1
+
+# Black / Dark gray
+palette = 0=#f1f1f1
+palette = 8=#6a6a6a
+
+# Red
+palette = 1=#b85450
+palette = 9=#b85450
+
+# Green
+palette = 2=#50d7a8
+palette = 10=#50d7a8
+
+# Yellow
+palette = 3=#c8a830
+palette = 11=#c8a830
+
+# Blue
+palette = 4=#2963b2
+palette = 12=#2963b2
+
+# Magenta / Purple
+palette = 5=#ebaafa
+palette = 13=#ebaafa
+
+# Cyan
+palette = 6=#007a7a
+palette = 14=#007a7a
+
+# White / Light gray
+palette = 7=#2c2b30
+palette = 15=#f1f1f1

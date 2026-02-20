@@ -12,7 +12,7 @@
 
 # --- Theme Switching ---
 # This looks for the system-wide light/dark mode
-theme = dark:Catppuccin Frappe,light:Catppuccin Latte
+theme = dark:calcite-dark,light:calcite-light
 
 # --- Window & UI ---
 # On macOS, this gives a clean "Integrated" look

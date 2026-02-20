@@ -1,0 +1,41 @@
+# Calcite Light
+# Extracted from calcite-light-theme.el
+
+background = #f1f1f1
+foreground = #424242
+
+cursor-color = #424242
+selection-background = #e8e3f0
+selection-foreground = #424242
+
+# Black / Dark gray
+palette = 0=#424242
+palette = 8=#9a9a9a
+
+# Red
+palette = 1=#b85450
+palette = 9=#b85450
+
+# Green
+palette = 2=#10a778
+palette = 10=#10a778
+
+# Yellow
+palette = 3=#c8a830
+palette = 11=#c8a830
+
+# Blue
+palette = 4=#2963b2
+palette = 12=#2963b2
+
+# Magenta / Purple
+palette = 5=#523c79
+palette = 13=#523c79
+
+# Cyan
+palette = 6=#007a7a
+palette = 14=#007a7a
+
+# White / Light gray
+palette = 7=#f1f1f1
+palette = 15=#424242
