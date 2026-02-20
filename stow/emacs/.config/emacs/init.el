@@ -402,7 +402,7 @@
 
 ;;;; Terminal
 
-;; Use Vterm, faster than term. Needed to install ~sudo dnf install cmake
+;; Use Vterm, faster than term. Need to install ~sudo dnf install cmake
 ;; libtool~. Needs some more shell-side configuration
 
 (use-package vterm
@@ -412,6 +412,19 @@
   :config
   (setq vterm-kill-buffer-on-exit t
         vterm-shell (or (executable-find "fish") "/bin/sh")))
+
+;;;; agent-shell
+
+;; agent shell is powered by ACP (Agent Client Protocol)
+;; Requires: npm install -g @zed-industries/claude-agent-acp
+
+(use-package agent-shell
+  :config
+  ;; Use existing Claude Code login credentials
+  (setq agent-shell-anthropic-authentication
+        (agent-shell-anthropic-make-authentication :login t))
+  :bind ("C-c t s" . agent-shell-anthropic-start-claude-code))
+
 
 ;;;; File Management
 
@@ -728,7 +741,5 @@
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
-
-;;; Misc
 
 ;;; init.el ends here
