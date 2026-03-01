@@ -743,4 +743,9 @@
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
 
+;;; Dice Roller
+
+(load (expand-file-name "dice-roller" user-emacs-directory))
+(global-set-key (kbd "C-c d") #'dnl/dice-roll)
+
 ;;; init.el ends here

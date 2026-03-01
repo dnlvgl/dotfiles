@@ -8,4 +8,5 @@
 !/themes/
 !/themes/*
 !/dasboard-logos/*
+!dice-roller.el
 dasboard-logo.png
