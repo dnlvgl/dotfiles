@@ -499,6 +499,8 @@
   (org-src-tab-acts-natively t)
   (org-confirm-babel-evaluate nil)
   (org-edit-src-content-indentation 0)
+  ;; no blank lines for lists and headlines
+  (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
   :config
   ;; Default capture templates for personal use. On my work machine,
   ;; dnl-custom-vars.el sets org-capture-templates before this runs,
