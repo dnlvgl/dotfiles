@@ -516,11 +516,12 @@
              "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
   )
 
-(use-package org-modern
-  :hook
-  (org-mode . global-org-modern-mode)
-  :custom
-  (org-modern-star nil))
+;; org modern leads to some display problems: src blocks in olivetti mode and width issues in agenda view
+;; (use-package org-modern
+  ;; :hook
+  ;; (org-mode . global-org-modern-mode)
+  ;; :custom
+  ;; (org-modern-star nil))
 
 ;;;; Block Templates
 
