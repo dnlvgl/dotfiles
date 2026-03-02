@@ -505,7 +505,7 @@
   ;; Default capture templates for personal use. On my work machine,
   ;; dnl-custom-vars.el sets org-capture-templates before this runs,
   ;; so the unless check skips these defaults.
-  (unless org-capture-templates
+  (unless (bound-and-true-p org-capture-templates)
     (setq org-capture-templates
           '(("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
              "** %?")
@@ -749,5 +749,45 @@
 
 (load (expand-file-name "dice-roller" user-emacs-directory))
 (global-set-key (kbd "C-c d") #'dnl/dice-roll)
+
+;;; Delta Green Scenario Export
+
+(with-eval-after-load 'ox-latex
+
+  ;; Register the document class
+  (add-to-list 'org-latex-classes
+    '("deltagreen"
+      "\\documentclass{deltagreen}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+
+  ;; Two pdflatex passes (needed for page refs / counters)
+  (setq org-latex-pdf-process
+        '("pdflatex -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -interaction nonstopmode -output-directory %o %f"))
+
+  ;; Translate custom Org special blocks to LaTeX environments.
+  ;; Advising org-latex-special-block is the correct approach: the function
+  ;; receives the actual org element (so :type and :parameters are accessible)
+  ;; plus the already-transcoded contents string.
+  (defun dg/latex-special-block (orig-fn special-block contents info)
+    "Transcode Delta Green special blocks; fall back to ORIG-FN for others."
+    (let* ((type  (downcase (org-element-property :type special-block)))
+           (param (org-element-property :parameters special-block)))
+      (pcase type
+        ("handler"  (format "\\begin{handlerbox}\n%s\\end{handlerbox}\n" contents))
+        ("hook"     (format "\\begin{hook}\n%s\\end{hook}\n" contents))
+        ("scene"    (format "\\begin{scene}{%s}\n%s\\end{scene}\n"
+                            (or param "Scene") contents))
+        ("npc"      (format "\\begin{npcblock}{%s}\n%s\\end{npcblock}\n"
+                            (or param "NPC") contents))
+        ("location" (format "\\begin{locationblock}{%s}\n%s\\end{locationblock}\n"
+                            (or param "Location") contents))
+        ("cluebox"  (format "\\begin{cluebox}[%s]\n%s\\end{cluebox}\n"
+                            (or param "Clue") contents))
+        (_          (funcall orig-fn special-block contents info)))))
+
+  (advice-add 'org-latex-special-block :around #'dg/latex-special-block))
 
 ;;; init.el ends here
