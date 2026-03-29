@@ -1,8 +1,11 @@
 #+TITLE: Emacs Config
 #+STARTUP: overview
-#+PROPERTY: header-args:emacs-lisp :tangle yes
+#+PROPERTY: header-args:emacs-lisp :tangle yes :results none
 
 * Preamble
+
+Emacs literate config. Changes will be tangled on startup via init.el.
+For changes on the fly =C-c C-c= the code block.
 
 ** Variables
 
@@ -489,8 +492,6 @@ without a file argument.
 
 * Org Mode
 
-** Capture Templates
-
 Core org-mode settings including TODO keywords, agenda config, and capture
 templates. The capture templates here are defaults; =dnl-custom-vars.el= may
 override =org-capture-templates= before this block runs (the =unless= check
@@ -525,7 +526,11 @@ handles that).
              "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
              :jump-to-captured t)
             ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
-             "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))))
+             "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (dot . t))))
 #+end_src
 
 ** Block Templates
