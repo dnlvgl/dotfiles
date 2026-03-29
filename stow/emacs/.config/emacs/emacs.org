@@ -1,0 +1,869 @@
+#+TITLE: Emacs Config
+#+STARTUP: overview
+#+PROPERTY: header-args:emacs-lisp :tangle yes
+
+* Preamble
+
+** Variables
+
+Per-system variables are loaded from =dnl-custom-vars.el= if it exists; otherwise
+fallback values are used. This must run before anything else so that font sizes,
+agenda paths, etc. are available to the rest of the config.
+
+#+begin_src emacs-lisp
+(setq custom-file (expand-file-name "dnl-custom-vars.el" user-emacs-directory))
+
+(cond ((file-exists-p custom-file)
+       (load custom-file))
+      (t
+       (defvar dnl/default-font-size 130)
+       (defvar dnl/org-agenda-path "~/Sync/org/")))
+
+(defvar dnl/default-font "Fira Code") ;; sudo dnf install fira-code-fonts
+(defvar dnl/indent-width 2)
+#+end_src
+
+** Package Management
+
+Bootstrap =package.el= with MELPA and GNU ELPA, then ensure =use-package= is
+available. Setting =use-package-always-ensure t= means every =use-package= form
+will automatically install the package if it's missing.
+
+#+begin_src emacs-lisp
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("elpa"  . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+#+end_src
+
+* Appearance
+
+** UI
+
+Disable the chrome Emacs ships with by default, enable useful visual aids, and
+prefer short yes/no prompts.
+
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t)
+
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+;; (menu-bar-mode -1)
+(tooltip-mode -1)
+(set-fringe-mode 10)
+(setq ring-bell-function 'ignore)
+(blink-cursor-mode 0)
+
+(context-menu-mode t)
+
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+(defun dnl/disable-line-numbers ()
+  "Disable line numbers in the current buffer."
+  (display-line-numbers-mode 0))
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                eshell-mode-hook
+                vterm-mode-hook))
+  (add-hook mode #'dnl/disable-line-numbers))
+
+(setq use-short-answers t)
+
+(use-package olivetti
+  :init
+  (setq olivetti-body-width 80)
+  (setq olivetti-style 'fancy))
+
+(global-auto-revert-mode 1)
+#+end_src
+
+** Theme
+
+Load the custom Calcite theme from the local =themes/= directory. =auto-dark=
+switches between light and dark variants based on the OS appearance setting.
+
+On Linux, Emacs 30+ reads the GTK3 theme. To get automatic switching, install
+the [[https://extensions.gnome.org/extension/4998/legacy-gtk3-theme-scheme-auto-switcher/][Legacy GTK3 Switcher Extension]] plus =adw-gtk3-theme= and configure it in
+GNOME Tweaks.
+
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path (expand-file-name "themes/" user-emacs-directory))
+(load-theme 'calcite-light t)
+
+(defun dnl/reload-theme ()
+  "Reload the current theme without confirmation."
+  (interactive)
+  (let ((current-themes custom-enabled-themes))
+    (mapc #'disable-theme custom-enabled-themes)
+    (mapc (lambda (theme) (load-theme theme t)) current-themes)))
+
+(use-package auto-dark
+  :custom
+  (auto-dark-themes '((calcite-dark) (calcite-light)))
+  (auto-dark-polling-interval-seconds 5)
+  (auto-dark-allow-osascript nil)
+  (auto-dark-allow-powershell nil)
+  :init (auto-dark-mode))
+
+(use-package nerd-icons)
+#+end_src
+
+** Font
+
+Apply the font and size defined in the preamble variables to both the default
+and fixed-pitch faces.
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font dnl/default-font :height dnl/default-font-size)
+(set-face-attribute 'fixed-pitch nil :font dnl/default-font :height dnl/default-font-size)
+#+end_src
+
+** Modeline
+
+=doom-modeline= provides a clean, informative modeline with icon support via
+=nerd-icons=.
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+#+end_src
+
+* Keybindings
+
+** Global Bindings
+
+Core key remappings. =C-c e= opens the literate config; =C-c r= tangles and
+reloads it without restarting Emacs.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(defun dnl/jump-to-config-file ()
+  "Open the Emacs literate config."
+  (interactive)
+  (find-file (expand-file-name "emacs.org" user-emacs-directory)))
+(global-set-key (kbd "C-c e") #'dnl/jump-to-config-file)
+
+(defun dnl/reload-config ()
+  "Tangle emacs.org and reload the config."
+  (interactive)
+  (org-babel-tangle-file
+   (expand-file-name "emacs.org" user-emacs-directory))
+  (load-file (expand-file-name "emacs.el" user-emacs-directory)))
+(global-set-key (kbd "C-c r") #'dnl/reload-config)
+
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
+
+(defun dnl/kill-line-backward ()
+  "Kill from point to the beginning of the line, then re-indent."
+  (interactive)
+  (kill-line 0)
+  (indent-according-to-mode))
+(global-set-key (kbd "C-<backspace>") #'dnl/kill-line-backward)
+
+(global-set-key (kbd "C-c f") 'find-file-at-point)
+#+end_src
+
+** which-key
+
+Shows available keybindings in a popup after a short delay — invaluable for
+discovering and remembering bindings.
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :ensure nil
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
+#+end_src
+
+* Completion & Minibuffer
+
+The completion stack is built around the standard Emacs =completing-read= API:
+Vertico for vertical display, Orderless for fuzzy matching, Consult for search
+and navigation commands, Marginalia for annotations, Embark for contextual
+actions, and Corfu for in-buffer completion.
+
+** Consult
+
+Consult provides enhanced versions of many built-in navigation and search
+commands. The =M-g o= binding uses =consult-org-heading= when editing an org
+file for heading-aware navigation.
+
+#+begin_src emacs-lisp
+(use-package consult
+  :bind (("C-c h"     . consult-history)
+         ("C-c m"     . consult-mode-command)
+         ("C-c k"     . consult-kmacro)
+         ("C-x M-:"   . consult-complex-command)
+         ("C-x b"     . consult-buffer)
+         ("C-x 4 b"   . consult-buffer-other-window)
+         ("C-x 5 b"   . consult-buffer-other-frame)
+         ("C-x r b"   . consult-bookmark)
+         ("M-#"       . consult-register-load)
+         ("M-'"       . consult-register-store)
+         ("C-M-#"     . consult-register)
+         ("M-y"       . consult-yank-pop)
+         ("<help> a"  . consult-apropos)
+         ("M-g e"     . consult-compile-error)
+         ("M-g f"     . consult-flymake)
+         ("M-g g"     . consult-goto-line)
+         ("M-g M-g"   . consult-goto-line)
+         ("M-g o"     . consult-org-heading)
+         ("M-g m"     . consult-mark)
+         ("M-g k"     . consult-global-mark)
+         ("M-g i"     . consult-imenu)
+         ("M-g I"     . consult-imenu-multi)
+         ("M-s d"     . consult-find)
+         ("M-s D"     . consult-locate)
+         ("M-s g"     . consult-grep)
+         ("M-s G"     . consult-git-grep)
+         ("M-s r"     . consult-ripgrep)
+         ("C-s"       . consult-line)
+         ("M-s L"     . consult-line-multi)
+         ("M-s m"     . consult-multi-occur)
+         ("M-s k"     . consult-keep-lines)
+         ("M-s u"     . consult-focus-lines)
+         ("M-s e"     . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e"       . consult-isearch-history)
+         ("M-s e"     . consult-isearch-history)
+         ("M-s l"     . consult-line)
+         ("M-s L"     . consult-line-multi)
+         :map minibuffer-local-map
+         ("M-s"       . consult-history)
+         ("M-r"       . consult-history))
+  :hook (completion-list-mode . consult-preview-at-point-mode))
+#+end_src
+
+** Orderless
+
+Orderless splits the search pattern on spaces and matches candidates containing
+all components in any order. For example, searching =region indent= matches
+=indent-region=.
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+#+end_src
+
+** Vertico
+
+Vertical completion UI that replaces the default horizontal minibuffer
+candidates display.
+
+#+begin_src emacs-lisp
+(use-package vertico
+  :init
+  (vertico-mode)
+  (setq vertico-resize t))
+#+end_src
+
+** Savehist
+
+Persist minibuffer history across Emacs restarts. Vertico uses the history to
+rank recently-used candidates higher.
+
+#+begin_src emacs-lisp
+(use-package savehist
+  :ensure nil
+  :init
+  (savehist-mode))
+#+end_src
+
+** Marginalia
+
+Adds richer annotations (docstrings, file sizes, keybindings) to minibuffer
+completion candidates.
+
+#+begin_src emacs-lisp
+(use-package marginalia
+  :bind (("M-A" . marginalia-cycle)
+         :map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+#+end_src
+
+** Embark
+
+Right-click contextual menu for Emacs. =C-.= opens the action menu for whatever
+is at point or in the minibuffer. On GNOME, run
+=gsettings set org.freedesktop.ibus.panel.emoji hotkey "[]"= to free up =C-.=.
+
+#+begin_src emacs-lisp
+(use-package embark
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)
+   ("C-h B" . embark-bindings))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :after (embark consult)
+  :demand t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+#+end_src
+
+** Corfu
+
+In-buffer completion popup. =Tab= selects the current candidate; popupinfo
+shows documentation after a short delay.
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :hook (after-init . global-corfu-mode)
+  :bind (:map corfu-map ("<tab>" . corfu-complete))
+  :config
+  (setq tab-always-indent 'complete)
+  (setq corfu-preview-current nil)
+  (setq corfu-min-width 20)
+  (setq corfu-popupinfo-delay '(1.25 . 0.5))
+  (corfu-popupinfo-mode 1))
+#+end_src
+
+* Navigation
+
+** Window Management
+
+=windmove= lets you move between splits with =Shift+arrow=. The split helpers
+automatically focus the new window after splitting.
+
+#+begin_src emacs-lisp
+(windmove-default-keybindings)
+
+(defun split-and-follow-horizontally ()
+  (interactive)
+  (split-window-below)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+
+(defun split-and-follow-vertically ()
+  (interactive)
+  (split-window-right)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+#+end_src
+
+** Avy
+
+Jump to any visible character with a short key sequence. =C-z= triggers
+char-based jumping.
+
+#+begin_src emacs-lisp
+(use-package avy
+  :bind
+  (("C-z" . avy-goto-char)))
+#+end_src
+
+* Editing
+
+** Indentation
+
+Two-space indentation as the default; =editorconfig= overrides this per-project
+when an =.editorconfig= file is present.
+
+#+begin_src emacs-lisp
+(setq-default tab-width dnl/indent-width)
+(setq-default indent-tabs-mode nil)
+(setq-default js-indent-level dnl/indent-width)
+(setq-default css-indent-offset dnl/indent-width)
+
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+#+end_src
+
+** Commenting
+
+=M-/= toggles comments on the current line or region.
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+#+end_src
+
+** Brackets
+
+Automatically close brackets and highlight matching pairs.
+
+#+begin_src emacs-lisp
+(electric-pair-mode 1)
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+#+end_src
+
+** Move Text
+
+Move the current line or selected region up and down with =M-S-up= / =M-S-down=.
+Using Meta+Shift avoids conflicts with org-mode's own =M-up= bindings.
+
+#+begin_src emacs-lisp
+(use-package move-text
+  :bind (("M-S-<up>"   . move-text-up)
+         ("M-S-<down>" . move-text-down)))
+#+end_src
+
+* Files & Projects
+
+** Dired
+
+Basic Dired tweaks: show human-readable sizes, hide group, group directories
+first. On macOS use GNU =ls= from Homebrew for the =--group-directories-first=
+flag.
+
+#+begin_src emacs-lisp
+(use-package dired
+  :ensure nil
+  :config (setq dired-listing-switches "-agho --group-directories-first"))
+
+(when (eq system-type 'darwin)
+  (setq insert-directory-program "/opt/homebrew/bin/gls"))
+#+end_src
+
+** Project
+
+Built-in project management bound to the =C-x p= prefix.
+
+#+begin_src emacs-lisp
+(use-package project
+  :ensure nil
+  :bind-keymap ("C-x p" . project-prefix-map))
+#+end_src
+
+** Saving & Backup
+
+Redirect all backup and auto-save files to subdirectories inside the Emacs
+config dir, keeping the rest of the file system clean.
+
+#+begin_src emacs-lisp
+(setq backup-directory-alist `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-save-list/" user-emacs-directory) t)))
+#+end_src
+
+** Dashboard
+
+Show a startup dashboard with bookmarks and the org agenda when Emacs is opened
+without a file argument.
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :if (< (length command-line-args) 2)
+  :diminish dashboard-mode
+  :config
+  (setq dashboard-banner-logo-title "YOUR ADD HERE")
+  (setq dashboard-set-footer nil)
+  (setq dashboard-startup-banner (expand-file-name "dashboard-logos/orb.png" user-emacs-directory))
+  (setq dashboard-items '((bookmarks . 10)
+                          (agenda    . 5)
+                          (recents   . 0)
+                          (registers . 5)))
+  (setq dashboard-center-content t)
+  (dashboard-setup-startup-hook))
+#+end_src
+
+* Org Mode
+
+** Capture Templates
+
+Core org-mode settings including TODO keywords, agenda config, and capture
+templates. The capture templates here are defaults; =dnl-custom-vars.el= may
+override =org-capture-templates= before this block runs (the =unless= check
+handles that).
+
+#+begin_src emacs-lisp
+(use-package org
+  :ensure nil
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
+  :custom
+  (org-ellipsis " ▾")
+  (org-todo-keywords '((sequence "TODO(t)" "DOING(n)" "BLOCKED(b)" "|" "DONE(d)" "DELEGATED(g)" "CANCELLED(c)")))
+  (org-agenda-start-on-weekday 1)
+  (calendar-week-start-day 1)
+  (org-agenda-skip-scheduled-if-done t)
+  (org-log-done t)
+  (org-agenda-files `(,dnl/org-agenda-path))
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0)
+  (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
+  :config
+  (unless (bound-and-true-p org-capture-templates)
+    (setq org-capture-templates
+          '(("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
+             "** %?")
+            ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
+             "** TODO %?")
+            ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
+             "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
+             :jump-to-captured t)
+            ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
+             "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)))))
+#+end_src
+
+** Block Templates
+
+Type =<el= then =Tab= to expand to an emacs-lisp source block, etc.
+Requires =org-tempo= (included since Org 9.2).
+
+#+begin_src emacs-lisp
+(require 'org-tempo)
+
+(add-to-list 'org-structure-template-alist '("sh"   . "src sh"))
+(add-to-list 'org-structure-template-alist '("el"   . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("ts"   . "src typescript"))
+(add-to-list 'org-structure-template-alist '("py"   . "src python"))
+(add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+(add-to-list 'org-structure-template-alist '("json" . "src json"))
+#+end_src
+
+** Web Bookmarks
+
+=org-web-tools= fetches page titles from URLs. The helper function reads a URL
+from the clipboard or kill-ring and formats it as an org link — used by the
+bookmark capture template.
+
+#+begin_src emacs-lisp
+(use-package org-web-tools)
+
+(defun dnl/org-web-tools-insert-link-for-clipboard-url ()
+  "Return an org link for the URL on the clipboard or kill-ring."
+  (interactive)
+  (org-web-tools--org-link-for-url (org-web-tools--get-first-url)))
+#+end_src
+
+* Version Control
+
+** Magit
+
+Magit is the definitive Git interface for Emacs.
+
+#+begin_src emacs-lisp
+(use-package magit)
+#+end_src
+
+** diff-hl
+
+Show per-line diff indicators in the fringe. We hook into focus and window
+selection changes to force a refresh against HEAD (=diff-hl-flydiff-mode= only
+diffs against the last save, not against the git index).
+
+#+begin_src emacs-lisp
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
+  (add-hook 'magit-pre-refresh-hook  'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  (add-hook 'after-revert-hook       'diff-hl-update)
+
+  (add-function :after after-focus-change-function
+                (lambda ()
+                  (when (frame-focus-state)
+                    (when diff-hl-mode (diff-hl-update)))))
+
+  (add-hook 'window-selection-change-functions
+            (lambda (_)
+              (when diff-hl-mode
+                (diff-hl-update)))))
+#+end_src
+
+* Languages
+
+** Web
+*** HTML (web-mode)
+
+=web-mode= handles HTML, XML, and mixed-mode templates with consistent
+indentation settings.
+
+#+begin_src emacs-lisp
+(use-package web-mode
+  :mode (("\\.html\\'" . web-mode)
+         ("\\.xml\\'"  . web-mode))
+  :config
+  (setq web-mode-markup-indent-offset dnl/indent-width)
+  (setq web-mode-code-indent-offset   dnl/indent-width)
+  (setq web-mode-css-indent-offset    dnl/indent-width)
+  (setq web-mode-script-padding       dnl/indent-width))
+#+end_src
+
+*** Emmet
+
+=C-j= expands HTML/CSS abbreviations. The hook detects inline CSS in web-mode
+and switches Emmet to CSS transform mode automatically.
+
+#+begin_src emacs-lisp
+(use-package emmet-mode
+  :hook ((web-mode    . emmet-mode)
+         (css-ts-mode . emmet-mode))
+  :init
+  (add-hook 'web-mode-before-auto-complete-hooks
+    (lambda ()
+      (let ((web-mode-cur-language (web-mode-language-at-pos)))
+        (if (string= web-mode-cur-language "css")
+            (setq emmet-use-css-transform t)
+          (setq emmet-use-css-transform nil))))))
+#+end_src
+
+** JavaScript & TypeScript
+
+Tree-sitter based modes for JS and TS, with eglot hooked in for LSP support.
+
+#+begin_src emacs-lisp
+(use-package typescript-ts-mode
+  :ensure nil
+  :after eglot
+  :mode (("\\.ts\\'"  . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode))
+  :config
+  (setq typescript-ts-mode-indent-offset dnl/indent-width))
+
+(use-package js-ts-mode
+  :ensure nil
+  :after eglot
+  :mode (("\\.js\\'" . js-ts-mode)))
+#+end_src
+
+** CSS
+
+#+begin_src emacs-lisp
+(use-package css-ts-mode
+  :ensure nil
+  :after eglot
+  :mode "\\.css\\'"
+  :config
+  (setq css-ts-mode-indent-offset dnl/indent-width))
+#+end_src
+
+** JSON
+
+#+begin_src emacs-lisp
+(use-package json-ts-mode
+  :ensure nil
+  :after eglot
+  :mode "\\.json\\'"
+  :config
+  (setq json-ts-mode-indent-offset dnl/indent-width))
+#+end_src
+
+** Lisp / Scheme
+
+Fedora ships Guile 2 by default; explicitly target Guile 3.
+
+#+begin_src emacs-lisp
+(use-package geiser
+  :config
+  (setq geiser-guile-binary "guile3.0"))
+
+(use-package geiser-guile
+  :after geiser)
+#+end_src
+
+** Markdown
+
+Full-featured markdown editing with syntax highlighting in code blocks, spell
+checking, and imenu navigation.
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'"       . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init
+  (setq markdown-command                  "multimarkdown"
+        markdown-fontify-code-blocks-natively t
+        markdown-indent-on-enter          'indent-and-new-item
+        markdown-asymmetric-header        t
+        markdown-code-block-braces        t
+        markdown-hide-markup              nil)
+  :config
+  (add-hook 'markdown-mode-hook #'visual-line-mode)
+  (add-hook 'markdown-mode-hook #'flyspell-mode)
+  (add-hook 'markdown-mode-hook #'imenu-add-menubar-index))
+#+end_src
+
+** Go
+
+#+begin_src emacs-lisp
+(use-package go-ts-mode
+  :ensure nil
+  :after eglot
+  :mode "\\.go\\'"
+  :config
+  (setq go-ts-mode-indent-offset tab-width))
+#+end_src
+
+** Tree-sitter
+
+=treesit-auto= automatically installs the correct tree-sitter grammar and
+activates the corresponding =*-ts-mode= for supported languages.
+
+#+begin_src emacs-lisp
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+#+end_src
+
+** LSP (eglot)
+
+Eglot is the built-in LSP client. Format-on-save is enabled for all hooked
+modes so files are always committed in their canonical style.
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :ensure nil
+  :hook ((typescript-ts-mode . eglot-ensure)
+         (tsx-ts-mode        . eglot-ensure)
+         (js-ts-mode         . eglot-ensure)
+         (go-ts-mode         . eglot-ensure)
+         (css-ts-mode        . eglot-ensure))
+  :config
+  (defun dnl/eglot-format-on-save ()
+    (add-hook 'before-save-hook #'eglot-format-buffer nil t))
+  (dolist (hook '(go-ts-mode-hook
+                  typescript-ts-mode-hook
+                  tsx-ts-mode-hook
+                  js-ts-mode-hook
+                  css-ts-mode-hook))
+    (add-hook hook #'dnl/eglot-format-on-save)))
+#+end_src
+
+* Shell & Environment
+
+** exec-path-from-shell
+
+On macOS, GUI Emacs does not inherit the full shell =PATH=. This package reads
+the path from a login shell so that tools like LSP servers are found correctly.
+
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x pgtk))
+    (setq exec-path-from-shell-shell-name "fish")
+    (setq exec-path-from-shell-arguments '("-l" "-i"))
+    (exec-path-from-shell-initialize)))
+#+end_src
+
+** vterm
+
+vterm is a fast terminal emulator backed by a native C library. Requires
+=cmake= and =libtool= to compile. See the [[https://github.com/akermu/emacs-libvterm#shell-side-configuration][shell-side configuration]] docs for
+integrating with your shell.
+
+#+begin_src emacs-lisp
+(use-package vterm
+  :commands vterm-mode
+  :bind
+  (("C-c t t" . vterm))
+  :config
+  (setq vterm-kill-buffer-on-exit t
+        vterm-shell (or (executable-find "fish") "/bin/sh")))
+#+end_src
+
+** Agent Shell
+
+Agent Shell is powered by ACP (Agent Communication Protocol).
+Requires: =npm install -g @zed-industries/claude-agent-acp=
+
+#+begin_src emacs-lisp
+(use-package agent-shell
+  :config
+  (setq agent-shell-anthropic-authentication
+        (agent-shell-anthropic-make-authentication :login t))
+  :bind ("C-c t s" . agent-shell-anthropic-start-claude-code))
+#+end_src
+
+* RSS
+
+=elfeed= is an Emacs RSS/Atom reader. =elfeed-org= loads the feed list from the
+org bookmarks file, keeping feeds alongside other bookmarks.
+
+#+begin_src emacs-lisp
+(use-package elfeed)
+
+(use-package elfeed-org
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
+#+end_src
+
+* Personal Modules
+
+** Dice Roller
+
+Load the standalone =dice-roller.el= and bind the roll command to =C-c d=.
+
+#+begin_src emacs-lisp
+(load (expand-file-name "dice-roller" user-emacs-directory))
+(global-set-key (kbd "C-c d") #'dnl/dice-roll)
+#+end_src
+
+** Delta Green Export
+
+Custom LaTeX export for Delta Green TTRPG scenarios. Registers the
+=deltagreen= document class and maps org special blocks (=#+begin_scene=,
+=#+begin_npc=, etc.) to their corresponding LaTeX environments.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'ox-latex
+
+  (add-to-list 'org-latex-classes
+    '("deltagreen"
+      "\\documentclass{deltagreen}"
+      ("\\section{%s}"       . "\\section*{%s}")
+      ("\\subsection{%s}"    . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+
+  (setq org-latex-pdf-process
+        '("pdflatex -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -interaction nonstopmode -output-directory %o %f"))
+
+  (defun dg/latex-special-block (orig-fn special-block contents info)
+    "Transcode Delta Green special blocks; fall back to ORIG-FN for others."
+    (let* ((type  (downcase (org-element-property :type special-block)))
+           (param (org-element-property :parameters special-block)))
+      (pcase type
+        ("handler"  (format "\\begin{handlerbox}\n%s\\end{handlerbox}\n" contents))
+        ("hook"     (format "\\begin{hook}\n%s\\end{hook}\n" contents))
+        ("scene"    (format "\\begin{scene}{%s}\n%s\\end{scene}\n"
+                            (or param "Scene") contents))
+        ("npc"      (format "\\begin{npcblock}{%s}\n%s\\end{npcblock}\n"
+                            (or param "NPC") contents))
+        ("location" (format "\\begin{locationblock}{%s}\n%s\\end{locationblock}\n"
+                            (or param "Location") contents))
+        ("cluebox"  (format "\\begin{cluebox}[%s]\n%s\\end{cluebox}\n"
+                            (or param "Clue") contents))
+        (_          (funcall orig-fn special-block contents info)))))
+
+  (advice-add 'org-latex-special-block :around #'dg/latex-special-block))
+#+end_src
