@@ -42,6 +42,19 @@
 	find = log -i --pretty=\"format:%Cgreen%H %Cblue%s\" --name-status --grep
 	# list creation date and author for all branches
 	lsb= for-each-ref --format='%(color:cyan)%(authordate:format:%m/%d/%Y %H:%M)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)' --sort=authordate refs/remotes
+  # repo health metrics
+  # commits mentioning incidents, outages, rollbacks, or hotfixes in the last year
+  incidents = log --oneline -i -E --grep='(incident|outage|downtime|rollback|revert|mitigate|mitigation|hotfix|broke|prod)' --since='1 year ago'
+  # commits mentioning bugs, fixes, regressions, or hotfixes in the last year
+  bugs = log --oneline -i -E --grep='(bug|bugfix|fix|fixed|fixes|defect|regression|hotfix|broke)' --since='1 year ago'
+  # files most frequently touched by bug/fix commits in the last year (sorted by count)
+  bugfiles = "!git log --name-only --format='' -i -E --grep='(bug|bugfix|fix|fixed|fixes|defect|regression|hotfix|broke)' --since='1 year ago' | sort | uniq -c | sort -nr"
+  # commit count per month over the last year
+  monthly = "!git log --since='1 year ago' --format='%ad' --date=format:'%Y-%m' | sort | uniq -c"
+  # top 20 most-changed files over the last year (churn indicator)
+  churn = "!git log --format='' --name-only --diff-filter=AM --since='1 year ago' | sort | uniq -c | sort -nr | head -20"
+  # combined repo health dashboard: incidents, bugs, buggy files, monthly activity, and churn, all shortened to last 10
+  dash = "!echo '=== INCIDENTS ===' && git incidents | head -10 && echo '' && echo '=== BUG FIXES ===' && git bugs | head -10 && echo '' && echo '=== BUGGY FILES ===' && git bugfiles | head -10 && echo '' && echo '=== MONTHLY ACTIVITY ===' && git monthly | head -10 && echo '' && echo '=== FILE CHURN ===' && git churn | head -10"
 [init]
 	defaultBranch = main
 [include]
