@@ -1,0 +1,21 @@
+#!/bin/bash
+# Install trackball hwdb remapping configs to /etc/udev/hwdb.d/
+# Supports: Kensington Expert Trackball, Elecom Huge Trackball
+
+DOTFILES_DIR="${1:-$HOME/Projects/code/dotfiles}"
+HWDB_SRC="$DOTFILES_DIR/etc"
+HWDB_DEST="/etc/udev/hwdb.d"
+
+if [[ ! -d "$HWDB_SRC" ]]; then
+    echo "Error: hwdb source directory not found: $HWDB_SRC"
+    echo "Usage: $0 [dotfiles-dir]"
+    exit 1
+fi
+
+echo "Copying hwdb files to $HWDB_DEST ..."
+sudo cp -v "$HWDB_SRC"/*.hwdb "$HWDB_DEST/"
+
+echo "Updating hwdb ..."
+sudo systemd-hwdb update
+
+echo "Done. Reboot to apply changes."

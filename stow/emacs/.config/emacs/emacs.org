@@ -73,6 +73,7 @@ prefer short yes/no prompts.
   "Disable line numbers in the current buffer."
   (display-line-numbers-mode 0))
 (dolist (mode '(org-mode-hook
+                agent-shell-mode-hook
                 term-mode-hook
                 eshell-mode-hook
                 vterm-mode-hook))

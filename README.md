@@ -34,8 +34,12 @@ systemctl --user start syncthing.service
 
 ### Trackball config
 
-TODO: add script in etc/
+Hwdb remapping configs for Kensington Expert Trackball and Elecom Huge Trackball are in `etc/`.
 
-save `90-kensington-expert-trackball-remap.hwdb` under `/etc/udev/hwdb.d/90-kensington-expert-trackball-remap.hwdb`
+After stowing, run:
 
-run `sudo systemd-hwdb update` and reboot
+```
+install-trackball-config
+```
+
+Reboot to apply changes.
