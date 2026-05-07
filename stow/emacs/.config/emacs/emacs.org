@@ -527,7 +527,9 @@ handles that).
              "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
              :jump-to-captured t)
             ("b" "Bookmark (Clipboard)" entry (file+headline "~/Sync/org/bookmarks.org" "Captured")
-             "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t))))
+             "** %(dnl/org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n" :empty-lines 1 :prepend t)
+            ("j" "Journal" plain (file+datetree "~/Sync/org/journal.org")
+              "%?"))))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
