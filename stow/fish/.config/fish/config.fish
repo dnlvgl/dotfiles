@@ -25,3 +25,6 @@ abbr warpcorebg1 'play -n -c1 synth whitenoise lowpass -1 120 lowpass -1 120 low
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+# opencode
+fish_add_path /home/dnl/.opencode/bin
