@@ -178,6 +178,30 @@ reloads it without restarting Emacs.
 (global-set-key (kbd "C-c f") 'find-file-at-point)
 #+end_src
 
+** Copy File Location
+
+Copies the current file path to the clipboard with line number context.
+If a region is active, copies the path with the line range; otherwise copies
+the path with the current line number. Bound to =C-c y l=.
+
+#+begin_src emacs-lisp
+(defun dnl/copy-file-location-range ()
+  "Copy file path with line range if region is active, otherwise single line."
+  (interactive)
+  (if (buffer-file-name)
+      (let* ((file (buffer-file-name))
+             (location (if (use-region-p)
+                           (format "%s:%d-%d" file
+                                   (line-number-at-pos (region-beginning))
+                                   (line-number-at-pos (region-end)))
+                         (format "%s:%d" file (line-number-at-pos)))))
+        (kill-new location)
+        (message "Copied: %s" location))
+    (user-error "Buffer is not visiting a file")))
+
+(global-set-key (kbd "C-c y l") #'dnl/copy-file-location-range)
+#+end_src
+
 ** which-key
 
 Shows available keybindings in a popup after a short delay — invaluable for
