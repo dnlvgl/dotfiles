@@ -815,7 +815,7 @@ vterm is a fast terminal emulator backed by a native C library. Requires =cmake=
 (use-package vterm
   :commands vterm-mode
   :bind
-  (("C-c t t" . vterm))
+  (("C-c t v" . vterm))
   :config
   (setq vterm-kill-buffer-on-exit t
         vterm-shell (or (executable-find "fish") "/bin/sh")))
@@ -828,8 +828,19 @@ Emacs terminal emulator powered by libghostty-vt — the same VT engine that dri
 Run =M-x ghostel-download-module= to donwload the native module
 
 #+begin_src emacs-lisp
-(use-package ghostel)
-#+end_src>
+(use-package ghostel
+  :bind
+  (("C-c t t" . ghostel)
+   ("C-c t T" . ghostel-new-terminal)))
+
+  ;; Workaround for creating a new terminal, M-x ghostel alway jumps to the current terminal.
+  ;; C-u M-x ghostel opens a new terminal.
+  ;; M-x ghosel-other cycles through them
+  (defun ghostel-new-terminal ()
+    "Start a new ghostel terminal session, without prefixing C-u"
+    (interactive)
+    (ghostel '(4)))
+#+end_src
 
 ** Agent Shell
 
