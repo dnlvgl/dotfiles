@@ -76,7 +76,8 @@ prefer short yes/no prompts.
                 agent-shell-mode-hook
                 term-mode-hook
                 eshell-mode-hook
-                vterm-mode-hook))
+                vterm-mode-hook
+                ghostel-mode-hook))
   (add-hook mode #'dnl/disable-line-numbers))
 
 (setq use-short-answers t)
