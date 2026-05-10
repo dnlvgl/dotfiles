@@ -19,3 +19,12 @@ theme = dark:calcite-dark,light:calcite-light
 # On Fedora/GNOME, it respects the Adwaita styling
 window-decoration = true
 window-save-state = "always"
+# getting a blocky cursor instead of the simple dash
+adjust-cursor-thickness=5000%
+
+# --- Emacs like splits and Windmove navigation ---
+keybind = ctrl+x>0=close_surface
+keybind = ctrl+x>2=new_split:up
+keybind = ctrl+x>3=new_split:right
+keybind = shift+left=goto_split:left
+keybind = shift+right=goto_split:right
