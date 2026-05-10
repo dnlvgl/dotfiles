@@ -546,8 +546,8 @@ handles that).
     (setq org-capture-templates
           '(("i" "Inbox" entry (file+headline "~/Sync/org/notes.org" "Inbox")
              "** %?")
-            ("t" "Todo" entry (file+headline "~/Sync/org/notes.org" "GTD")
-             "** TODO %?")
+            ("t" "Todo" entry (file "~/Sync/org/todo.org")
+             "* TODO %?")
             ("r" "Recipe" entry (file "~/Sync/org/rezepte.org")
              "* %? %^G \n:PROPERTIES:\n:Quelle:\n:Menge:\n:Dauer:\n:Kalorien:\n:END:\n** Zutaten\n** Zubereitung\n"
              :jump-to-captured t)
