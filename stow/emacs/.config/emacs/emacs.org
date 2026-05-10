@@ -784,9 +784,7 @@ the path from a login shell so that tools like LSP servers are found correctly.
 
 ** vterm
 
-vterm is a fast terminal emulator backed by a native C library. Requires
-=cmake= and =libtool= to compile. See the [[https://github.com/akermu/emacs-libvterm#shell-side-configuration][shell-side configuration]] docs for
-integrating with your shell.
+vterm is a fast terminal emulator backed by a native C library. Requires =cmake= and =libtool= to compile. See the [[https://github.com/akermu/emacs-libvterm#shell-side-configuration][shell-side configuration]] docs for integrating with your shell.
 
 #+begin_src emacs-lisp
 (use-package vterm
@@ -797,6 +795,16 @@ integrating with your shell.
   (setq vterm-kill-buffer-on-exit t
         vterm-shell (or (executable-find "fish") "/bin/sh")))
 #+end_src
+
+** ghostel
+
+Emacs terminal emulator powered by libghostty-vt — the same VT engine that drives the Ghostty terminal.
+
+Run =M-x ghostel-download-module= to donwload the native module
+
+#+begin_src emacs-lisp
+(use-package ghostel)
+#+end_src>
 
 ** Agent Shell
 
