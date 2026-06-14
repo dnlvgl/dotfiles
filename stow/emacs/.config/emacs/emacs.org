@@ -14,16 +14,14 @@ fallback values are used. This must run before anything else so that font sizes,
 agenda paths, etc. are available to the rest of the config.
 
 #+begin_src emacs-lisp
-(setq custom-file (expand-file-name "dnl-custom-vars.el" user-emacs-directory))
-
-(cond ((file-exists-p custom-file)
-       (load custom-file))
-      (t
-       (defvar dnl/default-font-size 130)
-       (defvar dnl/org-agenda-path "~/Sync/org/")))
-
+(defvar dnl/default-font-size 130)
+(defvar dnl/org-agenda-path "~/Sync/org/")
 (defvar dnl/default-font "Fira Code") ;; sudo dnf install fira-code-fonts
 (defvar dnl/indent-width 2)
+
+(setq custom-file (expand-file-name "dnl-custom-vars.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
 #+end_src
 
 ** Package Management
