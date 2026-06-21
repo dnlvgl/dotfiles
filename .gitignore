@@ -3,7 +3,7 @@ ssh/
 # vim plugins are git repos
 **/dot-vim/plugged/**
 **/package.retry
-stow/bin/.local/bin/claude
+stow/scripts/.local/bin/claude
 .agent-shell
 
 # Machine-specific git configuration
