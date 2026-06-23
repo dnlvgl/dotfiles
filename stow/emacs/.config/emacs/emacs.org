@@ -504,7 +504,13 @@ without a file argument.
   :diminish dashboard-mode
   :config
   (setq dashboard-banner-logo-title "YOUR ADD HERE")
-  (setq dashboard-set-footer nil)
+  (setq dashboard-startupify-list '(dashboard-insert-banner
+                                    dashboard-insert-newline
+                                    dashboard-insert-banner-title
+                                    dashboard-insert-newline
+                                    dashboard-insert-init-info
+                                    dashboard-insert-items
+                                    dashboard-insert-newline))
   (setq dashboard-startup-banner (expand-file-name "dashboard-logos/orb.png" user-emacs-directory))
   (setq dashboard-items '((bookmarks . 10)
                           (agenda    . 5)
