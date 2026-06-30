@@ -115,8 +115,6 @@ GNOME Tweaks.
   (auto-dark-allow-osascript nil)
   (auto-dark-allow-powershell nil)
   :init (auto-dark-mode))
-
-(use-package nerd-icons)
 #+end_src
 
 ** Font
@@ -132,12 +130,13 @@ and fixed-pitch faces.
 ** Modeline
 
 =doom-modeline= provides a clean, informative modeline with icon support via
-=nerd-icons=.
+=nerd-icons=. Disabled icons for less clutter.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  :custom ((doom-modeline-height 15)
+           (doom-modeline-icon nil)))
 #+end_src
 
 * Keybindings
