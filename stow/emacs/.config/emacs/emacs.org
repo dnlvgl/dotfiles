@@ -859,20 +859,6 @@ Requires: =npm install -g @zed-industries/claude-agent-acp=
   :bind ("C-c t s" . agent-shell-anthropic-start-claude-code))
 #+end_src
 
-* RSS
-
-=elfeed= is an Emacs RSS/Atom reader. =elfeed-org= loads the feed list from the
-org bookmarks file, keeping feeds alongside other bookmarks.
-
-#+begin_src emacs-lisp
-(use-package elfeed)
-
-(use-package elfeed-org
-  :config
-  (elfeed-org)
-  (setq rmh-elfeed-org-files (list "~/Sync/org/bookmarks.org")))
-#+end_src
-
 * Personal Modules
 
 ** Dice Roller
