@@ -25,11 +25,10 @@ stow -v --target=$HOME insert-folder/
 
 ### Syncthing
 
-Start syncthing via systemd
+After stowing, enable and start the user service:
 
 ```
-systemctl --user enable syncthing.service
-systemctl --user start syncthing.service
+systemctl --user enable --now syncthing.service
 ```
 
 ### Trackball config
