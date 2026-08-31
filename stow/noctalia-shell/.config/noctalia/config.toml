@@ -6,6 +6,9 @@
 [theme]
 mode = "dark"
 
+[wallpaper]
+directory = "/home/dnl/Pictures"
+
 [bar]
 order = ["default"]
 
