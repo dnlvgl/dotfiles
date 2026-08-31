@@ -33,3 +33,6 @@ format = "%a %d %b  %H:%M"
 [widget.network]
 type = "network"
 show_label = false
+
+[shell.panel]
+control_center_placement = "floating"
