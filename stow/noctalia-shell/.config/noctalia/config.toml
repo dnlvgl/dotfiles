@@ -14,7 +14,7 @@ order = ["default"]
 
 [bar.default]
 center = ["clock"]
-end = ["network", "battery", "tray", "control-center"]
+end = ["network", "battery", "tray", "theme_mode", "control-center"]
 # `start` is intentionally omitted to keep noctalia's built-in default
 # (launcher, wallpaper, workspaces).
 margin_ends = 0
