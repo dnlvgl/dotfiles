@@ -5,6 +5,8 @@
 
 [theme]
 mode = "dark"
+source = "custom"
+custom_palette = "calcite"
 
 [wallpaper]
 directory = "/home/dnl/Pictures"
