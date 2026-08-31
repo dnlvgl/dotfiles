@@ -14,6 +14,13 @@ center = ["clock"]
 end = ["network", "battery", "tray", "control-center"]
 # `start` is intentionally omitted to keep noctalia's built-in default
 # (launcher, wallpaper, workspaces).
+margin_ends = 0
+radius = 0
+radius_top_left = 0
+radius_top_right = 0
+radius_bottom_left = 0
+radius_bottom_right = 0
+concave_edge_corners = false
 
 [widget.clock]
 type = "clock"
