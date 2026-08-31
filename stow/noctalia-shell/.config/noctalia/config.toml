@@ -1,0 +1,7 @@
+# Minimal starter config for noctalia-shell.
+# Everything not set here falls back to noctalia's built-in defaults;
+# tune further via noctalia's own Settings UI (which writes overrides to
+# ~/.local/state/noctalia/settings.toml, not this file).
+
+[theme]
+mode = "dark"
