@@ -17,7 +17,7 @@ order = ["default"]
 [bar.default]
 start = ["launcher", "workspaces"]
 center = ["clock", "notifications"]
-end = ["network", "battery", "tray", "theme_mode", "control-center"]
+end = ["network", "battery", "tray", "theme_mode", "control_center_button"]
 margin_ends = 0
 radius = 0
 radius_top_left = 0
@@ -36,3 +36,11 @@ show_label = false
 
 [shell.panel]
 control_center_placement = "floating"
+
+[widget.control_center_button]
+type = "custom_button"
+glyph = "settings"
+tooltip = "Control Center"
+
+[widget.control_center_button.actions]
+left = "panel-toggle control-center"
