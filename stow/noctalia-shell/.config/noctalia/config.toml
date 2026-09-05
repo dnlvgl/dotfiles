@@ -42,6 +42,9 @@ focused_color = "primary"
 occupied_color = "outline"
 empty_color = "outline"
 
+[notification]
+position = "top_center"
+
 [shell.panel]
 control_center_placement = "floating"
 control_center_position = "auto"
