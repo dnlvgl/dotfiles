@@ -1,0 +1,42 @@
+#+TITLE: Niri Navigation Shortcuts
+#+STARTUP: overview
+
+Mod = Super/Windows key. Source: stow/niri/.config/niri/config.kdl
+
+* Focus movement
+| Keys              | Action                            |
+|-------------------+------------------------------------|
+| Mod+H/J/K/L        | focus column left / down / up / right window |
+| Mod+Left/Down/Up/Right | same, via arrows              |
+| Mod+U / Mod+I      | focus workspace down / up         |
+| Mod+1..9           | jump to workspace N                |
+| Mod+Home / Mod+End | focus first / last column         |
+
+* Moving things
+| Keys                        | Action                           |
+|-----------------------------+-----------------------------------|
+| Mod+Ctrl+H/J/K/L             | move column/window in direction  |
+| Mod+Ctrl+U / Mod+Ctrl+I      | move column to workspace down/up |
+| Mod+Ctrl+1..9                | move column to workspace N       |
+| Mod+Shift+H/J/K/L            | focus a different monitor        |
+| Mod+Shift+Ctrl+H/J/K/L       | move column to a different monitor |
+
+* Column / window sizing
+| Keys        | Action                       |
+|-------------+-------------------------------|
+| Mod+R       | cycle preset column widths    |
+| Mod+F       | maximize column                |
+| Mod+Shift+F | fullscreen window              |
+| Mod+C       | center column                  |
+| Mod+V       | toggle floating                |
+
+* Everything else
+| Keys             | Action                                  |
+|------------------+-------------------------------------------|
+| Mod+O            | overview                                   |
+| Mod+T            | open terminal (ghostty)                    |
+| Mod+D            | app launcher (fuzzel)                      |
+| Mod+Space        | Noctalia launcher                          |
+| Mod+Q            | close window                               |
+| Mod+Shift+Slash  | show full hotkey overlay (live cheat-sheet)|
+| Mod+Shift+E      | quit niri                                  |
