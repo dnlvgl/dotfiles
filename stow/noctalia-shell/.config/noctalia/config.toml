@@ -34,8 +34,17 @@ format = "%a %d %b  %H:%M"
 type = "network"
 show_label = false
 
+[widget.workspaces]
+type = "workspaces"
+change_color_on_hover = false
+focused_color = "primary"
+occupied_color = "outline"
+empty_color = "outline"
+
 [shell.panel]
 control_center_placement = "floating"
+control_center_position = "auto"
+open_near_click_control_center = true
 
 [widget.control_center_button]
 type = "custom_button"
