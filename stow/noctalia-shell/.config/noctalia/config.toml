@@ -29,6 +29,7 @@ concave_edge_corners = false
 [widget.clock]
 type = "clock"
 format = "%a %d %b  %H:%M"
+font_weight = 700
 
 [widget.network]
 type = "network"
