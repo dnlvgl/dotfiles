@@ -17,7 +17,7 @@ order = ["default"]
 [bar.default]
 start = ["launcher", "workspaces"]
 center = ["clock", "notifications"]
-end = ["network", "battery", "tray", "theme_mode", "control_center_button"]
+end = ["theme_mode", "network", "bluetooth", "battery", "tray", "control_center_button"]
 margin_ends = 0
 radius = 0
 radius_top_left = 0
