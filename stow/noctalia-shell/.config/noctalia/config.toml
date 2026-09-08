@@ -15,9 +15,9 @@ directory = "/home/dnl/Pictures"
 order = ["default"]
 
 [bar.default]
-start = []
-center = ["theme_mode", "notifications" ,"clock", "network", "bluetooth", "battery", "tray"]
-end = []
+start = ["workspaces", "theme_mode", "caffeine", "tray"]
+center = ["clock", "notifications"]
+end = ["network", "bluetooth", "battery"]
 margin_ends = 0
 radius = 0
 radius_top_left = 0
