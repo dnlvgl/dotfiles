@@ -15,9 +15,9 @@ directory = "/home/dnl/Pictures"
 order = ["default"]
 
 [bar.default]
-start = ["launcher", "workspaces"]
-center = ["clock", "notifications"]
-end = ["theme_mode", "network", "bluetooth", "battery", "tray", "control_center_button"]
+start = []
+center = ["theme_mode", "notifications" ,"clock", "network", "bluetooth", "battery", "tray"]
+end = []
 margin_ends = 0
 radius = 0
 radius_top_left = 0
@@ -35,25 +35,13 @@ font_weight = 700
 type = "network"
 show_label = false
 
-[widget.workspaces]
-type = "workspaces"
-change_color_on_hover = false
-focused_color = "primary"
-occupied_color = "outline"
-empty_color = "outline"
-
 [notification]
 position = "top_center"
 
 [shell.panel]
 control_center_placement = "floating"
-control_center_position = "auto"
-open_near_click_control_center = true
-
-[widget.control_center_button]
-type = "custom_button"
-glyph = "settings"
-tooltip = "Control Center"
+control_center_position = "top_center"
+open_near_click_control_center = false
 
 [widget.control_center_button.actions]
 left = "panel-toggle control-center"
