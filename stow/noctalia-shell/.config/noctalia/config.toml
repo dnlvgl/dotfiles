@@ -15,12 +15,11 @@ directory = "/home/dnl/Pictures"
 order = ["default"]
 
 [bar.default]
-#start = ["workspaces", "theme_mode", "caffeine", "tray"]
-#center = ["clock", "notifications"]
-#end = ["network", "bluetooth", "battery"]
-#TODO add custom spacer, as wide as one icon to balance out uneven icons
+
+# space_icon is used when the other side has more icons
+# until this is supported: https://github.com/noctalia-dev/noctalia/issues/2304
 start = []
-center = ["theme_mode", "caffeine", "notifications", "spacer_generic", "clock", "spacer_generic", "network", "bluetooth", "battery"]
+center = ["spacer_icon","theme_mode", "caffeine", "notifications", "spacer_generic", "clock", "spacer_generic", "syncthing", "network", "bluetooth", "battery"]
 end = []
 margin_ends = 0
 radius = 0
@@ -34,6 +33,11 @@ concave_edge_corners = false
 type = "clock"
 format = "%a %d %b  %H:%M"
 font_weight = 700
+
+# Requires the community plugin to be enabled first:
+# noctalia msg plugins enable rylos/syncthing
+[widget.syncthing]
+type = "rylos/syncthing:bar"
 
 [widget.network]
 type = "network"
@@ -57,3 +61,10 @@ left = "panel-toggle control-center"
 [widget.spacer_generic]
 type = "spacer"
 length = 20
+
+# Tuned to counter the left/right icon-count
+# asymmetry around the clock and pull it back to the true bar center; re-measure
+# and adjust if the widget list on either side changes.
+[widget.spacer_icon]
+type = "spacer"
+length = 21
