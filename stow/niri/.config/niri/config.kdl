@@ -619,6 +619,9 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
+    // TODO replace with noctalia screenshot commands piped into swappy for annotation,
+    // e.g. Print { spawn-sh "noctalia msg screenshot-region"; } with
+    // shell.screenshot-pipe-to-command / screenshot-pipe-command set to swappy.
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
