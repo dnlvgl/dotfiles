@@ -3,10 +3,22 @@
 # tune further via noctalia's own Settings UI (which writes overrides to
 # ~/.local/state/noctalia/settings.toml, not this file).
 
+# calcite.json was tweaked to match the flattened panel below:
+# mSurfaceVariant == mSurface (no second background shade on list rows/dropdowns),
+# mOutline == mPrimary (borders use the theme purple instead of grey).
 [theme]
 mode = "dark"
 source = "custom"
 custom_palette = "calcite"
+
+# Flattened/minimal panel look: square corners everywhere, and borders only
+# on the panel itself + popups (dropdowns) rather than every card/button/input.
+[shell]
+corner_radius_scale = 0.0
+card_borders = false
+button_borders = false
+input_borders = false
+popup_borders = true
 
 [wallpaper]
 directory = "/home/dnl/Pictures"
@@ -54,6 +66,11 @@ position = "top_center"
 control_center_placement = "floating"
 control_center_position = "top_center"
 open_near_click_control_center = false
+# Keep the panel's own outline, but drop its drop shadow and the extra
+# background fill behind list rows so the panel reads as one flat surface.
+borders = true
+list_item_background = false
+shadow = false
 
 [widget.control_center_button.actions]
 left = "panel-toggle control-center"
