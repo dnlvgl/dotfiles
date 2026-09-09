@@ -15,9 +15,13 @@ directory = "/home/dnl/Pictures"
 order = ["default"]
 
 [bar.default]
-start = ["workspaces", "theme_mode", "caffeine", "tray"]
-center = ["clock", "notifications"]
-end = ["network", "bluetooth", "battery"]
+#start = ["workspaces", "theme_mode", "caffeine", "tray"]
+#center = ["clock", "notifications"]
+#end = ["network", "bluetooth", "battery"]
+#TODO add custom spacer, as wide as one icon to balance out uneven icons
+start = []
+center = ["theme_mode", "caffeine", "notifications", "spacer_generic", "clock", "spacer_generic", "network", "bluetooth", "battery"]
+end = []
 margin_ends = 0
 radius = 0
 radius_top_left = 0
@@ -35,6 +39,10 @@ font_weight = 700
 type = "network"
 show_label = false
 
+[widget.battery]
+type = "battery"
+show_label = false
+
 [notification]
 position = "top_center"
 
@@ -45,3 +53,7 @@ open_near_click_control_center = false
 
 [widget.control_center_button.actions]
 left = "panel-toggle control-center"
+
+[widget.spacer_generic]
+type = "spacer"
+length = 20
