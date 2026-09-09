@@ -111,4 +111,4 @@ length = 25
 # and adjust if the widget list on either side changes.
 [widget.spacer_icon]
 type = "spacer"
-length = 21
+length = 20
