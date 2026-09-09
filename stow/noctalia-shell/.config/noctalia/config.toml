@@ -22,6 +22,32 @@ popup_borders = true
 
 [wallpaper]
 directory = "/home/dnl/Pictures"
+fill_mode = "center"
+
+[idle]
+behavior_order = ["lock", "screen-off", "lock-and-suspend"]
+
+[idle.behavior.lock]
+action = "lock"
+enabled = true
+timeout = 600.0
+
+[idle.behavior.screen-off]
+action = "screen_off"
+enabled = true
+timeout = 660.0
+
+[idle.behavior.lock-and-suspend]
+action = "lock_and_suspend"
+enabled = true
+timeout = 900.0
+
+[control_center]
+hidden_tabs = ["media", "weather"]
+
+# Which app configs noctalia syncs its palette into.
+[theme.templates]
+builtin_ids = ["foot", "gtk3", "gtk4", "kcolorscheme", "niri", "qt"]
 
 [bar]
 order = ["default"]
@@ -46,8 +72,9 @@ type = "clock"
 format = "%a %d %b  %H:%M"
 font_weight = 700
 
-# Requires the community plugin to be enabled first:
-# noctalia msg plugins enable rylos/syncthing
+[plugins]
+enabled = ["rylos/syncthing"]
+
 [widget.syncthing]
 type = "rylos/syncthing:bar"
 
@@ -77,7 +104,7 @@ left = "panel-toggle control-center"
 
 [widget.spacer_generic]
 type = "spacer"
-length = 20
+length = 25
 
 # Tuned to counter the left/right icon-count
 # asymmetry around the clock and pull it back to the true bar center; re-measure
