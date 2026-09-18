@@ -69,7 +69,8 @@
         "format-disconnected": "",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)",
         "tooltip-format-ethernet": "{ifname}",
-        "tooltip-format-disconnected": "Disconnected"
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "nm-connection-editor"
     },
 
     "bluetooth": {
@@ -78,7 +79,10 @@
         "format-off": "",
         "format-disabled": "",
         "tooltip-format": "{controller_alias}\t{controller_address}",
-        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}"
+        "tooltip-format-off": "Bluetooth off",
+        "tooltip-format-disabled": "Bluetooth disabled",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "on-click": "blueman-manager"
     },
 
     "battery": {
