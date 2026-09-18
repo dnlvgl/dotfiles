@@ -56,11 +56,18 @@
     },
 
     "custom/syncthing": {
-        "format": "{}",
-        "exec": "systemctl --user is-active --quiet syncthing && echo '' || echo ''",
-        "interval": 10,
-        "on-click": "xdg-open http://localhost:8384",
-        "tooltip-format": "Syncthing"
+        "exec": "~/.config/waybar/scripts/syncthing-status.sh",
+        "return-type": "json",
+        "interval": 3,
+        "format": "{icon}",
+        "format-icons": {
+            "idle": "",
+            "syncing": "",
+            "disconnected": "",
+            "error": "",
+            "stopped": ""
+        },
+        "on-click": "xdg-open http://localhost:8384"
     },
 
     "network": {

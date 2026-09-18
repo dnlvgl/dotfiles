@@ -51,6 +51,24 @@ window#waybar {
     text-decoration: line-through;
 }
 
+/* Syncthing: state comes from scripts/syncthing-status.sh. */
+#custom-syncthing.syncing {
+    color: @accent;
+}
+
+#custom-syncthing.disconnected {
+    color: @muted;
+}
+
+#custom-syncthing.stopped {
+    color: @muted;
+    text-decoration: line-through;
+}
+
+#custom-syncthing.error {
+    color: #b85450;
+}
+
 #custom-theme_mode:hover,
 #custom-caffeine:hover,
 #custom-notifications:hover,
