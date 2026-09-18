@@ -78,6 +78,7 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
 spawn-at-startup "swayidle" "-w"
+spawn-sh-at-startup "swaybg -i $HOME/Pictures/Wallpaper/castle.jpg -m fill"
 
 // noctalia.kdl (included below) is written by Noctalia to sync its color theme into
 // niri's focus-ring/border/shadow colors; may not exist until Noctalia applies its niri integration.
