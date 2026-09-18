@@ -1,0 +1,59 @@
+/* Calcite palette (noctalia-shell/.config/noctalia/palettes/calcite.json) for
+   GTK4/libadwaita apps. Follows the system color-scheme, which the waybar
+   theme switcher flips via gsettings. */
+
+@media (prefers-color-scheme: light) {
+    @define-color accent_color #523c79;
+    @define-color accent_bg_color #523c79;
+    @define-color accent_fg_color #f1f1f1;
+
+    @define-color destructive_bg_color #9a9a9a;
+    @define-color destructive_fg_color #424242;
+    @define-color error_bg_color #9a9a9a;
+    @define-color error_fg_color #424242;
+
+    @define-color window_bg_color #f1f1f1;
+    @define-color window_fg_color #424242;
+    @define-color view_bg_color #f1f1f1;
+    @define-color view_fg_color #424242;
+    @define-color headerbar_bg_color #f1f1f1;
+    @define-color headerbar_fg_color #424242;
+    @define-color popover_bg_color #f1f1f1;
+    @define-color popover_fg_color #424242;
+    @define-color card_bg_color #f1f1f1;
+    @define-color card_fg_color #424242;
+    @define-color dialog_bg_color #f1f1f1;
+    @define-color dialog_fg_color #424242;
+    @define-color sidebar_bg_color #f1f1f1;
+    @define-color sidebar_fg_color #424242;
+    @define-color secondary_sidebar_bg_color #f1f1f1;
+    @define-color secondary_sidebar_fg_color #424242;
+}
+
+@media (prefers-color-scheme: dark) {
+    @define-color accent_color #bda7f0;
+    @define-color accent_bg_color #bda7f0;
+    @define-color accent_fg_color #222226;
+
+    @define-color destructive_bg_color #6a6a6a;
+    @define-color destructive_fg_color #f1f1f1;
+    @define-color error_bg_color #6a6a6a;
+    @define-color error_fg_color #f1f1f1;
+
+    @define-color window_bg_color #222226;
+    @define-color window_fg_color #f1f1f1;
+    @define-color view_bg_color #222226;
+    @define-color view_fg_color #f1f1f1;
+    @define-color headerbar_bg_color #222226;
+    @define-color headerbar_fg_color #f1f1f1;
+    @define-color popover_bg_color #222226;
+    @define-color popover_fg_color #f1f1f1;
+    @define-color card_bg_color #222226;
+    @define-color card_fg_color #f1f1f1;
+    @define-color dialog_bg_color #222226;
+    @define-color dialog_fg_color #f1f1f1;
+    @define-color sidebar_bg_color #222226;
+    @define-color sidebar_fg_color #f1f1f1;
+    @define-color secondary_sidebar_bg_color #222226;
+    @define-color secondary_sidebar_fg_color #f1f1f1;
+}
