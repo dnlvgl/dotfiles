@@ -39,6 +39,11 @@ window#waybar {
     color: @fg;
 }
 
+/* swaync-client tags the module with "notification" while any are unread. */
+#custom-notifications.notification {
+    color: @accent;
+}
+
 #custom-theme_mode:hover,
 #custom-caffeine:hover,
 #custom-notifications:hover,

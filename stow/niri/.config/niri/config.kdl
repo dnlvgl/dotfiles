@@ -76,6 +76,7 @@ layout {
 // want to re-enable it later — just remove the "/-" below and undo waybar.
 /-spawn-at-startup "noctalia" "--daemon"
 spawn-at-startup "waybar"
+spawn-at-startup "swaync"
 
 // noctalia.kdl (included below) is written by Noctalia to sync its color theme into
 // niri's focus-ring/border/shadow colors; may not exist until Noctalia applies its niri integration.

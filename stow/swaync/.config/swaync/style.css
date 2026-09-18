@@ -1,0 +1,20 @@
+/* Distro stylesheet supplies the layout; we only swap in calcite colors and
+   flatten it to match waybar. colors.css is a symlink to colors-dark.css or
+   colors-light.css, flipped by the waybar theme switcher. */
+@import url("file:///etc/xdg/swaync/style.css");
+@import "colors.css";
+
+:root {
+  --border-radius: 0;
+  --notification-shadow: none;
+}
+
+.close-button,
+.notification-group-buttons button,
+.notification-group-close-button button {
+  border-radius: 0;
+}
+
+.control-center {
+  border: 1px solid var(--noti-border-color);
+}
