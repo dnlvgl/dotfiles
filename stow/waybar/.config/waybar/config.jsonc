@@ -1,0 +1,74 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 0,
+
+    "modules-left": [],
+    "modules-center": ["custom/spacer", "custom/theme_mode", "custom/caffeine", "custom/notifications", "clock", "custom/syncthing", "network", "bluetooth", "battery"],
+    "modules-right": [],
+
+    "custom/spacer": {
+        "format": "",
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "{:%a %d %b  %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "custom/theme_mode": {
+        "format": "{}",
+        "exec": "gsettings get org.gnome.desktop.interface color-scheme | grep -q dark && echo '' || echo ''",
+        "interval": 5,
+        "on-click": "gsettings set org.gnome.desktop.interface color-scheme $(gsettings get org.gnome.desktop.interface color-scheme | grep -q dark && echo prefer-light || echo prefer-dark)",
+        "tooltip-format": "Toggle light/dark (GTK color-scheme)"
+    },
+
+    "custom/caffeine": {
+        "format": "{}",
+        "exec": "pgrep -f 'systemd-inhibit --what=idle:sleep --why=waybar-caffeine' >/dev/null && echo '' || echo ''",
+        "interval": 5,
+        "on-click": "pgrep -f 'systemd-inhibit --what=idle:sleep --why=waybar-caffeine' >/dev/null && pkill -f 'systemd-inhibit --what=idle:sleep --why=waybar-caffeine' || (systemd-inhibit --what=idle:sleep --why=waybar-caffeine sleep infinity &)",
+        "tooltip-format": "Caffeine (idle/sleep inhibit) — no idle daemon is configured yet to respect this"
+    },
+
+    "custom/notifications": {
+        "format": "",
+        "tooltip-format": "Notifications — placeholder icon, no notification daemon configured"
+    },
+
+    "custom/syncthing": {
+        "format": "{}",
+        "exec": "systemctl --user is-active --quiet syncthing && echo '' || echo ''",
+        "interval": 10,
+        "on-click": "xdg-open http://localhost:8384",
+        "tooltip-format": "Syncthing"
+    },
+
+    "network": {
+        "format-wifi": "",
+        "format-ethernet": "",
+        "format-disconnected": "",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "Disconnected"
+    },
+
+    "bluetooth": {
+        "format": "",
+        "format-connected": "",
+        "format-off": "",
+        "format-disabled": "",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}"
+    },
+
+    "battery": {
+        "format": "{icon}",
+        "format-icons": ["", "", "", "", ""],
+        "format-charging": "",
+        "tooltip-format": "{capacity}% ({time})"
+    }
+}
