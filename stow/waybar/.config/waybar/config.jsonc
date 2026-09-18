@@ -28,11 +28,15 @@
     },
 
     "custom/caffeine": {
-        "format": "{}",
-        "exec": "pgrep -f 'systemd-inhibit --what=idle:sleep --why=waybar-caffeine' >/dev/null && echo '' || echo ''",
+        "exec": "~/.config/waybar/scripts/caffeine.sh json",
+        "return-type": "json",
         "interval": 5,
-        "on-click": "pgrep -f 'systemd-inhibit --what=idle:sleep --why=waybar-caffeine' >/dev/null && pkill -f 'systemd-inhibit --what=idle:sleep --why=waybar-caffeine' || (systemd-inhibit --what=idle:sleep --why=waybar-caffeine sleep infinity &)",
-        "tooltip-format": "Caffeine (idle/sleep inhibit) — no idle daemon is configured yet to respect this"
+        "format": "{icon}",
+        "format-icons": {
+            "on": "",
+            "off": ""
+        },
+        "on-click": "~/.config/waybar/scripts/caffeine.sh toggle"
     },
 
     "custom/notifications": {

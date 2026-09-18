@@ -77,6 +77,7 @@ layout {
 /-spawn-at-startup "noctalia" "--daemon"
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
+spawn-at-startup "swayidle" "-w"
 
 // noctalia.kdl (included below) is written by Noctalia to sync its color theme into
 // niri's focus-ring/border/shadow colors; may not exist until Noctalia applies its niri integration.
@@ -93,8 +94,8 @@ binds {
     Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     // No replacement configured — wire to a clipboard manager (e.g. cliphist) if wanted.
     /-Mod+Shift+C hotkey-overlay-title="Toggle Clipboard History" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
-    // No replacement configured — wire to swaylock/hyprlock or similar if wanted.
     /-Super+Alt+L hotkey-overlay-title="Lock the Screen: noctalia" { spawn "noctalia" "msg" "session" "lock"; }
+    Super+Alt+L hotkey-overlay-title="Lock the Screen: gtklock" { spawn-sh "$HOME/.config/gtklock/lock.sh"; }
 
     // spawn-sh for pipes/multiple commands (single arg, passed to `sh -c`).
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
