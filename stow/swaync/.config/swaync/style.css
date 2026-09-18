@@ -18,3 +18,9 @@
 .control-center {
   border: 1px solid var(--noti-border-color);
 }
+
+/* No highlight box around the focused row/group (only the notification's own hover). */
+.notification-row:focus,
+.notification-group:focus {
+  background: none;
+}
