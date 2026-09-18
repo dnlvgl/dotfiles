@@ -1,0 +1,70 @@
+/* Calcite palette, flat/square to match the waybar theme. Colors live in
+   colors.css, a symlink to colors-dark.css/colors-light.css flipped by the
+   waybar theme switcher. */
+@import "colors.css";
+
+* {
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+window {
+    background-color: @bg;
+    background-image: none;
+    color: @fg;
+}
+
+#clock-label {
+    font-weight: 700;
+    color: @fg;
+}
+
+#date-label {
+    color: @muted;
+}
+
+#input-label {
+    color: @fg;
+}
+
+#input-field {
+    background-color: @bg;
+    background-image: none;
+    color: @fg;
+    caret-color: @accent;
+    border: 1px solid @muted;
+    outline: none;
+    padding: 8px 10px;
+}
+
+#input-field:focus {
+    border-color: @accent;
+}
+
+#input-field selection {
+    background-color: @accent;
+    color: @on-accent;
+}
+
+#unlock-button {
+    background-color: @accent;
+    background-image: none;
+    color: @on-accent;
+    border: 1px solid @accent;
+    outline: none;
+    padding: 6px 16px;
+}
+
+#unlock-button:hover {
+    background-color: @bg;
+    color: @accent;
+}
+
+#error-label {
+    color: #b85450;
+}
+
+#warning-label {
+    color: #c8a830;
+}

@@ -12,6 +12,7 @@ esac
 ln -sf "colors-$new.css" "$waybar_dir/colors.css"
 ln -sf "colors-$new.ini" "$fuzzel_dir/colors.ini"
 ln -sf "colors-$new.css" "$HOME/.config/swaync/colors.css"
+ln -sf "colors-$new.css" "$HOME/.config/gtklock/colors.css"
 
 # swaync doesn't watch its stylesheet; it's a no-op if the daemon isn't running.
 swaync-client -rs >/dev/null 2>&1 || true

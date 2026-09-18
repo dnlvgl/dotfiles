@@ -39,6 +39,11 @@ window#waybar {
     color: @fg;
 }
 
+/* scripts/caffeine.sh tags the module "on" while the inhibitor runs. */
+#custom-caffeine.on {
+    color: @accent;
+}
+
 /* swaync-client tags the module with "notification" while any are unread. */
 #custom-notifications.notification {
     color: @accent;
