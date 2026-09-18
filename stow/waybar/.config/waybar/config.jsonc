@@ -3,6 +3,7 @@
     "position": "top",
     "height": 32,
     "spacing": 0,
+    "reload_style_on_change": true,
 
     "modules-left": [],
     "modules-center": ["custom/spacer", "custom/theme_mode", "custom/caffeine", "custom/notifications", "clock", "custom/syncthing", "network", "bluetooth", "battery"],
@@ -20,10 +21,10 @@
 
     "custom/theme_mode": {
         "format": "{}",
-        "exec": "gsettings get org.gnome.desktop.interface color-scheme | grep -q dark && echo '' || echo ''",
+        "exec": "readlink ~/.config/waybar/colors.css | grep -q light && echo '' || echo ''",
         "interval": 5,
-        "on-click": "gsettings set org.gnome.desktop.interface color-scheme $(gsettings get org.gnome.desktop.interface color-scheme | grep -q dark && echo prefer-light || echo prefer-dark)",
-        "tooltip-format": "Toggle light/dark (GTK color-scheme)"
+        "on-click": "~/.config/waybar/scripts/toggle-theme.sh",
+        "tooltip-format": "Toggle light/dark theme"
     },
 
     "custom/caffeine": {
