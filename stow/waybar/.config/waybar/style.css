@@ -1,0 +1,105 @@
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    font-size: 13px;
+    /* adw-gtk3 gives tooltips a black text-shadow meant for its dark tooltips; it smears our dark-on-light text. */
+    text-shadow: none;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+/* Balances the one-icon asymmetry (3 left of the clock, 4 right), mirroring
+   Noctalia's own leading spacer_icon that pulls the clock back to true center. */
+#custom-spacer {
+    min-width: 33px;
+}
+
+#clock {
+    font-weight: 700;
+    padding: 0 12px;
+    color: @fg;
+}
+
+#custom-theme_mode,
+#custom-caffeine,
+#custom-notifications,
+#custom-syncthing,
+#network,
+#bluetooth,
+#battery {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", sans-serif;
+    font-weight: 900;
+    padding: 0 10px;
+    color: @fg;
+}
+
+/* scripts/caffeine.sh tags the module "on" while the inhibitor runs. */
+#custom-caffeine.on {
+    color: @accent;
+}
+
+/* swaync-client tags the module with "notification" while any are unread. */
+#custom-notifications.notification {
+    color: @accent;
+}
+
+/* Dimmed and struck through while the radio is off or blocked. */
+#bluetooth.off,
+#bluetooth.disabled {
+    color: @muted;
+    text-decoration: line-through;
+}
+
+/* Syncthing: state comes from scripts/syncthing-status.sh. */
+#custom-syncthing.syncing {
+    color: @accent;
+}
+
+#custom-syncthing.disconnected {
+    color: @muted;
+}
+
+#custom-syncthing.stopped {
+    color: @muted;
+    text-decoration: line-through;
+}
+
+#custom-syncthing.error {
+    color: #b85450;
+}
+
+#custom-theme_mode:hover,
+#custom-caffeine:hover,
+#custom-notifications:hover,
+#custom-syncthing:hover,
+#network:hover,
+#bluetooth:hover,
+#battery:hover {
+    background-color: @accent;
+    color: @on-accent;
+}
+
+#battery.warning {
+    color: #c8a830;
+}
+
+#battery.critical {
+    color: #b85450;
+}
+
+tooltip {
+    background-color: @bg;
+    border: 1px solid @accent;
+    border-radius: 0;
+    padding: 4px;
+}
+
+tooltip label {
+    color: @fg;
+}

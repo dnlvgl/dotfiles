@@ -1,0 +1,105 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 0,
+    "reload_style_on_change": true,
+
+    "modules-left": [],
+    "modules-center": ["custom/spacer", "custom/theme_mode", "custom/caffeine", "custom/notifications", "clock", "custom/syncthing", "network", "bluetooth", "battery"],
+    "modules-right": [],
+
+    "custom/spacer": {
+        "format": "",
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "{:%a %d %b  %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "custom/theme_mode": {
+        "format": "{}",
+        "exec": "readlink ~/.config/waybar/colors.css | grep -q light && echo '' || echo ''",
+        "interval": 5,
+        "on-click": "~/.config/waybar/scripts/toggle-theme.sh",
+        "tooltip-format": "Toggle light/dark theme"
+    },
+
+    "custom/caffeine": {
+        "exec": "~/.config/waybar/scripts/caffeine.sh json",
+        "return-type": "json",
+        "interval": 5,
+        "format": "{icon}",
+        "format-icons": {
+            "on": "",
+            "off": ""
+        },
+        "on-click": "~/.config/waybar/scripts/caffeine.sh toggle"
+    },
+
+    "custom/notifications": {
+        "exec": "swaync-client -swb",
+        "return-type": "json",
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "",
+            "none": "",
+            "dnd-notification": "",
+            "dnd-none": "",
+            "inhibited-notification": "",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "",
+            "dnd-inhibited-none": ""
+        },
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true,
+        "tooltip": false
+    },
+
+    "custom/syncthing": {
+        "exec": "~/.config/waybar/scripts/syncthing-status.sh",
+        "return-type": "json",
+        "interval": 3,
+        "format": "{icon}",
+        "format-icons": {
+            "idle": "",
+            "syncing": "",
+            "disconnected": "",
+            "error": "",
+            "stopped": ""
+        },
+        "on-click": "xdg-open http://localhost:8384"
+    },
+
+    "network": {
+        "format-wifi": "",
+        "format-ethernet": "",
+        "format-disconnected": "",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "nm-connection-editor"
+    },
+
+    "bluetooth": {
+        "format": "",
+        "format-connected": "",
+        "format-off": "",
+        "format-disabled": "",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-off": "Bluetooth off",
+        "tooltip-format-disabled": "Bluetooth disabled",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "on-click": "blueman-manager"
+    },
+
+    "battery": {
+        "format": "{icon}",
+        "format-icons": ["", "", "", "", ""],
+        "format-charging": "",
+        "tooltip-format": "{capacity}% ({time})"
+    }
+}
