@@ -1,0 +1,38 @@
+# Calcite light palette, flat/square to match the waybar theme. `config` is a symlink
+# to config-dark/config-light flipped by the waybar theme switcher (swaylock has no
+# include, so the two files differ only in the colors).
+daemonize
+ignore-empty-password
+show-failed-attempts
+indicator-idle-visible
+indicator-radius=70
+indicator-thickness=6
+font=sans-serif
+font-size=20
+
+color=f1f1f1
+inside-color=f1f1f1
+inside-clear-color=f1f1f1
+inside-caps-lock-color=f1f1f1
+inside-ver-color=f1f1f1
+inside-wrong-color=f1f1f1
+ring-color=9a9a9a
+ring-clear-color=c8a830
+ring-caps-lock-color=c8a830
+ring-ver-color=523c79
+ring-wrong-color=b85450
+key-hl-color=523c79
+bs-hl-color=b85450
+caps-lock-key-hl-color=c8a830
+caps-lock-bs-hl-color=b85450
+separator-color=f1f1f1
+line-color=00000000
+line-clear-color=00000000
+line-caps-lock-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+text-color=424242
+text-clear-color=424242
+text-caps-lock-color=424242
+text-ver-color=424242
+text-wrong-color=424242

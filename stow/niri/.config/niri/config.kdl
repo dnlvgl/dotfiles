@@ -108,7 +108,7 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
     Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
     Mod+Space hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: gtklock" { spawn-sh "$HOME/.config/gtklock/lock.sh"; }
+    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn-sh "$HOME/.config/swaylock/lock.sh"; }
 
     // spawn-sh for pipes/multiple commands (single arg, passed to `sh -c`).
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
