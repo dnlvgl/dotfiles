@@ -1,0 +1,26 @@
+#!/bin/bash
+# OCR a screen region into the clipboard: drag a rectangle, release to capture, text lands in the clipboard.
+# Usage: ocr-screen [tesseract-lang]   (default deu+eng; e.g. eng or deu to force one language)
+# Runs from rofi's run mode. Rofi has no terminal, so all feedback goes through notifications.
+
+lang="${1:-deu+eng}"
+
+for cmd in slurp grim tesseract wl-copy; do
+    if ! command -v "$cmd" >/dev/null; then
+        notify-send -u critical "OCR" "missing dependency: $cmd"
+        exit 1
+    fi
+done
+
+# Esc makes slurp exit non-zero: treat as cancel.
+region=$(slurp -d) || exit 0
+
+text=$(grim -g "$region" - | tesseract stdin stdout -l "$lang" 2>/dev/null | tr -d '\f')
+
+if [[ -z "${text//[[:space:]]/}" ]]; then
+    notify-send "OCR ($lang)" "No text found"
+    exit 1
+fi
+
+printf '%s' "$text" | wl-copy
+notify-send "OCR ($lang)" "Copied to clipboard:"$'\n'"${text:0:200}"
