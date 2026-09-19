@@ -14,10 +14,10 @@ window#waybar {
     color: @fg;
 }
 
-/* Balances the one-icon asymmetry (3 left of the clock, 4 right), mirroring
-   Noctalia's own leading spacer_icon that pulls the clock back to true center. */
+/* Every icon is 37px wide (17px + 2x10px padding), whatever its glyph, so the clock stays centered.
+   3 icons sit left of it and 5 right, so the spacer stands in for the two missing ones. */
 #custom-spacer {
-    min-width: 33px;
+    min-width: 74px;
 }
 
 #clock {
@@ -32,9 +32,12 @@ window#waybar {
 #custom-syncthing,
 #network,
 #bluetooth,
-#battery {
+#battery,
+#wireplumber {
     font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", sans-serif;
     font-weight: 900;
+    /* Fixed to the widest glyph (16.2px), so a glyph change never shifts the clock. */
+    min-width: 17px;
     padding: 0 10px;
     color: @fg;
 }
@@ -47,6 +50,12 @@ window#waybar {
 /* swaync-client tags the module with "notification" while any are unread. */
 #custom-notifications.notification {
     color: @accent;
+}
+
+/* Muted output: dimmed and struck through, like a switched-off radio. */
+#wireplumber.muted {
+    color: @muted;
+    text-decoration: line-through;
 }
 
 /* Dimmed and struck through while the radio is off or blocked. */
@@ -80,7 +89,8 @@ window#waybar {
 #custom-syncthing:hover,
 #network:hover,
 #bluetooth:hover,
-#battery:hover {
+#battery:hover,
+#wireplumber:hover {
     background-color: @accent;
     color: @on-accent;
 }
