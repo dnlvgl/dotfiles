@@ -74,7 +74,7 @@ layout {
     }
 }
 
-// Noctalia is disabled in favor of waybar + fuzzel (see stow/waybar/).
+// Noctalia is disabled in favor of waybar + rofi (see stow/waybar/).
 // Its own config is left untouched under stow/noctalia-shell/ in case we
 // want to re-enable it later — just remove the "/-" below and undo waybar.
 /-spawn-at-startup "noctalia" "--daemon"
@@ -94,8 +94,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
+    Mod+Space hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
     // No replacement configured — wire to a clipboard manager (e.g. cliphist) if wanted.
     /-Mod+Shift+C hotkey-overlay-title="Toggle Clipboard History" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
     /-Super+Alt+L hotkey-overlay-title="Lock the Screen: noctalia" { spawn "noctalia" "msg" "session" "lock"; }
