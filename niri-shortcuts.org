@@ -35,8 +35,8 @@ Mod = Super/Windows key. Source: stow/niri/.config/niri/config.kdl
 |------------------+-------------------------------------------|
 | Mod+O            | overview                                   |
 | Mod+T            | open terminal (ghostty)                    |
-| Mod+D            | app launcher (fuzzel)                      |
-| Mod+Space        | Noctalia launcher                          |
+| Mod+D            | app launcher (rofi)                        |
+| Mod+Space        | app launcher (rofi)                        |
 | Mod+Q            | close window                               |
 | Mod+Shift+Slash  | show full hotkey overlay (live cheat-sheet)|
 | Mod+Shift+E      | quit niri                                  |

@@ -1,5 +1,4 @@
-/* Calcite palette (noctalia-shell/.config/noctalia/palettes/calcite.json) for
-   GTK4/libadwaita apps. Follows the system color-scheme, which the waybar
+/* Calcite palette for GTK4/libadwaita apps. Follows the system color-scheme, which the waybar
    theme switcher flips via gsettings. */
 
 @media (prefers-color-scheme: light) {

@@ -52,39 +52,51 @@ layout {
 
     default-column-width { proportion 0.5; }
 
+    // Calcite dark palette; niri doesn't follow the waybar light/dark switcher.
     focus-ring {
         width 4
-        active-color "#7fc8ff"
-        inactive-color "#505050"
+        active-color "#bda7f0"
+        inactive-color "#222226"
+        urgent-color "#6a6a6a"
     }
 
     border {
         off
         width 4
-        active-color "#ffc87f"
-        inactive-color "#505050"
-        urgent-color "#9b0000"
+        active-color "#bda7f0"
+        inactive-color "#222226"
+        urgent-color "#6a6a6a"
     }
 
     shadow {
         softness 30
         spread 5
         offset x=0 y=5
-        color "#0007"
+        color "#00000070"
+    }
+
+    tab-indicator {
+        active-color "#bda7f0"
+        inactive-color "#501cc8"
+        urgent-color "#6a6a6a"
+    }
+
+    insert-hint {
+        color "#bda7f080"
     }
 }
 
-// Noctalia is disabled in favor of waybar + rofi (see stow/waybar/).
-// Its own config is left untouched under stow/noctalia-shell/ in case we
-// want to re-enable it later — just remove the "/-" below and undo waybar.
-/-spawn-at-startup "noctalia" "--daemon"
+recent-windows {
+    highlight {
+        active-color "#bda7f0"
+        urgent-color "#6a6a6a"
+    }
+}
+
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
 spawn-at-startup "swayidle" "-w"
 spawn-sh-at-startup "swaybg -i $HOME/Pictures/Wallpaper/castle.jpg -m fill"
-
-// noctalia.kdl (included below) is written by Noctalia to sync its color theme into
-// niri's focus-ring/border/shadow colors; may not exist until Noctalia applies its niri integration.
 
 // strftime(3)-formatted path; ~ expands to $HOME.
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
@@ -96,9 +108,6 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
     Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
     Mod+Space hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
-    // No replacement configured — wire to a clipboard manager (e.g. cliphist) if wanted.
-    /-Mod+Shift+C hotkey-overlay-title="Toggle Clipboard History" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
-    /-Super+Alt+L hotkey-overlay-title="Lock the Screen: noctalia" { spawn "noctalia" "msg" "session" "lock"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: gtklock" { spawn-sh "$HOME/.config/gtklock/lock.sh"; }
 
     // spawn-sh for pipes/multiple commands (single arg, passed to `sh -c`).
@@ -257,9 +266,7 @@ binds {
     // Vertical tabs for this column instead of stacked windows.
     Mod+W { toggle-column-tabbed-display; }
 
-    // TODO replace with noctalia screenshot commands piped into swappy for annotation,
-    // e.g. Print { spawn-sh "noctalia msg screenshot-region"; } with
-    // shell.screenshot-pipe-to-command / screenshot-pipe-command set to swappy.
+    // TODO pipe screenshots into swappy for annotation.
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
@@ -276,5 +283,3 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 }
 
-
-include "noctalia.kdl"
