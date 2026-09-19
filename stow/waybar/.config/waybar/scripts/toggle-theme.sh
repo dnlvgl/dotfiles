@@ -2,7 +2,6 @@
 set -e
 
 waybar_dir="$HOME/.config/waybar"
-fuzzel_dir="$HOME/.config/fuzzel"
 
 case "$(readlink "$waybar_dir/colors.css")" in
     *light*) new=dark ;;
@@ -10,7 +9,6 @@ case "$(readlink "$waybar_dir/colors.css")" in
 esac
 
 ln -sf "colors-$new.css" "$waybar_dir/colors.css"
-ln -sf "colors-$new.ini" "$fuzzel_dir/colors.ini"
 ln -sf "colors-$new.rasi" "$HOME/.config/rofi/colors.rasi"
 ln -sf "colors-$new.css" "$HOME/.config/swaync/colors.css"
 ln -sf "colors-$new.css" "$HOME/.config/gtklock/colors.css"
