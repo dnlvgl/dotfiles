@@ -1,0 +1,20 @@
+#!/bin/bash
+# Rofi power menu: lock, suspend, logout, reboot, shutdown.
+# Logout, reboot and shutdown ask for confirmation, with "No" preselected so a stray Enter cancels.
+# Runs from rofi's run mode or a keybind.
+
+confirm() {
+    [[ $(printf 'No\nYes\n' | rofi -dmenu -i -no-custom -p "$1?") == Yes ]]
+}
+
+choice=$(printf '%s\n' Lock Suspend Logout Reboot Shutdown | rofi -dmenu -i -no-custom -p Power) || exit 0
+
+case "$choice" in
+    Lock) exec "$HOME/.config/swaylock/lock.sh" ;;
+    Suspend) exec systemctl suspend ;; # swayidle's before-sleep hook locks first
+    Logout) confirm Logout && exec niri msg action quit --skip-confirmation ;;
+    Reboot) confirm Reboot && exec systemctl reboot ;;
+    Shutdown) confirm Shutdown && exec systemctl poweroff ;;
+esac
+# Only reached when a confirmation was declined: exec replaces the shell otherwise.
+exit 0
