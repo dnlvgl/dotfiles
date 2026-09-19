@@ -41,6 +41,10 @@ Dependencies (Fedora):
 sudo dnf install grim slurp tesseract tesseract-langpack-eng tesseract-langpack-deu
 ```
 
+### Power menu
+
+`power-menu` (in `stow/scripts`) is a rofi menu for lock, suspend, logout, reboot and shutdown. Run it from rofi's run mode. Logout, reboot and shutdown ask for confirmation.
+
 ### Trackball config
 
 Hwdb remapping configs for Kensington Expert Trackball and Elecom Huge Trackball are in `etc/`.
