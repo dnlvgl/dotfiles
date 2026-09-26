@@ -1,0 +1,14 @@
+---
+- name: Set up workstation
+  hosts: workstations
+  roles:
+    - role: packages
+      tags: packages
+    - role: dotfiles
+      tags: dotfiles
+    - role: system_files
+      tags: system
+    - role: shell
+      tags: shell
+    - role: services
+      tags: services

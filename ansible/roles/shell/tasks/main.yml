@@ -1,0 +1,14 @@
+---
+- name: Set fish as login shell
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_facts['user_id'] }}"
+    shell: /usr/bin/fish
+
+# Plugins are committed under stow/fish, so this only runs on request:
+# ansible-playbook site.yml --tags fisher
+- name: Update fisher plugins
+  ansible.builtin.command:
+    cmd: fish -c 'fisher update'
+  changed_when: true
+  tags: [fisher, never]
