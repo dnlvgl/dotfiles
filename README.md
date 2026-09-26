@@ -4,22 +4,22 @@ Workstation setup for Fedora with niri. Ansible installs the packages, stows the
 
 ## Setup
 
-On a fresh machine, add the hostname to `ansible/inventory/hosts.yml`, then run:
+On a fresh machine run:
 
 ```
 sudo dnf install -y git
 git clone https://github.com/dnlvgl/dotfiles.git ~/Projects/code/dotfiles
-~/Projects/code/dotfiles/bootstrap.sh
+~/Projects/code/dotfiles/bootstrap.sh workstation
 ```
 
 The same script updates an existing machine. It installs missing packages, stows packages that aren't linked yet and copies changed system files. If a real file is in the way of a stow link, the run stops and lists the conflicts; nothing is overwritten.
 
-Extra arguments go to `ansible-playbook`:
+The first argument is the profile, a playbook in `ansible/playbooks/` (default `workstation`). Extra arguments go to `ansible-playbook`:
 
 ```
-./bootstrap.sh --check --diff        # dry run
-./bootstrap.sh --tags dotfiles       # only stow
-./bootstrap.sh --tags fisher         # update fish plugins (never runs by default)
+./bootstrap.sh workstation --check --diff   # dry run
+./bootstrap.sh workstation --tags dotfiles  # only stow
+./bootstrap.sh workstation --tags fisher    # update fish plugins (never runs by default)
 ```
 
 Tags: `packages`, `dotfiles`, `system`, `shell`, `services`.
@@ -31,12 +31,13 @@ Tags: `packages`, `dotfiles`, `system`, `shell`, `services`.
 | `stow/` | one folder per stow package, linked into `$HOME` |
 | `system/` | files copied as root, mirroring their destination (`system/etc/udev/hwdb.d/x.hwdb` goes to `/etc/udev/hwdb.d/x.hwdb`) |
 | `ansible/inventory/group_vars/workstations.yml` | packages, COPRs, user services, what each package is used for |
-| `ansible/inventory/host_vars/<host>.yml` | per-host extras, e.g. `host_packages` |
+| `ansible/playbooks/` | profiles, e.g. `workstation.yml` |
+| `ansible/machines/<hostname>.yml` | optional per-machine extras, e.g. `host_packages` |
 | `ansible/roles/` | `packages`, `dotfiles`, `system_files`, `shell`, `services` |
 
 New folders in `stow/` and new files in `system/` are picked up automatically. If a system file needs a reload after changing, add a task next to `Update hwdb` in `ansible/roles/system_files/tasks/main.yml`.
 
-Other machines, e.g. homelab servers, can be added as new inventory groups with their own playbook in `ansible/playbooks/`, imported from `ansible/site.yml`.
+Workstation profiles always configure the machine they run on (`localhost`), so a new machine needs no inventory entry. Homelab servers can be added later as inventory groups with real hostnames and their own profile, e.g. `playbooks/homelab.yml` with `hosts: homelab`.
 
 ## Manual stow
 

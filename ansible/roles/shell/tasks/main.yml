@@ -6,7 +6,7 @@
     shell: /usr/bin/fish
 
 # Plugins are committed under stow/fish, so this only runs on request:
-# ansible-playbook site.yml --tags fisher
+# ./bootstrap.sh workstation --tags fisher
 - name: Update fisher plugins
   ansible.builtin.command:
     cmd: fish -c 'fisher update'

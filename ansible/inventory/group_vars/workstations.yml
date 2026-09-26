@@ -24,20 +24,20 @@ workstation_packages:
   - swaylock
   - swaybg                      # wallpaper
   - rofi                        # launcher, run mode for the scripts
-  - ghostty                     
+  - ghostty
   - qt6ct                       # QT_QPA_PLATFORMTHEME
-  - wireplumber                 
+  - wireplumber
   - pipewire
   - playerctl                   # media keys
-  - brightnessctl               
-  - orca                        
+  - brightnessctl
+  - orca
   - pavucontrol                 # volume control
-  - nm-connection-editor        
-  - blueman                     
-  - syncthing                   
-  - curl                        
-  - jq                          
-  - xdg-utils                   
+  - nm-connection-editor
+  - blueman
+  - syncthing
+  - curl
+  - jq
+  - xdg-utils
 
   # Used by stow/scripts and stow/waybar/.config/waybar/scripts
   - grim                        # screenshots
@@ -46,7 +46,7 @@ workstation_packages:
   - tesseract-langpack-eng
   - tesseract-langpack-deu
   - wl-clipboard                # wl-copy
-  - libnotify                   
+  - libnotify
   - glib2                       # gsettings in the theme toggle
   - adw-gtk3-theme              # GTK3 theme switched by the theme toggle
 
@@ -76,6 +76,9 @@ workstation_packages:
   - tmux
   - git
   - stow
+
+# Extra packages per machine, set in machines/<hostname>.yml
+host_packages: []
 
 workstation_user_services:
   - syncthing.service

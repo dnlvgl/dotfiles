@@ -1,3 +1,0 @@
----
-- name: Workstation
-  import_playbook: playbooks/workstation.yml
