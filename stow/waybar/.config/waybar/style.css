@@ -54,12 +54,12 @@ window#waybar {
     color: @accent;
 }
 
-/* Muted output: dimmed; the glyph itself is the slashed volume_off. */
+/* Muted output: dimmed; the glyph itself is the slashed volume-off. */
 #wireplumber.muted {
     color: @muted;
 }
 
-/* Dimmed while the radio is off or blocked; the glyph is the slashed bluetooth_disabled. */
+/* Dimmed while the radio is off or blocked; the glyph is the slashed bluetooth-off. */
 #bluetooth.off,
 #bluetooth.disabled {
     color: @muted;
