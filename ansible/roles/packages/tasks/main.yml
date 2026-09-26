@@ -9,5 +9,5 @@
 - name: Install packages
   become: true
   ansible.builtin.dnf:
-    name: "{{ workstation_packages + host_packages | default([]) }}"
+    name: "{{ workstation_packages + host_packages }}"
     state: present
