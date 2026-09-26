@@ -24,3 +24,16 @@
 .notification-group:focus {
   background: none;
 }
+
+/* Show the notification image uncropped (distro rounds it into a circle) and
+   drop the small app-icon badge, which usually just repeats the same logo. */
+.notification-row .notification-background .notification .notification-default-action .notification-content .image {
+  border-radius: 0;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
+  -gtk-icon-size: 0;
+  -gtk-icon-shadow: none;
+  margin: 0;
+  opacity: 0;
+}
