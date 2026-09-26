@@ -12,7 +12,7 @@ git clone https://github.com/dnlvgl/dotfiles.git ~/Projects/code/dotfiles
 ~/Projects/code/dotfiles/bootstrap.sh workstation
 ```
 
-The repository can be checked out anywhere; the playbook uses the checkout it runs from. Run on its own, `bootstrap.sh` clones to `~/Projects/code/dotfiles`, or to `$DOTFILES_DIR` if set. To move an existing checkout, unstow first (`cd stow && stow -D -t ~ */`), move it, then run `bootstrap.sh` again.
+The repository can be checked out anywhere; `bootstrap.sh` and the playbook use the checkout they run from. To move an existing checkout, unstow first (`cd stow && stow -D -t ~ */`), move it, then run `bootstrap.sh` again.
 
 The same script updates an existing machine. It installs missing packages, stows packages that aren't linked yet and copies changed system files. If a real file is in the way of a stow link, the run stops and lists the conflicts; nothing is overwritten.
 

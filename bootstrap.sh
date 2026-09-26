@@ -3,31 +3,17 @@
 # Usage: ./bootstrap.sh [profile] [ansible-playbook args], e.g. ./bootstrap.sh workstation --tags dotfiles
 set -euo pipefail
 
-REPO="https://github.com/dnlvgl/dotfiles.git"
-
-# Use the checkout this script is in, otherwise clone to $DOTFILES_DIR
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [[ -d "$SCRIPT_DIR/ansible/playbooks" ]]; then
-    DOTFILES_DIR="$SCRIPT_DIR"
-else
-    DOTFILES_DIR="${DOTFILES_DIR:-$HOME/Projects/code/dotfiles}"
-fi
-
 PROFILE="workstation"
 if [[ $# -gt 0 && $1 != -* ]]; then
     PROFILE="$1"
     shift
 fi
 
-if ! command -v ansible-playbook >/dev/null || ! command -v git >/dev/null; then
-    sudo dnf install -y ansible git
+if ! command -v ansible-playbook >/dev/null; then
+    sudo dnf install -y ansible
 fi
 
-if [[ ! -d "$DOTFILES_DIR" ]]; then
-    git clone "$REPO" "$DOTFILES_DIR"
-fi
-
-cd "$DOTFILES_DIR/ansible"
+cd "$(dirname "${BASH_SOURCE[0]}")/ansible"
 PLAYBOOK="playbooks/$PROFILE.yml"
 if [[ ! -f "$PLAYBOOK" ]]; then
     echo "Unknown profile: $PROFILE"
