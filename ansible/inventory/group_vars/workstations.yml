@@ -1,6 +1,6 @@
 ---
-dotfiles_repo: https://github.com/dnlvgl/dotfiles.git
-dotfiles_dir: "{{ ansible_facts['env']['HOME'] }}/Projects/code/dotfiles"
+# Repo root, wherever it is checked out (playbooks live in ansible/playbooks)
+dotfiles_dir: "{{ playbook_dir | dirname | dirname }}"
 dotfiles_stow_target: "{{ ansible_facts['env']['HOME'] }}"
 
 # Created as real directories before stowing, relative to $HOME

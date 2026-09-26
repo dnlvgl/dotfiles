@@ -1,11 +1,4 @@
 ---
-- name: Clone dotfiles repository if missing
-  ansible.builtin.git:
-    repo: "{{ dotfiles_repo }}"
-    dest: "{{ dotfiles_dir }}"
-    version: main
-    update: false
-
 # Stow folds a missing directory into one symlink, which would put
 # everything apps write there into the repo
 - name: Create directories that must not be folded
