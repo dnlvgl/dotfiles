@@ -1,0 +1,18 @@
+/* Calcite look, flat/square to match waybar. Colors live in colors.rasi, a
+   symlink to colors-dark.rasi/colors-light.rasi flipped by the waybar theme switcher. */
+configuration {
+    modes: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Adwaita";
+    drun-display-format: "{name}";
+    display-drun: "Apps";
+    display-run: "Run";
+    display-window: "Windows";
+    /* Tab / Shift+Tab cycle modes; they'd otherwise move between input elements. */
+    kb-mode-next: "Shift+Right,Control+Tab,Tab";
+    kb-mode-previous: "Shift+Left,Control+ISO_Left_Tab,ISO_Left_Tab";
+    kb-element-next: "";
+    kb-element-prev: "";
+}
+
+@theme "theme"
