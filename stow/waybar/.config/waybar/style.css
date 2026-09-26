@@ -34,9 +34,11 @@ window#waybar {
 #bluetooth,
 #battery,
 #wireplumber {
-    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", sans-serif;
-    font-weight: 900;
-    /* Fixed to the widest glyph (16.2px), so a glyph change never shifts the clock. */
+    /* Material Design Icons (Pictogrammers webfont, not in Fedora: ~/.local/share/fonts). Not a ligature
+       font: config.jsonc holds the glyphs as codepoints, each line commented with its mdi name. */
+    font-family: "Material Design Icons", sans-serif;
+    /* Every glyph is 1em wide, so the box is a fixed 17px and a glyph change never shifts the clock. */
+    font-size: 17px;
     min-width: 17px;
     padding: 0 10px;
     color: @fg;
@@ -52,17 +54,15 @@ window#waybar {
     color: @accent;
 }
 
-/* Muted output: dimmed and struck through, like a switched-off radio. */
+/* Muted output: dimmed; the glyph itself is the slashed volume_off. */
 #wireplumber.muted {
     color: @muted;
-    text-decoration: line-through;
 }
 
-/* Dimmed and struck through while the radio is off or blocked. */
+/* Dimmed while the radio is off or blocked; the glyph is the slashed bluetooth_disabled. */
 #bluetooth.off,
 #bluetooth.disabled {
     color: @muted;
-    text-decoration: line-through;
 }
 
 /* Syncthing: state comes from scripts/syncthing-status.sh. */
@@ -76,7 +76,6 @@ window#waybar {
 
 #custom-syncthing.stopped {
     color: @muted;
-    text-decoration: line-through;
 }
 
 #custom-syncthing.error {
