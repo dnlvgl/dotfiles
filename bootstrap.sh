@@ -4,7 +4,14 @@
 set -euo pipefail
 
 REPO="https://github.com/dnlvgl/dotfiles.git"
-DOTFILES_DIR="$HOME/Projects/code/dotfiles"
+
+# Use the checkout this script is in, otherwise clone to $DOTFILES_DIR
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -d "$SCRIPT_DIR/ansible/playbooks" ]]; then
+    DOTFILES_DIR="$SCRIPT_DIR"
+else
+    DOTFILES_DIR="${DOTFILES_DIR:-$HOME/Projects/code/dotfiles}"
+fi
 
 PROFILE="workstation"
 if [[ $# -gt 0 && $1 != -* ]]; then
