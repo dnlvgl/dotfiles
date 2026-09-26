@@ -1,0 +1,4 @@
+---
+- name: Reboot notice
+  ansible.builtin.debug:
+    msg: hwdb changed, reboot to apply

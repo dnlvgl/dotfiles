@@ -1,0 +1,84 @@
+---
+# Repo root, wherever it is checked out (playbooks live in ansible/playbooks)
+dotfiles_dir: "{{ playbook_dir | dirname | dirname }}"
+dotfiles_stow_target: "{{ ansible_facts['env']['HOME'] }}"
+
+# Created as real directories before stowing, relative to $HOME
+dotfiles_real_dirs:
+  - .config
+  - .config/systemd/user
+  - .local/share/fonts
+
+# Folders in stow/ that are not stowed
+dotfiles_stow_exclude: []
+
+workstation_coprs:
+  - scottames/ghostty
+
+workstation_packages:
+  # Session and desktop, started or bound from stow/niri/.config/niri/config.kdl
+  - niri
+  - waybar
+  - SwayNotificationCenter      # swaync, swaync-client
+  - swayidle                    # idle lock, lock before suspend
+  - swaylock
+  - swaybg                      # wallpaper
+  - rofi                        # launcher, run mode for the scripts
+  - ghostty
+  - qt6ct                       # QT_QPA_PLATFORMTHEME
+  - wireplumber
+  - pipewire
+  - playerctl                   # media keys
+  - brightnessctl
+  - orca
+  - pavucontrol                 # volume control
+  - nm-connection-editor
+  - blueman
+  - syncthing
+  - curl
+  - jq
+  - xdg-utils
+
+  # Used by stow/scripts and stow/waybar/.config/waybar/scripts
+  - grim                        # screenshots
+  - slurp                       # area selection for screenshots
+  - tesseract                   # ocr
+  - tesseract-langpack-eng
+  - tesseract-langpack-deu
+  - wl-clipboard                # wl-copy
+  - libnotify
+  - glib2                       # gsettings in the theme toggle
+  - adw-gtk3-theme              # GTK3 theme switched by the theme toggle
+
+  # Theming and fonts
+  - adwaita-icon-theme          # rofi icon theme
+  - google-noto-sans-vf-fonts   # default sans-serif for rofi, swaylock, swaync
+  - fira-code-fonts             # emacs default font
+
+  # Not referenced in this repo, but niri relies on them for X11 apps,
+  # screen sharing and secrets
+  - xwayland-satellite
+  - xdg-desktop-portal
+  - xdg-desktop-portal-gnome
+  - xdg-desktop-portal-gtk
+  - gnome-keyring
+
+  # Applications
+  - emacs
+  - firefox
+  - keepassxc
+  - gimp
+  - inkscape
+  - wdisplays                   # display layout
+
+  # Shell and CLI tooling
+  - fish
+  - tmux
+  - git
+  - stow
+
+# Extra packages per machine, set in machines/<hostname>.yml
+host_packages: []
+
+workstation_user_services:
+  - syncthing.service

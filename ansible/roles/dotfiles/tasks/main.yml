@@ -1,0 +1,51 @@
+---
+# Stow folds a missing directory into one symlink, which would put
+# everything apps write there into the repo
+- name: Create directories that must not be folded
+  ansible.builtin.file:
+    path: "{{ dotfiles_stow_target }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ dotfiles_real_dirs }}"
+
+- name: Find stow packages
+  ansible.builtin.find:
+    paths: "{{ dotfiles_dir }}/stow"
+    file_type: directory
+    recurse: false
+  register: dotfiles_stow_dirs
+
+- name: Set stow package list
+  ansible.builtin.set_fact:
+    dotfiles_stow_packages: >-
+      {{ dotfiles_stow_dirs.files | map(attribute='path') | map('basename')
+         | difference(dotfiles_stow_exclude) | sort }}
+
+- name: Check stow state
+  ansible.builtin.command:
+    cmd: stow --no --verbose --dir {{ dotfiles_dir }}/stow --target {{ dotfiles_stow_target }} {{ item }}
+  loop: "{{ dotfiles_stow_packages }}"
+  register: dotfiles_stow_check
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+- name: Fail on stow conflicts
+  ansible.builtin.fail:
+    msg: |
+      Stow conflicts, move or remove these files and run again:
+      {% for r in dotfiles_stow_check.results if r.rc != 0 %}
+      {{ r.item }}:
+      {% for line in r.stderr_lines if line is match('\s*\*') %}
+      {{ line }}
+      {% endfor %}
+      {% endfor %}
+  when: dotfiles_stow_check.results | selectattr('rc', 'ne', 0) | list | length > 0
+
+- name: Stow packages that are not linked yet
+  ansible.builtin.command:
+    cmd: stow --verbose --dir {{ dotfiles_dir }}/stow --target {{ dotfiles_stow_target }} {{ item.item }}
+  changed_when: true
+  loop: "{{ dotfiles_stow_check.results | selectattr('stderr', 'search', 'LINK:') | list }}"
+  loop_control:
+    label: "{{ item.item }}"

@@ -1,0 +1,44 @@
+---
+# Files under system/ mirror their destination, e.g.
+# system/etc/udev/hwdb.d/foo.hwdb is copied to /etc/udev/hwdb.d/foo.hwdb
+- name: Find system files
+  ansible.builtin.find:
+    paths: "{{ dotfiles_dir }}/system"
+    recurse: true
+  register: system_files_found
+
+- name: Create system file directories
+  become: true
+  ansible.builtin.file:
+    path: "/{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop: >-
+    {{ system_files_found.files | map(attribute='path')
+       | map('relpath', dotfiles_dir ~ '/system') | map('dirname') | unique | sort }}
+
+- name: Copy system files
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "/{{ item.path | relpath(dotfiles_dir ~ '/system') }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ system_files_found.files }}"
+  loop_control:
+    label: "/{{ item.path | relpath(dotfiles_dir ~ '/system') }}"
+  register: system_files_copied
+
+# Add a task like this for other destinations that need a reload
+- name: Update hwdb
+  become: true
+  ansible.builtin.command:
+    cmd: systemd-hwdb update
+  changed_when: true
+  notify: Reboot notice
+  when: >-
+    system_files_copied.results | selectattr('changed')
+    | map(attribute='item.path') | select('search', '/system/etc/udev/hwdb.d/') | list | length > 0

@@ -1,0 +1,22 @@
+---
+- name: Set up workstation
+  hosts: workstations
+  pre_tasks:
+    - name: Load machine specific vars
+      ansible.builtin.include_vars: "{{ item }}"
+      with_first_found:
+        - files: ["{{ ansible_facts['hostname'] }}.yml"]
+          paths: ["{{ playbook_dir }}/../machines"]
+          skip: true
+      tags: always
+  roles:
+    - role: packages
+      tags: packages
+    - role: dotfiles
+      tags: dotfiles
+    - role: system_files
+      tags: system
+    - role: shell
+      tags: shell
+    - role: services
+      tags: services
