@@ -2,10 +2,8 @@
 // Full config reference: https://niri-wm.github.io/niri/Configuration:-Introduction
 
 environment {
+    // Also picked up by Qt5 apps, which load qt5ct for this key (see stow/qt5ct).
     QT_QPA_PLATFORMTHEME "qt6ct"
-    // Qt5 derives font DPI from the panel's physical size (216 dpi here) and ignores
-    // fractional scaling, so its apps (KeePassXC) render ~2x too big. Qt6 already uses 96.
-    QT_FONT_DPI "96"
 }
 
 // -- Input devices -- https://niri-wm.github.io/niri/Configuration:-Input
