@@ -4,13 +4,22 @@
     "height": 32,
     "spacing": 0,
     "reload_style_on_change": true,
+    "expand-left": true,
+    "expand-right": true,
 
-    "modules-left": [],
-    "modules-center": ["custom/spacer", "custom/theme_mode", "custom/caffeine", "custom/notifications", "clock", "custom/syncthing", "network", "bluetooth", "battery", "wireplumber"],
-    "modules-right": [],
+    "modules-left": ["custom/spacer#left", "custom/theme_mode", "custom/caffeine", "custom/notifications"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/syncthing", "network", "bluetooth", "battery", "wireplumber", "custom/spacer#right"],
 
-    "custom/spacer": {
+    "custom/spacer#left": {
         "format": " ",
+        "expand": true,
+        "tooltip": false
+    },
+
+    "custom/spacer#right": {
+        "format": " ",
+        "expand": true,
         "tooltip": false
     },
 

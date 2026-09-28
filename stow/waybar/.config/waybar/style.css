@@ -14,10 +14,10 @@ window#waybar {
     color: @fg;
 }
 
-/* Every icon is 37px wide (17px + 2x10px padding), whatever its glyph, so the clock stays centered.
-   3 icons sit left of it and 5 right, so the spacer stands in for the two missing ones. */
+/* The spacers expand (config.jsonc) to fill modules-left and modules-right, pushing their icons up against the clock.
+   Both custom/spacer#left and custom/spacer#right get this id. */
 #custom-spacer {
-    min-width: 74px;
+    padding: 0;
 }
 
 #clock {
