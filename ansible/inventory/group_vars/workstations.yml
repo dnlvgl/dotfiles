@@ -7,7 +7,6 @@ dotfiles_stow_target: "{{ ansible_facts['env']['HOME'] }}"
 dotfiles_real_dirs:
   - .config
   - .config/systemd/user
-  - .local/share/fonts
 
 # Folders in stow/ that are not stowed
 dotfiles_stow_exclude: []
@@ -53,7 +52,7 @@ workstation_packages:
   # Theming and fonts
   - adwaita-icon-theme          # rofi icon theme
   - google-noto-sans-vf-fonts   # default sans-serif for rofi, swaylock, swaync
-  - fira-code-fonts             # emacs default font
+  - fira-code-fonts             # emacs default font, waybar
 
   # Not referenced in this repo, but niri relies on them for X11 apps,
   # screen sharing and secrets

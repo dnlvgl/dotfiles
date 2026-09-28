@@ -4,6 +4,8 @@
     border: none;
     border-radius: 0;
     min-height: 0;
+    /* Fira Code, same as dnl/default-font in the emacs config. */
+    font-family: "Fira Code", monospace;
     font-size: 13px;
     /* adw-gtk3 gives tooltips a black text-shadow meant for its dark tooltips; it smears our dark-on-light text. */
     text-shadow: none;
@@ -23,6 +25,7 @@ window#waybar {
 #clock {
     font-weight: 700;
     padding: 0 12px;
+    margin: 0 8px;
     color: @fg;
 }
 
@@ -34,12 +37,7 @@ window#waybar {
 #bluetooth,
 #battery,
 #wireplumber {
-    /* Material Design Icons (Pictogrammers webfont, not in Fedora: stowed from stow/fonts, v7.4.47). Not a ligature
-       font: config.jsonc holds the glyphs as codepoints, each line commented with its mdi name. */
-    font-family: "Material Design Icons", sans-serif;
-    /* Every glyph is 1em wide, so the box is a fixed 17px and a glyph change never shifts the clock. */
-    font-size: 17px;
-    min-width: 17px;
+    font-size: 11px;
     padding: 0 10px;
     color: @fg;
 }
@@ -49,17 +47,24 @@ window#waybar {
     color: @accent;
 }
 
-/* swaync-client tags the module with "notification" while any are unread. */
+/* swaync-client tags the module with "notification" while any are unread, "dnd-*" while do-not-disturb is on. */
 #custom-notifications.notification {
     color: @accent;
 }
 
-/* Muted output: dimmed; the glyph itself is the slashed volume-off. */
+#custom-notifications.dnd-none,
+#custom-notifications.dnd-notification,
+#custom-notifications.dnd-inhibited-none,
+#custom-notifications.dnd-inhibited-notification {
+    color: @muted;
+}
+
+/* Muted output: dimmed. */
 #wireplumber.muted {
     color: @muted;
 }
 
-/* Dimmed while the radio is off or blocked; the glyph is the slashed bluetooth-off. */
+/* Dimmed while the radio is off or blocked. */
 #bluetooth.off,
 #bluetooth.disabled {
     color: @muted;
@@ -75,6 +80,10 @@ window#waybar {
 }
 
 #custom-syncthing.stopped {
+    color: @muted;
+}
+
+#network.disconnected {
     color: @muted;
 }
 

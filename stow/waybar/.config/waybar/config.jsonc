@@ -29,9 +29,7 @@
     },
 
     "custom/theme_mode": {
-        "format": "{}",
-        "exec": "readlink ~/.config/waybar/colors.css | grep -q light && echo '󰖙' || echo '󰖔'", // mdi: weather-sunny weather-night
-        "interval": 5,
+        "format": "THEME",
         "on-click": "~/.config/waybar/scripts/toggle-theme.sh",
         "tooltip-format": "Toggle light/dark theme"
     },
@@ -40,28 +38,14 @@
         "exec": "~/.config/waybar/scripts/caffeine.sh json",
         "return-type": "json",
         "interval": 5,
-        "format": "{icon}",
-        "format-icons": {
-            "on": "󰅶", // mdi: coffee
-            "off": "󰅶" // mdi: coffee
-        },
+        "format": "CAFF",
         "on-click": "~/.config/waybar/scripts/caffeine.sh toggle"
     },
 
     "custom/notifications": {
         "exec": "swaync-client -swb",
         "return-type": "json",
-        "format": "{icon}",
-        "format-icons": {
-            "notification": "󰂚", // mdi: bell
-            "none": "󰂚", // mdi: bell
-            "dnd-notification": "󰂛", // mdi: bell-off
-            "dnd-none": "󰂛", // mdi: bell-off
-            "inhibited-notification": "󰂚", // mdi: bell
-            "inhibited-none": "󰂚", // mdi: bell
-            "dnd-inhibited-notification": "󰂛", // mdi: bell-off
-            "dnd-inhibited-none": "󰂛" // mdi: bell-off
-        },
+        "format": "NOTIF",
         "on-click": "swaync-client -t -sw",
         "on-click-right": "swaync-client -d -sw",
         "escape": true,
@@ -72,21 +56,14 @@
         "exec": "~/.config/waybar/scripts/syncthing-status.sh",
         "return-type": "json",
         "interval": 3,
-        "format": "{icon}",
-        "format-icons": {
-            "idle": "󱯫", // mdi: cloud-check
-            "syncing": "󰓦", // mdi: sync
-            "disconnected": "󰌸", // mdi: link-off
-            "error": "󰀦", // mdi: alert
-            "stopped": "󰓨" // mdi: sync-off
-        },
+        "format": "SYNC",
         "on-click": "xdg-open http://localhost:8384"
     },
 
     "network": {
-        "format-wifi": "󰖩", // mdi: wifi
-        "format-ethernet": "󰈀", // mdi: ethernet
-        "format-disconnected": "󰈀", // mdi: ethernet
+        "format-wifi": "WIFI[{signalStrength}]",
+        "format-ethernet": "ETH",
+        "format-disconnected": "NET",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)",
         "tooltip-format-ethernet": "{ifname}",
         "tooltip-format-disconnected": "Disconnected",
@@ -94,10 +71,10 @@
     },
 
     "bluetooth": {
-        "format": "󰂯", // mdi: bluetooth
-        "format-connected": "󰂯", // mdi: bluetooth
-        "format-off": "󰂲", // mdi: bluetooth-off
-        "format-disabled": "󰂲", // mdi: bluetooth-off
+        "format": "BT",
+        "format-connected": "BT[{num_connections}]",
+        "format-off": "BT",
+        "format-disabled": "BT",
         "tooltip-format": "{controller_alias}\t{controller_address}",
         "tooltip-format-off": "Bluetooth off",
         "tooltip-format-disabled": "Bluetooth disabled",
@@ -106,16 +83,13 @@
     },
 
     "battery": {
-        "format": "{icon}",
-        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"], // mdi: battery-10 battery-20 battery-30 battery-40 battery-50 battery-60 battery-70 battery-80 battery-90 battery
-        "format-charging": "󰂄", // mdi: battery-charging
+        "format": "BATT[{capacity}]",
+        "format-charging": "BATT[{capacity}+]",
         "tooltip-format": "{capacity}% ({time})"
     },
 
     "wireplumber": {
-        "format": "{icon}",
-        "format-muted": "󰖁", // mdi: volume-off
-        "format-icons": ["󰕿", "󰖀", "󰕾"], // mdi: volume-low volume-medium volume-high
+        "format": "VOL[{volume}]",
         "tooltip-format": "{node_name}: {volume}%",
         "on-scroll-up": "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0",
         "on-scroll-down": "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
