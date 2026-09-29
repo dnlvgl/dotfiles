@@ -11,8 +11,7 @@ dotfiles_real_dirs:
 # Folders in stow/ that are not stowed
 dotfiles_stow_exclude: []
 
-workstation_coprs:
-  - scottames/ghostty
+workstation_coprs: []
 
 workstation_packages:
   # Session and desktop, started or bound from stow/niri/.config/niri/config.kdl
@@ -23,7 +22,7 @@ workstation_packages:
   - swaylock
   - swaybg                      # wallpaper
   - rofi                        # launcher, run mode for the scripts
-  - ghostty
+  - kitty                       # terminal, Mod+T in niri
   - qt6ct                       # QT_QPA_PLATFORMTHEME
   - wireplumber
   - pipewire

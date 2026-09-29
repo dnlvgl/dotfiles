@@ -6,6 +6,9 @@ environment {
     QT_QPA_PLATFORMTHEME "qt6ct"
 }
 
+// Ask apps not to draw their own title bars; the focus ring and border mark the active window.
+prefer-no-csd
+
 // -- Input devices -- https://niri-wm.github.io/niri/Configuration:-Input
 input {
     keyboard {
@@ -103,7 +106,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
+    Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
     Mod+Space hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn-sh "$HOME/.config/swaylock/lock.sh"; }
