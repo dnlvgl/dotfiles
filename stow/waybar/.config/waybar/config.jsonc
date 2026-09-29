@@ -9,7 +9,7 @@
 
     "modules-left": ["custom/spacer#left", "custom/theme_mode", "custom/caffeine", "custom/notifications"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/syncthing", "network", "bluetooth", "battery", "wireplumber", "custom/spacer#right"],
+    "modules-right": ["custom/syncthing", "network", "bluetooth", "wireplumber", "battery", "custom/spacer#right"],
 
     "custom/spacer#left": {
         "format": " ",
