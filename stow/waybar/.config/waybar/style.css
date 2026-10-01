@@ -99,8 +99,9 @@ window#waybar {
 #bluetooth:hover,
 #battery:hover,
 #wireplumber:hover {
-    background-color: @accent;
-    color: @on-accent;
+    /* Same as the kitty/foot text selection */
+    background-color: @selection;
+    color: @fg;
 }
 
 #battery.warning {
