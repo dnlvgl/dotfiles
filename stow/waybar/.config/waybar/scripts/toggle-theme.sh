@@ -12,9 +12,18 @@ ln -sf "colors-$new.css" "$waybar_dir/colors.css"
 ln -sf "colors-$new.rasi" "$HOME/.config/rofi/colors.rasi"
 ln -sf "colors-$new.css" "$HOME/.config/swaync/colors.css"
 ln -sf "config-$new" "$HOME/.config/swaylock/config"
+ln -sf "theme-$new.ini" "$HOME/.config/foot/theme.ini"
 
 # swaync doesn't watch its stylesheet; it's a no-op if the daemon isn't running.
 swaync-client -rs >/dev/null 2>&1 || true
+
+# Foot doesn't follow color-scheme; SIGUSR1 selects [colors-dark], SIGUSR2 [colors-light].
+case "$new" in
+    light) foot_signal=USR2 ;;
+    *) foot_signal=USR1 ;;
+esac
+pkill "-$foot_signal" -x foot || true
+pkill "-$foot_signal" -x footclient || true
 
 gsettings set org.gnome.desktop.interface color-scheme "prefer-$new"
 

@@ -23,6 +23,7 @@ workstation_packages:
   - swaybg                      # wallpaper
   - rofi                        # launcher, run mode for the scripts
   - kitty                       # terminal, Mod+T in niri
+  - foot                        # second terminal, same config as kitty
   - qt6ct                       # QT_QPA_PLATFORMTHEME
   - wireplumber
   - pipewire
