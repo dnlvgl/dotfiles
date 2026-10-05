@@ -73,6 +73,10 @@ sudo dnf install grim slurp tesseract tesseract-langpack-eng tesseract-langpack-
 
 `power-menu` (in `stow/scripts`) is a rofi menu for lock, suspend, logout, reboot and shutdown. Run it from rofi's run mode. Logout, reboot and shutdown ask for confirmation.
 
+### Light/dark theme
+
+`toggle-theme.sh` (in `stow/waybar/.config/waybar/scripts`) switches waybar, rofi, swaync, swaylock, foot and GTK between light and dark. Each app has a `-dark` and `-light` file. The active one is a symlink (e.g. `waybar/colors.css`), which is gitignored so switching doesn't change the repo. Ansible creates the symlinks pointing to dark on a fresh clone. After a manual `./setup.sh`, run `toggle-theme.sh` once to create them (it starts with light).
+
 ### Trackball config
 
 Hwdb remapping configs for Kensington Expert Trackball and Elecom Huge Trackball are in `system/etc/udev/hwdb.d/`. Ansible copies them and runs `systemd-hwdb update`. Reboot to apply changes.
