@@ -9,3 +9,9 @@ stow/scripts/.local/bin/claude
 # Machine-specific git configuration
 .gitconfig.local
 */.gitconfig.local
+# Active theme symlinks, switched by waybar/scripts/toggle-theme.sh
+stow/foot/.config/foot/theme.ini
+stow/rofi/.config/rofi/colors.rasi
+stow/swaylock/.config/swaylock/config
+stow/swaync/.config/swaync/colors.css
+stow/waybar/.config/waybar/colors.css

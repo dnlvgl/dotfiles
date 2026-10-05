@@ -8,6 +8,22 @@
     mode: "0755"
   loop: "{{ dotfiles_real_dirs }}"
 
+# The active theme symlinks are gitignored so toggling doesn't dirty the
+# repo; seed them with the dark variant on a fresh clone
+- name: Create default theme symlinks
+  ansible.builtin.command:
+    cmd: ln -s {{ item.src }} {{ item.dest }}
+    chdir: "{{ dotfiles_dir }}/stow/{{ item.dir }}"
+    creates: "{{ dotfiles_dir }}/stow/{{ item.dir }}/{{ item.dest }}"
+  loop:
+    - { dir: foot/.config/foot, src: theme-dark.ini, dest: theme.ini }
+    - { dir: rofi/.config/rofi, src: colors-dark.rasi, dest: colors.rasi }
+    - { dir: swaylock/.config/swaylock, src: config-dark, dest: config }
+    - { dir: swaync/.config/swaync, src: colors-dark.css, dest: colors.css }
+    - { dir: waybar/.config/waybar, src: colors-dark.css, dest: colors.css }
+  loop_control:
+    label: "{{ item.dir }}/{{ item.dest }}"
+
 - name: Find stow packages
   ansible.builtin.find:
     paths: "{{ dotfiles_dir }}/stow"
