@@ -1,14 +1,14 @@
 :root {
-  --cc-bg: #222226;
-  --noti-border-color: #bda7f0;
-  --noti-bg: 34, 34, 38;
+  --cc-bg: #282529;
+  --noti-border-color: #b9a3f0;
+  --noti-bg: 40, 37, 41;
   --noti-bg-alpha: 1;
-  --noti-bg-darker: #1b1b1f;
-  --noti-bg-hover: #4d3e66;
-  --noti-bg-focus: #4d3e66;
-  --noti-close-bg: #3a3a40;
-  --noti-close-bg-hover: #4d3e66;
-  --text-color: #f1f1f1;
-  --text-color-disabled: #6a6a6a;
-  --bg-selected: #bda7f0;
+  --noti-bg-darker: #312d32;
+  --noti-bg-hover: #433a52;
+  --noti-bg-focus: #433a52;
+  --noti-close-bg: #423d43;
+  --noti-close-bg-hover: #433a52;
+  --text-color: #dcd9e1;
+  --text-color-disabled: #8a8692;
+  --bg-selected: #b9a3f0;
 }

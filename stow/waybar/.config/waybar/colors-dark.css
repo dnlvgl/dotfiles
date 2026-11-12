@@ -1,6 +1,8 @@
-@define-color bg #222226;
-@define-color fg #f1f1f1;
-@define-color accent #bda7f0;
-@define-color on-accent #222226;
-@define-color muted #6a6a6a;
-@define-color selection #4d3e66;
+@define-color bg #282529;
+@define-color fg #dcd9e1;
+@define-color accent #b9a3f0;
+@define-color on-accent #282529;
+@define-color muted #8a8692;
+@define-color selection #433a52;
+@define-color red #e07a72;
+@define-color yellow #d7b45a;

@@ -1,12 +1,12 @@
 * {
-    bg: #222226;
-    fg: #f1f1f1;
-    accent: #bda7f0;
-    muted: #6a6a6a;
-    selection: #4d3e66;
+    bg: #282529;
+    fg: #dcd9e1;
+    accent: #b9a3f0;
+    muted: #8a8692;
+    selection: #433a52;
 }
 
 /* highlight can't take a variable, so the accent is repeated here. */
 element-text {
-    highlight: bold #bda7f0;
+    highlight: bold #b9a3f0;
 }

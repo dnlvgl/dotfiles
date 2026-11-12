@@ -88,7 +88,7 @@ window#waybar {
 }
 
 #custom-syncthing.error {
-    color: #b85450;
+    color: @red;
 }
 
 #custom-theme_mode:hover,
@@ -105,11 +105,11 @@ window#waybar {
 }
 
 #battery.warning {
-    color: #c8a830;
+    color: @yellow;
 }
 
 #battery.critical {
-    color: #b85450;
+    color: @red;
 }
 
 tooltip {
