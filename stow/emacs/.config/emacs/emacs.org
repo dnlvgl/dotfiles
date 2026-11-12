@@ -45,7 +45,6 @@ will automatically install the package if it's missing.
 #+end_src
 
 * Appearance
-
 ** UI
 
 Disable the chrome Emacs ships with by default, enable useful visual aids, and
