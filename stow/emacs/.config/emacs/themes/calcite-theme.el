@@ -15,6 +15,9 @@
     (fg          "#34313a" "#dcd9e1")
     (accent      "#745ba8" "#b9a3f0")
     (accent-soft "#e6dff4" "#372f42")
+    ;; Active mode-line: a purple tint one step beyond bg-sel, with normal text.
+    (mode-line-bg "#d4c9ec" "#4b4060")
+    (mode-line-fg "#34313a" "#dcd9e1")
     (red         "#a83b38" "#e07a72")
     (green       "#2e7643" "#7cc48c")
     (yellow      "#86650f" "#d7b45a")
@@ -37,6 +40,35 @@ Each color is a list: (name light-value dark-value).")
             (cons (car color-def) (nth (1+ variant) color-def)))
           calcite-themes-colors))
 
+(defconst calcite-themes-plain-mode-line-faces
+  '(doom-modeline doom-modeline-emphasis doom-modeline-highlight
+    doom-modeline-buffer-file doom-modeline-buffer-modified
+    doom-modeline-buffer-path doom-modeline-buffer-major-mode doom-modeline-buffer-minor-mode
+    doom-modeline-project-parent-dir doom-modeline-project-dir doom-modeline-project-root-dir
+    doom-modeline-panel doom-modeline-host doom-modeline-input-method
+    doom-modeline-input-method-alt doom-modeline-debug doom-modeline-info
+    doom-modeline-warning doom-modeline-urgent doom-modeline-notification
+    doom-modeline-unread-number doom-modeline-debug-visual doom-modeline-evil-emacs-state
+    doom-modeline-evil-insert-state doom-modeline-evil-motion-state doom-modeline-evil-normal-state
+    doom-modeline-evil-operator-state doom-modeline-evil-visual-state doom-modeline-evil-replace-state
+    doom-modeline-evil-user-state doom-modeline-overwrite doom-modeline-god
+    doom-modeline-ryo doom-modeline-fly-insert-state doom-modeline-fly-normal-state
+    doom-modeline-boon-command-state doom-modeline-boon-insert-state doom-modeline-boon-special-state
+    doom-modeline-boon-off-state doom-modeline-meow-normal-state doom-modeline-meow-insert-state
+    doom-modeline-meow-beacon-state doom-modeline-meow-motion-state doom-modeline-meow-keypad-state
+    doom-modeline-project-name doom-modeline-workspace-name doom-modeline-persp-name
+    doom-modeline-persp-buffer-not-in-persp doom-modeline-repl-success doom-modeline-repl-warning
+    doom-modeline-vcs-default doom-modeline-lsp-success doom-modeline-lsp-warning
+    doom-modeline-lsp-error doom-modeline-lsp-running doom-modeline-battery-charging
+    doom-modeline-battery-full doom-modeline-battery-normal doom-modeline-battery-warning
+    doom-modeline-battery-critical doom-modeline-battery-error doom-modeline-time
+    doom-modeline-compilation compilation-mode-line-exit compilation-mode-line-fail
+    compilation-mode-line-run eglot-mode-line eglot-mode-line-none-face
+    org-mode-line-clock org-mode-line-clock-overrun which-func)
+  "Faces shown in the mode-line that get no color of their own.
+The purple active mode-line is the only focus indicator, so these
+inherit the mode-line foreground instead of adding their own colors.")
+
 (defun calcite-themes-apply (theme-name colors)
   "Apply THEME-NAME with COLORS palette.
 COLORS is an alist keyed by the names in `calcite-themes-colors'."
@@ -48,6 +80,8 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         (fg (alist-get 'fg colors))
         (accent (alist-get 'accent colors))
         (accent-soft (alist-get 'accent-soft colors))
+        (mode-line-bg (alist-get 'mode-line-bg colors))
+        (mode-line-fg (alist-get 'mode-line-fg colors))
         (red (alist-get 'red colors))
         (green (alist-get 'green colors))
         (yellow (alist-get 'yellow colors))
@@ -89,7 +123,6 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(buffer-menu-buffer ((t (:weight semi-bold))))
         `(button ((t (:foreground ,accent :underline t))))
         `(compilation-error ((t (:foreground ,red))))
-        `(compilation-mode-line-run ((t (:foreground ,yellow))))
         `(compilation-warning ((t (:foreground ,yellow))))
         `(completions-annotations ((t (:foreground ,fg-dim))))
         `(completions-common-part ((t (:background ,accent-soft :foreground ,fg))))
@@ -143,26 +176,8 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(dired-header ((t (:foreground ,accent :weight semi-bold))))
         `(dired-marked ((t (:foreground ,accent))))
         `(dired-symlink ((t (:slant italic))))
-        `(doom-modeline-bar ((t (:background ,accent))))
-        `(doom-modeline-bar-inactive ((t (:background ,fg-dim))))
-        `(doom-modeline-buffer-file ((t (:foreground ,fg :weight semi-bold))))
-        `(doom-modeline-buffer-major-mode ((t (:foreground ,fg))))
-        `(doom-modeline-buffer-minor-mode ((t (:foreground ,fg-dim))))
-        `(doom-modeline-buffer-modified ((t (:foreground ,accent :weight bold))))
-        `(doom-modeline-buffer-path ((t (:foreground ,fg))))
-        `(doom-modeline-debug ((t (:foreground ,yellow))))
-        `(doom-modeline-debug-visual ((t (:foreground ,accent))))
-        `(doom-modeline-info ((t (:foreground ,accent))))
-        `(doom-modeline-lsp-error ((t (:foreground ,red))))
-        `(doom-modeline-lsp-success ((t (:foreground ,green))))
-        `(doom-modeline-lsp-warning ((t (:foreground ,yellow))))
-        `(doom-modeline-panel ((t (:background ,bg :foreground ,fg))))
-        `(doom-modeline-project-dir ((t (:foreground ,fg :weight semi-bold))))
-        `(doom-modeline-project-parent-dir ((t (:foreground ,fg))))
-        `(doom-modeline-project-root-dir ((t (:foreground ,accent :weight semi-bold))))
-        `(doom-modeline-urgent ((t (:foreground ,red :weight bold))))
-        `(doom-modeline-vcs-default ((t (:foreground ,accent :weight semi-bold))))
-        `(doom-modeline-warning ((t (:foreground ,yellow))))
+        `(doom-modeline-bar ((t (:background ,mode-line-bg))))
+        `(doom-modeline-bar-inactive ((t (:background ,bg))))
         `(ediff-current-diff-A ((t (:background ,diff-del-bg :extend t))))
         `(ediff-current-diff-B ((t (:background ,diff-add-bg :extend t))))
         `(ediff-current-diff-C ((t (:background ,accent-soft :extend t))))
@@ -174,8 +189,6 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(ediff-odd-diff-A ((t (:background ,bg-alt))))
         `(ediff-odd-diff-B ((t (:background ,bg-alt))))
         `(eglot-highlight-symbol-face ((t (:underline t))))
-        `(eglot-mode-line ((t (:foreground ,fg))))
-        `(eglot-mode-line-none-face ((t (:foreground ,fg))))
         `(elfeed-log-date-face ((t (:foreground ,fg-dim))))
         `(elfeed-log-debug-level-face ((t (:foreground ,fg))))
         `(elfeed-log-error-level-face ((t (:weight semi-bold))))
@@ -356,11 +369,12 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(message-mml ((t (:weight semi-bold))))
         `(message-separator ((t (:foreground ,fg-dim))))
         `(minibuffer-prompt ((t (:foreground ,fg :weight bold))))
-        `(mode-line ((t (:background ,bg-alt :foreground ,fg))))
-        `(mode-line-buffer ((t (:foreground ,fg :weight bold))))
-        `(mode-line-buffer-id ((t (:weight regular))))
-        `(mode-line-emphasis ((t (:weight regular))))
-        `(mode-line-inactive ((t (:background ,bg :foreground ,fg-dim))))
+        `(mode-line ((t (:background ,mode-line-bg :foreground ,mode-line-fg))))
+        `(mode-line-buffer ((t (:weight semi-bold))))
+        `(mode-line-buffer-id ((t (:weight semi-bold))))
+        `(mode-line-emphasis ((t (:weight semi-bold))))
+        `(mode-line-highlight ((t (:underline t))))
+        `(mode-line-inactive ((t (:background ,bg :foreground ,fg))))
         `(mode-line-minor-mode ((t (:weight ultra-light))))
         `(nobreak-hyphen ((t (:foreground ,accent))))
         `(orderless-match-face-0 ((t (:background ,bg :foreground ,accent :weight bold))))
@@ -433,8 +447,6 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(org-list-dt ((t (:foreground ,fg-dim))))
         `(org-macro ((t (:foreground ,fg-dim))))
         `(org-meta-line ((t (:foreground ,fg-dim))))
-        `(org-mode-line-clock ((t (:foreground ,fg-dim))))
-        `(org-mode-line-clock-overrun ((t (:foreground ,fg-dim))))
         `(org-modern-date-active ((t (:background ,accent-soft))))
         `(org-modern-date-inactive ((t (:inherit org-modern-label :background ,bg-alt :foreground ,fg-dim))))
         `(org-modern-done ((t (:inherit org-modern-label :background ,bg-alt :foreground ,fg-dim))))
@@ -535,7 +547,6 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(web-mode-param-name-face ((t (:foreground ,fg))))
         `(web-mode-symbol-face ((t (:foreground ,fg))))
         `(web-mode-whitespace-face ((t (:background ,diff-del-bg))))
-        `(which-func ((t (:foreground ,accent))))
         `(whitespace-empty ((t (:background ,diff-del-bg))))
         `(whitespace-line ((t (:background ,diff-del-bg))))
         `(whitespace-newline ((t (:foreground ,border))))
@@ -545,7 +556,10 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(window-divider ((t (:foreground ,border))))
         `(window-divider-first-pixel ((t (:foreground ,border))))
         `(window-divider-last-pixel ((t (:foreground ,border))))
-        )))
+        )
+    (apply #'custom-theme-set-faces theme-name
+           (mapcar (lambda (face) `(,face ((t (:inherit nil)))))
+                   calcite-themes-plain-mode-line-faces))))
 
 (provide 'calcite-theme)
 ;;; calcite-theme.el ends here
