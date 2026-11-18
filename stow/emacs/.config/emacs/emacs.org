@@ -70,7 +70,6 @@ prefer short yes/no prompts.
   "Disable line numbers in the current buffer."
   (display-line-numbers-mode 0))
 (dolist (mode '(org-mode-hook
-                agent-shell-mode-hook
                 term-mode-hook
                 eshell-mode-hook
                 vterm-mode-hook
@@ -835,6 +834,10 @@ Run =M-x ghostel-download-module= to donwload the native module
 
 #+begin_src emacs-lisp
 (use-package ghostel
+  :custom
+  ;; Name buffers after the terminal title (running command or cwd),
+  ;; e.g. *ghostel: claude* instead of *ghostel*<4>.
+  (ghostel-buffer-name-function #'ghostel-buffer-name-by-title)
   :bind
   (("C-c t t" . ghostel)
    ("C-c t T" . ghostel-new-terminal)))
@@ -846,19 +849,6 @@ Run =M-x ghostel-download-module= to donwload the native module
     "Start a new ghostel terminal session, without prefixing C-u"
     (interactive)
     (ghostel '(4)))
-#+end_src
-
-** Agent Shell
-
-Agent Shell is powered by ACP (Agent Communication Protocol).
-Requires: =npm install -g @zed-industries/claude-agent-acp=
-
-#+begin_src emacs-lisp
-(use-package agent-shell
-  :config
-  (setq agent-shell-anthropic-authentication
-        (agent-shell-anthropic-make-authentication :login t))
-  :bind ("C-c t s" . agent-shell-anthropic-start-claude-code))
 #+end_src
 
 * Personal Modules

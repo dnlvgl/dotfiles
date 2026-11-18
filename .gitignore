@@ -4,7 +4,6 @@ ssh/
 **/dot-vim/plugged/**
 **/package.retry
 stow/scripts/.local/bin/claude
-.agent-shell
 
 # Machine-specific git configuration
 .gitconfig.local
