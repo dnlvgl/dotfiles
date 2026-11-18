@@ -526,7 +526,6 @@ COLORS is an alist keyed by the names in `calcite-themes-colors'."
         `(transient-value ((t (:foreground ,accent))))
         `(vertical-border ((t (:foreground ,border))))
         `(vertico-current ((t (:background ,bg-sel :foreground ,fg))))
-        `(vterm-color-default ((t (:background ,bg :foreground ,fg))))
         `(warning ((t (:foreground ,yellow))))
         `(web-mode-block-attr-name-face ((t (:foreground ,fg))))
         `(web-mode-block-attr-value-face ((t (:foreground ,accent))))

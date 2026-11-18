@@ -72,7 +72,6 @@ prefer short yes/no prompts.
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 eshell-mode-hook
-                vterm-mode-hook
                 ghostel-mode-hook))
   (add-hook mode #'dnl/disable-line-numbers))
 
@@ -812,25 +811,11 @@ the path from a login shell so that tools like LSP servers are found correctly.
     (exec-path-from-shell-initialize)))
 #+end_src
 
-** vterm
-
-vterm is a fast terminal emulator backed by a native C library. Requires =cmake= and =libtool= to compile. See the [[https://github.com/akermu/emacs-libvterm#shell-side-configuration][shell-side configuration]] docs for integrating with your shell.
-
-#+begin_src emacs-lisp
-(use-package vterm
-  :commands vterm-mode
-  :bind
-  (("C-c t v" . vterm))
-  :config
-  (setq vterm-kill-buffer-on-exit t
-        vterm-shell (or (executable-find "fish") "/bin/sh")))
-#+end_src
-
 ** ghostel
 
 Emacs terminal emulator powered by libghostty-vt — the same VT engine that drives the Ghostty terminal.
 
-Run =M-x ghostel-download-module= to donwload the native module
+Run =M-x ghostel-download-module= to download the native module
 
 #+begin_src emacs-lisp
 (use-package ghostel
@@ -840,7 +825,7 @@ Run =M-x ghostel-download-module= to donwload the native module
   (ghostel-buffer-name-function #'ghostel-buffer-name-by-title)
   :bind
   (("C-c t t" . ghostel)
-   ("C-c t T" . ghostel-new-terminal)))
+   ("C-c t v" . ghostel-new-terminal)))
 
   ;; Workaround for creating a new terminal, M-x ghostel alway jumps to the current terminal.
   ;; C-u M-x ghostel opens a new terminal.
