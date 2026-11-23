@@ -2,6 +2,10 @@
 #+STARTUP: overview
 #+PROPERTY: header-args:emacs-lisp :tangle yes :results none
 
+#+begin_src emacs-lisp
+;;; emacs.el --- tangled from emacs.org -*- lexical-binding: t -*-
+#+end_src
+
 * Preamble
 
 Emacs literate config. Changes will be tangled on startup via init.el.
