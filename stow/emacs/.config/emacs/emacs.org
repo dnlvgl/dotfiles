@@ -224,8 +224,8 @@ actions, and Corfu for in-buffer completion.
 ** Consult
 
 Consult provides enhanced versions of many built-in navigation and search
-commands. The =M-g o= binding uses =consult-org-heading= when editing an org
-file for heading-aware navigation.
+commands. =M-g o= runs =consult-outline= globally; the Org section rebinds it
+to =consult-org-heading= in org buffers for heading-aware navigation.
 
 #+begin_src emacs-lisp
 (use-package consult
@@ -241,12 +241,11 @@ file for heading-aware navigation.
          ("M-'"       . consult-register-store)
          ("C-M-#"     . consult-register)
          ("M-y"       . consult-yank-pop)
-         ("<help> a"  . consult-apropos)
          ("M-g e"     . consult-compile-error)
          ("M-g f"     . consult-flymake)
          ("M-g g"     . consult-goto-line)
          ("M-g M-g"   . consult-goto-line)
-         ("M-g o"     . consult-org-heading)
+         ("M-g o"     . consult-outline)
          ("M-g m"     . consult-mark)
          ("M-g k"     . consult-global-mark)
          ("M-g i"     . consult-imenu)
@@ -258,7 +257,6 @@ file for heading-aware navigation.
          ("M-s r"     . consult-ripgrep)
          ("C-s"       . consult-line)
          ("M-s L"     . consult-line-multi)
-         ("M-s m"     . consult-multi-occur)
          ("M-s k"     . consult-keep-lines)
          ("M-s u"     . consult-focus-lines)
          ("M-s e"     . consult-isearch-history)
@@ -472,12 +470,16 @@ flag.
 
 ** Project
 
-Built-in project management bound to the =C-x p= prefix.
+Built-in project management. Emacs binds =project-prefix-map= to =C-x p= by
+default; =C-c p= is a shortcut for switching projects. The switch menu gets a
+=t= entry that opens a ghostel terminal in the chosen project's root.
 
 #+begin_src emacs-lisp
 (use-package project
   :ensure nil
-  :bind-keymap ("C-x p" . project-prefix-map))
+  :bind ("C-c p" . project-switch-project)
+  :config
+  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel" ?t) t))
 #+end_src
 
 ** Saving & Backup
@@ -531,7 +533,9 @@ handles that).
 (use-package org
   :ensure nil
   :bind (("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
+         ("C-c c" . org-capture)
+         :map org-mode-map
+         ("M-g o" . consult-org-heading))
   :custom
   (org-ellipsis " ▾")
   (org-todo-keywords '((sequence "TODO(t)" "DOING(n)" "BLOCKED(b)" "|" "DONE(d)" "DELEGATED(g)" "CANCELLED(c)")))
@@ -748,6 +752,12 @@ checking, and imenu navigation.
   (add-hook 'markdown-mode-hook #'visual-line-mode)
   (add-hook 'markdown-mode-hook #'flyspell-mode)
   (add-hook 'markdown-mode-hook #'imenu-add-menubar-index))
+
+;; flyspell binds C-. and C-; in its mode map, shadowing embark-act and
+;; embark-dwim. Corrections remain available on C-c $.
+(with-eval-after-load 'flyspell
+  (define-key flyspell-mode-map (kbd "C-.") nil)
+  (define-key flyspell-mode-map (kbd "C-;") nil))
 #+end_src
 
 ** Go
@@ -828,16 +838,10 @@ Run =M-x ghostel-download-module= to download the native module
   ;; e.g. *ghostel: claude* instead of *ghostel*<4>.
   (ghostel-buffer-name-function #'ghostel-buffer-name-by-title)
   :bind
+  ;; `ghostel' jumps to the existing terminal; `ghostel-new' always opens a new one.
   (("C-c t t" . ghostel)
-   ("C-c t v" . ghostel-new-terminal)))
-
-  ;; Workaround for creating a new terminal, M-x ghostel alway jumps to the current terminal.
-  ;; C-u M-x ghostel opens a new terminal.
-  ;; M-x ghosel-other cycles through them
-  (defun ghostel-new-terminal ()
-    "Start a new ghostel terminal session, without prefixing C-u"
-    (interactive)
-    (ghostel '(4)))
+   ("C-c t v" . ghostel-new)
+   ("C-c t p" . ghostel-project)))
 #+end_src
 
 * Personal Modules
